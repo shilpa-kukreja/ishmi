@@ -5,7 +5,7 @@ import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Add from './pages/Add';
 import List from './pages/List';
-import Orders from './pages/orders';
+import Orders from './pages/Orders';
 import Sidebar from './components/Sidebar';
 import { Route, Routes } from 'react-router-dom';
 import Users from './pages/Users';
