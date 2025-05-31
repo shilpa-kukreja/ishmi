@@ -39,7 +39,7 @@ const Combos = () => {
                 <img
                   src={
                     combo.thumbImg
-                      ? `https://ishmiherbal.com/uploads/thumbimg/${combo.thumbImg}`
+                      ? `https://ishmiherbal.com/uploads/thumbImg/${combo.thumbImg}`
                       : "/placeholder.jpg"
                   }
                   alt={combo.name}
