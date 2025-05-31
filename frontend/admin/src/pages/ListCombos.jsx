@@ -16,7 +16,7 @@ const ListCombos = () => {
   const fetchCombos = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/combos/list');
+      const res = await axios.get('https://ishmiherbal.com/api/combos/list');
       setCombos(res.data || []);
     } catch (err) {
       console.error(err);
@@ -30,7 +30,7 @@ const ListCombos = () => {
     if (!window.confirm('Are you sure you want to delete this combo?')) return;
     
     try {
-      await axios.delete(`http://localhost:5000/api/combos/remove/${id}`);
+      await axios.delete(`https://ishmiherbal.com/api/combos/remove/${id}`);
       toast.success('Combo deleted successfully');
       fetchCombos();
     } catch (err) {
@@ -109,7 +109,7 @@ const ListCombos = () => {
                       <td className="p-3 border">{startIdx + index + 1}</td>
                       <td className="p-3 border">
                         <img
-                          src={combo.thumbImg ? `http://localhost:5000/uploads/thumbimg/${combo.thumbImg}` : '/placeholder-product.jpg'}
+                          src={combo.thumbImg ? `https://ishmiherbal.com/uploads/thumbimg/${combo.thumbImg}` : '/placeholder-product.jpg'}
                           alt={combo.name}
                           className="w-20 h-20 object-cover rounded"
                           onError={(e) => {

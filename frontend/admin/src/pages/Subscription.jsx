@@ -11,7 +11,7 @@ const Subscription = () => {
 
   const fetchSubscribers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/subscribers");
+      const response = await axios.get("https://ishmiherbal.com/api/subscribers");
       setSubscribers(response.data);
     } catch (error) {
       console.error("Failed to fetch subscribers", error);
@@ -27,7 +27,7 @@ const Subscription = () => {
     if (!confirmUnsubscribe) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/unsubscribe/${email}`);
+      await axios.delete(`https://ishmiherbal.com/api/unsubscribe/${email}`);
       setSubscribers(subscribers.filter((sub) => sub.email !== email));
     } catch (error) {
       console.error("Unsubscribe failed", error);

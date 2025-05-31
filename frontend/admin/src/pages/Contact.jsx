@@ -8,7 +8,7 @@ const Contact = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/contact/get");
+        const response = await fetch("https://ishmiherbal.com/api/contact/get");
         const data = await response.json();
         setContacts(data);
       } catch (error) {
@@ -23,7 +23,7 @@ const Contact = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this entry?")) return;
     try {
-      const response = await axios.post("http://localhost:5000/api/contact/remove", { id });
+      const response = await axios.post("https://ishmiherbal.com/api/contact/remove", { id });
       alert(response.data.message);
       setContacts(contacts.filter((contact) => contact._id !== id));
     } catch (error) {

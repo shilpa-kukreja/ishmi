@@ -12,7 +12,7 @@ const Orders = ({ token }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/order/list',
+        'https://ishmiherbal.com/api/order/list',
         {},
         { headers: { token } }
       );
@@ -29,7 +29,7 @@ const Orders = ({ token }) => {
   const statusHandler = async (event, orderId) => {
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/order/status',
+        'https://ishmiherbal.com/api/order/status',
         { orderId, status: event.target.value },
         { headers: { token } }
       );

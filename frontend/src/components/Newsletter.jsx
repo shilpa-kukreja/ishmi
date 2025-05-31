@@ -6,7 +6,7 @@ const Newsletter = () => {
 
   const handleSubscribe = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/subscribe", { email });
+      const response = await axios.post("https://ishmiherbal.com/api/subscribe", { email });
       alert(response.data.message);
       setEmail("");
     } catch (error) {

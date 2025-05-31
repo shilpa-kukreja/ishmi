@@ -20,7 +20,7 @@ const Contact = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/contact/add", {
+      const response = await fetch("https://ishmiherbal.com/api/contact/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

@@ -7,7 +7,7 @@ const AdminCouponList = ({ token }) => {
 
   const fetchCoupons = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/api/coupon/get", 
+      const { data } = await axios.get("https://ishmiherbal.com/api/coupon/get", 
         {headers:{token}}
       );
       setCoupons(data.coupons);
@@ -20,7 +20,7 @@ const AdminCouponList = ({ token }) => {
 
   const toggleStatus = async (id) => {
     try {
-      const { data } = await axios.put(`http://localhost:5000/api/coupon/${id}/toggle`, {}, 
+      const { data } = await axios.put(`https://ishmiherbal.com/api/coupon/${id}/toggle`, {}, 
         {headers:{token}}
       );
 

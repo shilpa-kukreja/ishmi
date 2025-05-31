@@ -30,7 +30,7 @@ const AdminAddCoupon = ({token}) => {
     try {
       
 
-      const { data } = await axios.post('http://localhost:5000/api/coupon/add', formData, 
+      const { data } = await axios.post('https://ishmiherbal.com/api/coupon/add', formData, 
         {headers:{token}}
       );
 

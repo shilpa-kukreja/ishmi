@@ -11,7 +11,7 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/auth/all-partner");
+      const response = await axios.get("https://ishmiherbal.com/api/auth/all-partner");
       setUsers(response.data.Users);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -25,7 +25,7 @@ const Users = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/auth/delete/${id}`);
+      await axios.delete(`https://ishmiherbal.com/api/auth/delete/${id}`);
       setUsers(users.filter((user) => user._id !== id));
     } catch (error) {
       console.error("Error deleting user:", error);

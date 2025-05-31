@@ -68,7 +68,7 @@ const AddCombo = () => {
   const fetchProductDetails = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/api/combos/${id}`);
+      const response = await axios.get(`https://ishmiherbal.com/api/combos/${id}`);
       if (response.data.success) {
         const combo = response.data.combo || response.data;
 
@@ -85,12 +85,12 @@ const AddCombo = () => {
         });
 
         if (combo.thumbImg) {
-          setThumbImgPreview(`http://localhost:5000/uploads/thumbimg/${combo.thumbImg}`);
+          setThumbImgPreview(`https://ishmiherbal.com/uploads/thumbimg/${combo.thumbImg}`);
         }
 
         if (combo.galleryImg?.length > 0) {
           const galleryUrls = combo.galleryImg.map(img =>
-            typeof img === 'string' ? `http://localhost:5000/uploads/galleryImg/${img}` : img
+            typeof img === 'string' ? `https://ishmiherbal.com/uploads/galleryImg/${img}` : img
           );
           setGalleryPreviews(galleryUrls);
         }
@@ -117,7 +117,7 @@ const AddCombo = () => {
 
   const fetchProducts = async (selectedProducts = []) => {
     try {
-      const res = await axios.get("http://localhost:5000/api/product/list");
+      const res = await axios.get("https://ishmiherbal.com/api/product/list");
       setProducts(res.data.products);
       
       // If selectedProducts are provided (for edit mode), ensure they're in the options
@@ -227,13 +227,13 @@ const AddCombo = () => {
       let response;
       if (isEditMode) {
         response = await axios.put(
-          `http://localhost:5000/api/combos/update/${id}`,
+          `https://ishmiherbal.com/api/combos/update/${id}`,
           payload,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
       } else {
         response = await axios.post(
-          "http://localhost:5000/api/combos/add",
+          "https://ishmiherbal.com/api/combos/add",
           payload,
           { headers: { "Content-Type": "multipart/form-data" } }
         );

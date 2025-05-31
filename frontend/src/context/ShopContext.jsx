@@ -110,7 +110,7 @@ const ShopContextProvider = (props) => {
     if (token) {
       try {
         await axios.post(
-          "http://localhost:5000/api/cart/add",
+          "https://ishmiherbal.com/api/cart/add",
           { 
             itemId: _id,
             type: "combo",
@@ -165,7 +165,7 @@ const ShopContextProvider = (props) => {
     try {
       
       await axios.post(
-        "http://localhost:5000/api/cart/add",
+        "https://ishmiherbal.com/api/cart/add",
         { itemId: _id, size: selectedSize },
         { headers: { token } }
       );
@@ -228,7 +228,7 @@ const ShopContextProvider = (props) => {
   if (token) {
     try {
       await axios.post(
-        "http://localhost:5000/api/cart/update",
+        "https://ishmiherbal.com/api/cart/update",
         {
           itemId: productId,
           size: type === "product" ? size : undefined,
@@ -270,7 +270,7 @@ const ShopContextProvider = (props) => {
   const getUserCart = async (token) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/cart/get",
+        "https://ishmiherbal.com/api/cart/get",
         { headers: { token } }
       );
       if (response.data.success) {
@@ -293,7 +293,7 @@ const ShopContextProvider = (props) => {
   const getProductsData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/product/list"
+        "https://ishmiherbal.com/api/product/list"
       );
       if (response.data.success) {
         setProducts(response.data.products);
@@ -316,7 +316,7 @@ const ShopContextProvider = (props) => {
    const fetchCombos = async () => {
      
       try {
-        const res = await axios.get('http://localhost:5000/api/combos/list');
+        const res = await axios.get('https://ishmiherbal.com/api/combos/list');
         setCombos(res.data || []);
       } catch (err) {
         console.error(err);
@@ -330,7 +330,7 @@ const ShopContextProvider = (props) => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/blog/get");
+        const response = await axios.get("https://ishmiherbal.com/api/blog/get");
         setBlogs(response.data.blogs);
       } catch (error) {
         console.error("Error fetching blogs", error);

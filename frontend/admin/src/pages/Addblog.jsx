@@ -65,7 +65,7 @@ const Addblog = () => {
     form.append("image", formData.image);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/blog/add", form, {
+      const response = await axios.post("https://ishmiherbal.com/api/blog/add", form, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert(response.data.message);

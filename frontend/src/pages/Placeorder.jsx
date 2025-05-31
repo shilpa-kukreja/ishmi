@@ -54,7 +54,7 @@ const Placeorder = () => {
     try {
       const totalAmount = cartTotal;
       const { data } = await axios.post(
-        "http://localhost:5000/api/coupon/apply",
+        "https://ishmiherbal.com/api/coupon/apply",
         { code: couponCode, totalAmount },
         { headers: { token } }
       );
@@ -85,7 +85,7 @@ const Placeorder = () => {
         setLoading(true); // Show loader
         try {
           const { data } = await axios.post(
-            "http://localhost:5000/api/order/verifyRazorpay",
+            "https://ishmiherbal.com/api/order/verifyRazorpay",
             { ...response, orderData: prepareOrderData() },
             { headers: { token } }
           );
@@ -188,7 +188,7 @@ const Placeorder = () => {
       switch (method) {
         case "cod":
           const { data } = await axios.post(
-            "http://localhost:5000/api/order/place",
+            "https://ishmiherbal.com/api/order/place",
             orderData,
             { headers: { token } }
           );
@@ -201,7 +201,7 @@ const Placeorder = () => {
 
         case "razorpay":
           const response = await axios.post(
-            "http://localhost:5000/api/order/razorpay",
+            "https://ishmiherbal.com/api/order/razorpay",
             orderData,
             { headers: { token } }
           );

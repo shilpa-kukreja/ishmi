@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { FaTrash, FaImage, FaEdit } from "react-icons/fa";
 // Added FaEdit
 
-const backendUrl = "http://localhost:5000";
+const backendUrl = "https://ishmiherbal.com";
 
 const List = () => {
   const [products, setProducts] = useState([]);

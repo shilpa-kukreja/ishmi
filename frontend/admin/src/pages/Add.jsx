@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { FaUpload, FaSpinner } from "react-icons/fa";
 
-const backendUrl = "http://localhost:5000";
+const backendUrl = "https://ishmiherbal.com";
 
 const Add = ({ token }) => {
   const { id } = useParams();

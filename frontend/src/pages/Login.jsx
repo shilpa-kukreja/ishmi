@@ -47,7 +47,7 @@ const handleLoginSuccess = () => {
       : { email, mobile, password };
 
     try {
-      const response = await fetch(`http://localhost:5000${url}`, {
+      const response = await fetch(`https://ishmiherbal.com${url}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -77,7 +77,7 @@ const handleLoginSuccess = () => {
 
         const user = await userInfo.json();
 
-        const response = await fetch('http://localhost:5000/api/auth/gogglelogin', {
+        const response = await fetch('https://ishmiherbal.com/api/auth/gogglelogin', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(user),
@@ -102,7 +102,7 @@ const handleLoginSuccess = () => {
 
   const handleForgotPassword = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+      const response = await fetch('https://ishmiherbal.com/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),

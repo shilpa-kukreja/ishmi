@@ -50,7 +50,7 @@ const Shop = () => {
                   src={
                     
                     product.image[0]?.url
-                      ? `http://localhost:5000${product.image[0].url}`
+                      ? `https://ishmiherbal.com${product.image[0].url}`
                       : '/placeholder.jpg' // fallback image
                   }
                   alt={product.image[0]?.originalname || 'Product Image'}

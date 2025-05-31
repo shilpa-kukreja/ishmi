@@ -7,7 +7,7 @@ const Listblog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/blog/get");
+        const response = await axios.get("https://ishmiherbal.com/api/blog/get");
         setBlogs(response.data.blogs);
       } catch (error) {
         console.error("Error fetching blogs", error);
@@ -18,7 +18,7 @@ const Listblog = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/blog/remove", { id });
+      const response = await axios.post("https://ishmiherbal.com/api/blog/remove", { id });
       alert(response.data.message);
       setBlogs(blogs.filter((blog) => blog._id !== id));
     } catch (error) {

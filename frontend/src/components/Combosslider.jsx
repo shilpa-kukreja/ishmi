@@ -65,7 +65,7 @@ const Combosslider = () => {
                                         <img
                                             src={
                                                 combo.thumbImg
-                                                    ? `http://localhost:5000/uploads/thumbImg/${combo.thumbImg}`
+                                                    ? `https://ishmiherbal.com/uploads/thumbImg/${combo.thumbImg}`
                                                     : "/placeholder.jpg"
                                             }
                                             alt={combo.name}

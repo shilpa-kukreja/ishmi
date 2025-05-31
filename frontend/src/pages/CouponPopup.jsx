@@ -15,7 +15,7 @@ const CouponPopup = () => {
    useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/coupon/get");
+        const res = await axios.get("https://ishmiherbal.com/api/coupon/get");
         const couponData = res.data?.coupons || res.data;
         if (Array.isArray(couponData)) {
           // Filter only active coupons
