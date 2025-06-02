@@ -16,8 +16,8 @@ import Combosslider from '../components/Combosslider'
 
 const Home = () => {
   return (
-    <div className=''>
-    
+    <div className=' '>
+     
   <Header  /> 
     {/**   <Banner/>*/}
       <Headers/>
