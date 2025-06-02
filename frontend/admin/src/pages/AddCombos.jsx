@@ -85,7 +85,7 @@ const AddCombo = () => {
         });
 
         if (combo.thumbImg) {
-          setThumbImgPreview(`https://ishmiherbal.com/uploads/thumbImg/${combo.thumbImg}`);
+          setThumbImgPreview(`https://ishmiherbal.com/uploads/thumbIimg/${combo.thumbImg}`);
         }
 
         if (combo.galleryImg?.length > 0) {
