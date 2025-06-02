@@ -109,7 +109,7 @@ const ListCombos = () => {
                       <td className="p-3 border">{startIdx + index + 1}</td>
                       <td className="p-3 border">
                         <img
-                          src={combo.thumbImg ? `https://ishmiherbal.com/uploads/thumbIimg/${combo.thumbImg}` : '/placeholder-product.jpg'}
+                          src={combo.thumbImg ? `https://ishmiherbal.com/uploads/thumbImg/${combo.thumbImg}` : '/placeholder-product.jpg'}
                           alt={combo.name}
                           className="w-20 h-20 object-cover rounded"
                           onError={(e) => {
