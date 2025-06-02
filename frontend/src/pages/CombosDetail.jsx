@@ -26,6 +26,7 @@ const CombosDetail = () => {
         cartItems,
         navigate,
         products,
+        token, setLoginnavigate
     } = useContext(ShopContext);
     const [image, setImage] = useState("");
     const [fixedimage, setFixedImage] = useState("");
@@ -55,49 +56,49 @@ const CombosDetail = () => {
         }
     }, [cartItems, combosData, size]);
 
-   useEffect(() => {
-  console.log("Cart items changed:", cartItems);
-  
-  const tempData = [];
+    useEffect(() => {
+        console.log("Cart items changed:", cartItems);
 
-  for (const itemId in cartItems) {
-    const item = cartItems[itemId];
-    
-    // Handle products with sizes
-    if (item.sizes) {
-      for (const sizeKey in item.sizes) {
-        const sizeDetails = item.sizes[sizeKey];
-        
-        if (sizeDetails?.quantity > 0) {
-          tempData.push({
-            _id: itemId,
-            type: "product",
-            size: sizeKey,
-            quantity: sizeDetails.quantity,
-            discountedprice: sizeDetails.discountedprice,
-            actualprice: sizeDetails.actualprice,
-            name: item.name,
-            image: item.image
-          });
+        const tempData = [];
+
+        for (const itemId in cartItems) {
+            const item = cartItems[itemId];
+
+            // Handle products with sizes
+            if (item.sizes) {
+                for (const sizeKey in item.sizes) {
+                    const sizeDetails = item.sizes[sizeKey];
+
+                    if (sizeDetails?.quantity > 0) {
+                        tempData.push({
+                            _id: itemId,
+                            type: "product",
+                            size: sizeKey,
+                            quantity: sizeDetails.quantity,
+                            discountedprice: sizeDetails.discountedprice,
+                            actualprice: sizeDetails.actualprice,
+                            name: item.name,
+                            image: item.image
+                        });
+                    }
+                }
+            }
+            // Handle combos (no sizes)
+            else if (item.type === "combo" && item.quantity > 0) {
+                tempData.push({
+                    _id: itemId,
+                    type: "combo",
+                    quantity: item.quantity,
+                    discountedprice: item.discountedprice,
+                    actualprice: item.actualprice,
+                    name: item.name,
+                    image: item.image
+                });
+            }
         }
-      }
-    }
-    // Handle combos (no sizes)
-    else if (item.type === "combo" && item.quantity > 0) {
-      tempData.push({
-        _id: itemId,
-        type: "combo",
-        quantity: item.quantity,
-        discountedprice: item.discountedprice,
-        actualprice: item.actualprice,
-        name: item.name,
-        image: item.image
-      });
-    }
-  }
 
-  setCartData(tempData);
-}, [cartItems]);
+        setCartData(tempData);
+    }, [cartItems]);
 
     useEffect(() => {
         if (combos.length > 0) {
@@ -205,9 +206,10 @@ const CombosDetail = () => {
             </p>
           </div> */}
 
-                    <div className="text-gray-600 text-lg"   dangerouslySetInnerHTML={{
-                    __html:combosData.shortDescription}}>
-                    
+                    <div className="text-gray-600 text-lg" dangerouslySetInnerHTML={{
+                        __html: combosData.shortDescription
+                    }}>
+
                     </div>
 
                     <div className="text-gray-600 w-[350px]  text-lg">
@@ -436,8 +438,18 @@ const CombosDetail = () => {
 
                                         <button
                                             onClick={() => {
-                                                navigate("/place-order");
-                                                setMenuOpen(false);
+                                                if (!token) {
+                                                    setLoginnavigate('/place-order');
+                                                    navigate('/loginsignup', {
+                                                        state: {
+                                                            from: 'cart',
+                                                            intendedPath: '/place-order',
+                                                        },
+                                                        replace: true,
+                                                    });
+                                                } else {
+                                                    navigate('/place-order');
+                                                }
                                             }}
                                             className="w-full bg-black text-white text-sm sm:text-lg font-semibold py-3 rounded-lg hover:bg-gray-900 transition-all mt-3"
                                         >
@@ -589,32 +601,32 @@ const CombosDetail = () => {
                         </div>
                     ) : (
                         <div>
-              <h2 className="text-xl font-semibold text-black mb-3">
-                Customer Reviews
-              </h2>
-              <div className="space-y-4">
-                <div className="border-b pb-3">
-                  <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Priya</p>
-                  <p> "I've been using Ishmi's products for a few weeks now, and my skin has never looked better! The natural ingredients really make a difference."</p>
-                </div>
-                <div className="border-b pb-3">
-                  <p className="font-medium">⭐️⭐️⭐️⭐️ Amit</p>
-                  <p> "The quality of the beauty foods is amazing. My hair feels so soft and healthy, and the best part is that it's all natural!"</p>
-                </div>
-                <div className="border-b pb-3">
-                  <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Anita</p>
-                  <p>"I've been looking for a natural solution to my skincare concerns, and I finally found it with Ishmi. Their products are a game-changer!"</p>
-                </div>
-                <div className="border-b pb-3">
-                  <p className="font-medium">⭐️⭐️⭐️⭐️ Suresh </p>
-                  <p>"I’ve tried many beauty food brands, but none compare to Ishmi. The results are visible in just a few days!"</p>
-                </div>
-                 <div >
-                  <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Neha</p>
-                  <p>"Ishmi Beauty Foods have become a staple in my daily routine. My skin feels nourished and glowing every day!"</p>
-                </div>
-              </div>
-            </div>
+                            <h2 className="text-xl font-semibold text-black mb-3">
+                                Customer Reviews
+                            </h2>
+                            <div className="space-y-4">
+                                <div className="border-b pb-3">
+                                    <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Priya</p>
+                                    <p> "I've been using Ishmi's products for a few weeks now, and my skin has never looked better! The natural ingredients really make a difference."</p>
+                                </div>
+                                <div className="border-b pb-3">
+                                    <p className="font-medium">⭐️⭐️⭐️⭐️ Amit</p>
+                                    <p> "The quality of the beauty foods is amazing. My hair feels so soft and healthy, and the best part is that it's all natural!"</p>
+                                </div>
+                                <div className="border-b pb-3">
+                                    <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Anita</p>
+                                    <p>"I've been looking for a natural solution to my skincare concerns, and I finally found it with Ishmi. Their products are a game-changer!"</p>
+                                </div>
+                                <div className="border-b pb-3">
+                                    <p className="font-medium">⭐️⭐️⭐️⭐️ Suresh </p>
+                                    <p>"I’ve tried many beauty food brands, but none compare to Ishmi. The results are visible in just a few days!"</p>
+                                </div>
+                                <div >
+                                    <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Neha</p>
+                                    <p>"Ishmi Beauty Foods have become a staple in my daily routine. My skin feels nourished and glowing every day!"</p>
+                                </div>
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>

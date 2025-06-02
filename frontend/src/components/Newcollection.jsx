@@ -32,9 +32,9 @@ const Newcollection = () => {
   };
 
   return (
-    <div className=" bg-[#FEF0E1] mx-auto p-6">
+    <div className=" bg-[#FEF0E1] sm:px-16 px-6 mx-auto p-6">
       {/* Section Heading */}
-      <div className="space-y-3 text-center max-w-[700px] m-auto">
+      <div className="space-y-3 text-center  max-w-7xl mx-auto">
         <h2 className="sm:text-3xl text-2xl  font-semibold text-gray-800 mb-4">
           Explore fresh formulations designed to nourish your skin, hair, and health.
         </h2>
@@ -45,7 +45,7 @@ const Newcollection = () => {
       </div>
 
       {/* Swiper Section */}
-      <div className="relative mt-8">
+      <div className="relative max-w-7xl mt-8 mx-auto">
         <Swiper
           modules={[Navigation]}
           slidesPerView={2}

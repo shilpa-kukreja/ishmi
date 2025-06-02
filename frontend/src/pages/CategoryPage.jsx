@@ -25,7 +25,7 @@ const CategoryPage = () => {
   // const mainCategory = products.category.mainCategory;
   const categoryBanners = {
     bodycare: assets.TOPBANNER4,       
-    haircare: assets.TOPBANNER3,
+    haircare: assets.hair,
     chocolate: assets.TOPBANNER2,       
   
     default: assets.TOPBANNER2, 

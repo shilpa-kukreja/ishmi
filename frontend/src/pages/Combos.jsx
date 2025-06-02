@@ -21,7 +21,7 @@ const Combos = () => {
     <div className="w-full mx-auto bg-[#FEF0E1]">
       <img
         className="w-full h-full object-cover shadow-lg"
-        src={assets.TOPBANNER5}
+        src={assets.combos}
         alt="Banner"
       />
 

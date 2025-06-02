@@ -25,6 +25,7 @@ const Product = () => {
     updateQuantity,
     cartItems,
     navigate,
+    token, setLoginnavigate
   } = useContext(ShopContext);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
@@ -54,48 +55,48 @@ const Product = () => {
   }, [cartItems, productData, size]);
 
   useEffect(() => {
-  console.log("Cart items changed:", cartItems);
-  
-  const tempData = [];
+    console.log("Cart items changed:", cartItems);
 
-  for (const itemId in cartItems) {
-    const item = cartItems[itemId];
-    
-    // Handle products with sizes
-    if (item.sizes) {
-      for (const sizeKey in item.sizes) {
-        const sizeDetails = item.sizes[sizeKey];
-        
-        if (sizeDetails?.quantity > 0) {
-          tempData.push({
-            _id: itemId,
-            type: "product",
-            size: sizeKey,
-            quantity: sizeDetails.quantity,
-            discountedprice: sizeDetails.discountedprice,
-            actualprice: sizeDetails.actualprice,
-            name: item.name,
-            image: item.image
-          });
+    const tempData = [];
+
+    for (const itemId in cartItems) {
+      const item = cartItems[itemId];
+
+      // Handle products with sizes
+      if (item.sizes) {
+        for (const sizeKey in item.sizes) {
+          const sizeDetails = item.sizes[sizeKey];
+
+          if (sizeDetails?.quantity > 0) {
+            tempData.push({
+              _id: itemId,
+              type: "product",
+              size: sizeKey,
+              quantity: sizeDetails.quantity,
+              discountedprice: sizeDetails.discountedprice,
+              actualprice: sizeDetails.actualprice,
+              name: item.name,
+              image: item.image
+            });
+          }
         }
       }
+      // Handle combos (no sizes)
+      else if (item.type === "combo" && item.quantity > 0) {
+        tempData.push({
+          _id: itemId,
+          type: "combo",
+          quantity: item.quantity,
+          discountedprice: item.discountedprice,
+          actualprice: item.actualprice,
+          name: item.name,
+          image: item.image
+        });
+      }
     }
-    // Handle combos (no sizes)
-    else if (item.type === "combo" && item.quantity > 0) {
-      tempData.push({
-        _id: itemId,
-        type: "combo",
-        quantity: item.quantity,
-        discountedprice: item.discountedprice,
-        actualprice: item.actualprice,
-        name: item.name,
-        image: item.image
-      });
-    }
-  }
 
-  setCartData(tempData);
-}, [cartItems]);
+    setCartData(tempData);
+  }, [cartItems]);
 
   useEffect(() => {
     if (products.length > 0) {
@@ -133,7 +134,7 @@ const Product = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-      <div className="w-full overflow-hidden sm:rounded-lg rounded-none shadow-lg bg-gray-100">
+          <div className="w-full overflow-hidden sm:rounded-lg rounded-none shadow-lg bg-gray-100">
             <Zoom>
               <img
                 src={`${import.meta.env.VITE_BACKEND_URL}${image}`} // Ensure full path is used
@@ -169,10 +170,11 @@ const Product = () => {
             ))}
             <p className="text-gray-500 ml-2">(5 reviews)</p>
           </div>
-           <div className="text-gray-600 text-lg text-justify"   dangerouslySetInnerHTML={{
-                    __html:productData.Shortdescription}}>
-                    
-           </div>
+          <div className="text-gray-600 text-lg text-justify" dangerouslySetInnerHTML={{
+            __html: productData.Shortdescription
+          }}>
+
+          </div>
 
           <div className="flex items-center gap-4 my-4">
             <p className="text-3xl font-semibold text-gray-900">
@@ -237,7 +239,7 @@ const Product = () => {
               onClick={() => {
                 // console.log("Selected Size:", size);
                 addToCart(productData, "product");
-               
+
                 // console.log("Updated cartItems:", cartItems);
                 if (size == "") {
                   setMenuOpen(true);
@@ -252,169 +254,180 @@ const Product = () => {
               Add to Cart
             </motion.button>
 
-             <div
-                                        className={`fixed top-0 right-0 h-full bg-white shadow-2xl transition-transform duration-300 transform ${menuOpen ? "translate-x-0" : "translate-x-full"
-                                            } w-full sm:w-[450px] md:w-[500px] lg:w-[550px] xl:w-[600px] z-50 border-l`}
-                                    >
-                                        <div className="flex flex-col h-full p-4 sm:p-6 text-gray-800">
-                                            {/* Header */}
-                                            <div className="flex justify-between items-center pb-4 border-b">
-                                                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-                                                    Shopping Cart
-                                                </h2>
-                                                <button
-                                                    onClick={() => setMenuOpen(false)}
-                                                    className="text-gray-500 hover:text-black transition-colors text-xl"
-                                                >
-                                                    ✕
-                                                </button>
-                                            </div>
-            
-                                            {/* Items */}
-                                            <div className="flex-1 overflow-y-auto py-4 sm:py-6 space-y-6 sm:space-y-8">
-                                                {cartData.length > 0 ? (
-                                                    cartData.map((item, index) => {
-                                                        // Find product or combo data
-                                                        const itemData = item.type === "combo"
-                                                            ? combos.find(c => c._id === item._id)
-                                                            : products.find(p => p._id === item._id);
-            
-                                                        if (!itemData) return null;
-            
-                                                        return (
-                                                            <div
-                                                                key={`${item._id}-${item.size || index}`}
-                                                                className="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 border rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-all"
-                                                            >
-                                                                <img
-                                                                    className="w-24 h-24 object-cover rounded-md border"
-                                                                    src={
-                                                                        item.type === "combo"
-                                                                            ? `${import.meta.env.VITE_BACKEND_URL}/uploads/thumbImg/${itemData.thumbImg}`
-                                                                            : `${import.meta.env.VITE_BACKEND_URL}${itemData.image[0].url}`
-                                                                    }
-                                                                    alt={itemData.name}
-                                                                    onError={(e) => {
-                                                                        e.target.src = `${import.meta.env.VITE_BACKEND_URL}/placeholder.jpg`;
-                                                                    }}
-                                                                />
-            
-                                                                <div className="flex flex-col gap-2 flex-1">
-                                                                    <div className="flex items-start justify-between gap-2">
-                                                                        <p className="text-base sm:text-lg font-semibold text-gray-900">
-                                                                            {itemData.name}
-                                                                            {item.type === "combo" && (
-                                                                                <span className="ml-2 bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded">
-                                                                                    COMBO
-                                                                                </span>
-                                                                            )}
-                                                                        </p>
-                                                                        <button
-                                                                            onClick={() => updateQuantity(
-                                                                                item._id,
-                                                                                item.size,
-                                                                                0,
-                                                                                item.type
-                                                                            )}
-                                                                            className="text-gray-400 hover:text-red-500 transition-colors"
-                                                                        >
-                                                                            <Trash2 className="w-4 h-4" />
-                                                                        </button>
-                                                                    </div>
-            
-                                                                    <div className="flex flex-wrap gap-2 items-center text-sm text-gray-600">
-                                                                        <p className="text-base font-semibold text-red-500">
-                                                                            {currency}
-                                                                            {item.discountedprice}
-                                                                        </p>
-                                                                        {item.actualprice > item.discountedprice && (
-                                                                            <p className="text-sm line-through text-gray-400">
-                                                                                {currency}
-                                                                                {item.actualprice}
-                                                                            </p>
-                                                                        )}
-                                                                        {item.size && (
-                                                                            <span className="px-2 py-1 border rounded bg-gray-100 text-sm">
-                                                                                Size: {item.size}
-                                                                            </span>
-                                                                        )}
-                                                                    </div>
-            
-                                                                    <div className="flex items-center gap-2 mt-2">
-                                                                        <span className="text-sm font-medium">Qty:</span>
-                                                                        <div className="flex items-center gap-2">
-                                                                            <button
-                                                                                onClick={() => updateQuantity(
-                                                                                    item._id,
-                                                                                    item.size,
-                                                                                    item.quantity - 1,
-                                                                                    item.type
-                                                                                )}
-                                                                                className="w-8 h-8 flex items-center justify-center border rounded hover:bg-gray-100"
-                                                                                disabled={item.quantity <= 1}
-                                                                            >
-                                                                                -
-                                                                            </button>
-                                                                            <span className="w-8 text-center">{item.quantity}</span>
-                                                                            <button
-                                                                                onClick={() => updateQuantity(
-                                                                                    item._id,
-                                                                                    item.size,
-                                                                                    item.quantity + 1,
-                                                                                    item.type
-                                                                                )}
-                                                                                className="w-8 h-8 flex items-center justify-center border rounded hover:bg-gray-100"
-                                                                            >
-                                                                                +
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        );
-                                                    })
-                                                ) : (
-                                                    <div className="text-center text-gray-500 text-base sm:text-lg py-16 sm:py-20">
-                                                        Your cart is empty. <br />
-                                                        <Link
-                                                            to="/"
-                                                            className="text-blue-600 hover:underline"
-                                                            onClick={() => setMenuOpen(false)}
-                                                        >
-                                                            Continue Shopping
-                                                        </Link>
-                                                    </div>
-                                                )}
-                                            </div>
-            
-                                            {/* Checkout Section */}
-                                            {cartData.length > 0 && (
-                                                <div className="p-4 sm:p-6 border-t bg-white shadow-md rounded-lg">
-                                                    <CartTotal />
-            
-                                                    <button
-                                                        onClick={() => {
-                                                            navigate("/place-order");
-                                                            setMenuOpen(false);
-                                                        }}
-                                                        className="w-full bg-black text-white text-sm sm:text-lg font-semibold py-3 rounded-lg hover:bg-gray-900 transition-all mt-3"
-                                                    >
-                                                        Proceed to Checkout
-                                                    </button>
-            
-                                                    <button
-                                                        onClick={() => {
-                                                            navigate("/cart");
-                                                            setMenuOpen(false);
-                                                        }}
-                                                        className="w-full bg-blue-600 text-white text-sm sm:text-lg font-semibold py-3 rounded-lg hover:bg-blue-700 transition-all mt-3"
-                                                    >
-                                                        View Full Cart
-                                                    </button>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
+            <div
+              className={`fixed top-0 right-0 h-full bg-white shadow-2xl transition-transform duration-300 transform ${menuOpen ? "translate-x-0" : "translate-x-full"
+                } w-full sm:w-[450px] md:w-[500px] lg:w-[550px] xl:w-[600px] z-50 border-l`}
+            >
+              <div className="flex flex-col h-full p-4 sm:p-6 text-gray-800">
+                {/* Header */}
+                <div className="flex justify-between items-center pb-4 border-b">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+                    Shopping Cart
+                  </h2>
+                  <button
+                    onClick={() => setMenuOpen(false)}
+                    className="text-gray-500 hover:text-black transition-colors text-xl"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Items */}
+                <div className="flex-1 overflow-y-auto py-4 sm:py-6 space-y-6 sm:space-y-8">
+                  {cartData.length > 0 ? (
+                    cartData.map((item, index) => {
+                      // Find product or combo data
+                      const itemData = item.type === "combo"
+                        ? combos.find(c => c._id === item._id)
+                        : products.find(p => p._id === item._id);
+
+                      if (!itemData) return null;
+
+                      return (
+                        <div
+                          key={`${item._id}-${item.size || index}`}
+                          className="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 border rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-all"
+                        >
+                          <img
+                            className="w-24 h-24 object-cover rounded-md border"
+                            src={
+                              item.type === "combo"
+                                ? `${import.meta.env.VITE_BACKEND_URL}/uploads/thumbImg/${itemData.thumbImg}`
+                                : `${import.meta.env.VITE_BACKEND_URL}${itemData.image[0].url}`
+                            }
+                            alt={itemData.name}
+                            onError={(e) => {
+                              e.target.src = `${import.meta.env.VITE_BACKEND_URL}/placeholder.jpg`;
+                            }}
+                          />
+
+                          <div className="flex flex-col gap-2 flex-1">
+                            <div className="flex items-start justify-between gap-2">
+                              <p className="text-base sm:text-lg font-semibold text-gray-900">
+                                {itemData.name}
+                                {item.type === "combo" && (
+                                  <span className="ml-2 bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded">
+                                    COMBO
+                                  </span>
+                                )}
+                              </p>
+                              <button
+                                onClick={() => updateQuantity(
+                                  item._id,
+                                  item.size,
+                                  0,
+                                  item.type
+                                )}
+                                className="text-gray-400 hover:text-red-500 transition-colors"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+
+                            <div className="flex flex-wrap gap-2 items-center text-sm text-gray-600">
+                              <p className="text-base font-semibold text-red-500">
+                                {currency}
+                                {item.discountedprice}
+                              </p>
+                              {item.actualprice > item.discountedprice && (
+                                <p className="text-sm line-through text-gray-400">
+                                  {currency}
+                                  {item.actualprice}
+                                </p>
+                              )}
+                              {item.size && (
+                                <span className="px-2 py-1 border rounded bg-gray-100 text-sm">
+                                  Size: {item.size}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex items-center gap-2 mt-2">
+                              <span className="text-sm font-medium">Qty:</span>
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => updateQuantity(
+                                    item._id,
+                                    item.size,
+                                    item.quantity - 1,
+                                    item.type
+                                  )}
+                                  className="w-8 h-8 flex items-center justify-center border rounded hover:bg-gray-100"
+                                  disabled={item.quantity <= 1}
+                                >
+                                  -
+                                </button>
+                                <span className="w-8 text-center">{item.quantity}</span>
+                                <button
+                                  onClick={() => updateQuantity(
+                                    item._id,
+                                    item.size,
+                                    item.quantity + 1,
+                                    item.type
+                                  )}
+                                  className="w-8 h-8 flex items-center justify-center border rounded hover:bg-gray-100"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="text-center text-gray-500 text-base sm:text-lg py-16 sm:py-20">
+                      Your cart is empty. <br />
+                      <Link
+                        to="/"
+                        className="text-blue-600 hover:underline"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Continue Shopping
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {/* Checkout Section */}
+                {cartData.length > 0 && (
+                  <div className="p-4 sm:p-6 border-t bg-white shadow-md rounded-lg">
+                    <CartTotal />
+
+                    <button
+                      onClick={() => {
+                        if (!token) {
+                          setLoginnavigate('/place-order');
+                          navigate('/loginsignup', {
+                            state: {
+                              from: 'cart',
+                              intendedPath: '/place-order',
+                            },
+                            replace: true,
+                          });
+                        } else {
+                          navigate('/place-order');
+                        }
+                      }}
+                      className="w-full bg-black text-white text-sm sm:text-lg font-semibold py-3 rounded-lg hover:bg-gray-900 transition-all mt-3"
+                    >
+                      Proceed to Checkout
+                    </button>
+
+
+                    <button
+                      onClick={() => {
+                        navigate("/cart");
+                        setMenuOpen(false);
+                      }}
+                      className="w-full bg-blue-600 text-white text-sm sm:text-lg font-semibold py-3 rounded-lg hover:bg-blue-700 transition-all mt-3"
+                    >
+                      View Full Cart
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -440,7 +453,7 @@ const Product = () => {
             <button
               onClick={() => {
                 if (productData) {
-                  addToWishlist(productData,"product");
+                  addToWishlist(productData, "product");
                   console.log("Added to wishlist:", productData);
                 } else {
                   console.log("Product data is not available yet.");
@@ -567,7 +580,7 @@ const Product = () => {
                   <p className="font-medium">⭐️⭐️⭐️⭐️ Suresh </p>
                   <p>"I’ve tried many beauty food brands, but none compare to Ishmi. The results are visible in just a few days!"</p>
                 </div>
-                 <div >
+                <div >
                   <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Neha</p>
                   <p>"Ishmi Beauty Foods have become a staple in my daily routine. My skin feels nourished and glowing every day!"</p>
                 </div>

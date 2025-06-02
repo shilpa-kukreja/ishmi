@@ -28,7 +28,7 @@ const Combosslider = () => {
 
     return (
         <div className="w-full bg-[#FEF0E1] mx-auto sm:px-16 px-6 py-10">
-            <div className="space-y-3 max-w-6xl mx-auto">
+            <div className="space-y-3 max-w-7xl mx-auto">
                 <h2 className="sm:text-5xl text-3xl font-bold text-gray-800 text-center mb-6">
                     Featured Combos
                 </h2>
@@ -43,7 +43,7 @@ const Combosslider = () => {
             </div>
 
             {/* Swiper for Combos */}
-            <div className="relative mt-8 max-w-6xl mx-auto">
+            <div className="relative mt-8 max-w-7xl mx-auto">
                 <Swiper
                     modules={[Navigation]}
                     slidesPerView={2}

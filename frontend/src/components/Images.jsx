@@ -31,7 +31,7 @@ const Images = () => {
 
         <div ref={scrollRef} className='flex flex-row gap-4 overflow-x-auto scrollbar-hide scroll-smooth w-[80%] mx-auto'>
           {[assets.slider1, assets.slider2, assets.slider3, assets.slider4].map((src, index) => (
-            <img key={index} className='w-[300px] h-[320px] rounded-xl shadow-lg object-cover' src={src} alt={`Slide ${index + 1}`} />
+            <img key={index} className='w-full h-[320px] rounded-xl shadow-lg object-cover' src={src} alt={`Slide ${index + 1}`} />
           ))}
         </div>
 

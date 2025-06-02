@@ -48,15 +48,10 @@ const BlogDetails = () => {
         <p className="text-gray-700 text-lg mt-6 leading-relaxed text-justify" dangerouslySetInnerHTML={{ __html: blog.description }}></p>
 
 
-        <div className="pt-5">
-          <h1 className="text-xl font-semibold font-serif text-gray-600">Why Choose Ishmi?</h1>
-          <p className="text-gray-700 text-lg mt-6 leading-relaxed">
-            Albelee stands out for its commitment to purity and sustainability. By prioritizing organic ingredients and avoiding harmful chemicals, Albelee ensures that each product is safe for your skin and gentle on the planet. Their eco-friendly practices and cruelty-free ethos make Albelee a brand that resonates with conscious consumers looking to make mindful choices in their beauty routines.
-          </p>
-        </div>
+        
 
 
-        <div className="mt-8">
+        <div className="mt-6">
           <h3 className="text-gray-800 font-semibold text-lg mb-3">Share this blog:</h3>
           <div className="flex gap-4">
             <a

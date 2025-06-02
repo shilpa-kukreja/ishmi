@@ -59,7 +59,7 @@ const Contact = () => {
           className=" text-[#c2905c] sm:py-3 py-1 px-10  "
         >
           <h1 className="sm:text-5xl text-3xl font-extrabold mb-4">Connect With ISHMI</h1>
-          <p className="sm:text-lg text-black text-base   max-w-3xl mx-auto">
+          <p className="sm:text-lg text-black text-base   sm:max-w-3xl mx-w-4xl mx-auto">
             Thank you for your interest in Ishmi Beauty Food.
             We’re always happy to connect with our community of wellness and beauty seekers.
             Whether you have questions about our herbal products, want to learn more about ingredients, need help with your order, or are interested in collaborating—we’re just a message away.
@@ -71,13 +71,13 @@ const Contact = () => {
         <div className="sm:mt-10 mt-10 px-5 grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-10">
           {[
             {
-              icon: <Mail className="w-12 h-12 text-[#c2905c]" />, title: "Email", info: "support@ecommerce.com",
+              icon: <Mail className="sm:w-12 sm:h-12 w-8 h-8 text-[#c2905c]" />, title: "Email", info: "support@ecommerce.com",
             },
             {
-              icon: <Phone className="w-12 h-12 text-[#c2905c]" />, title: "Phone", info: "+91  6261775040",
+              icon: <Phone className="sm:w-12 sm:h-12 w-8 h-8 text-[#c2905c]" />, title: "Phone", info: "+91  6261775040",
             },
             {
-              icon: <MapPin className="w-12 h-12 text-[#c2905c]" />, title: "Location", info: "Address Plot no. 234/1/31, Bajrangpura, Chhota Bangarda, Industrial Area, Indore",
+              icon: <MapPin className="sm:w-12 sm:h-12 w-8 h-8 text-[#c2905c]" />, title: "Location", info: "Address Plot no. 234/1/31, Bajrangpura, Chhota Bangarda, Industrial Area, Indore",
             },
           ].map((item, index) => (
             <motion.div
@@ -85,7 +85,7 @@ const Contact = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center space-y-4 hover:scale-105 transition-transform"
+              className="bg-white sm:p-8 p-4 rounded-lg shadow-lg flex flex-col items-center space-y-4 hover:scale-105 transition-transform"
             >
               {item.icon}
               <h3 className="text-2xl font-semibold text-gray-900">{item.title}</h3>
@@ -95,7 +95,7 @@ const Contact = () => {
         </div>
 
         {/* Contact Form & Map */}
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 sm:px-6 px-0 sm:py-10 py-10 bg-[#FEF0E1] sm:mt-16 mt-10  rounded-xl shadow-lg">
+        <div className="flex flex-col lg:flex-row items-center justify-center  gap-12 sm:px-6 px-5 sm:py-10 py-10 bg-[#FEF0E1] sm:mt-16 mt-10  sm:rounded-xl rounded-2xl shadow-lg">
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}

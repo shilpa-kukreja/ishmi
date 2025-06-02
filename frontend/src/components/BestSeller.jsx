@@ -37,7 +37,7 @@ const BestSeller = () => {
 
     <div className="w-full bg-[#FEF0E1] mx-auto sm:px-16 px-6">
       <img src="" alt="" />
-      <div className="space-y-3">
+      <div className="space-y-3  max-w-7xl mx-auto">
         <h2 className="sm:text-5xl text-3xl font-bold text-gray-800 text-center mb-6">
           Best Sellers
         </h2>
@@ -48,7 +48,7 @@ const BestSeller = () => {
       </div>
 
       {/* Swiper for Best Sellers */}
-      <div className="relative mt-8">
+      <div className="relative max-w-7xl mt-8 mx-auto">
         <Swiper
           modules={[Navigation]}
           slidesPerView={2}

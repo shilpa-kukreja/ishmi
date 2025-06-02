@@ -3,7 +3,7 @@ import { assets } from '../assets/assets';
 
 const Information = () => {
   return (
-    <div className='sm:px-16 px-2 bg-[#FEF0E1] py-12 flex sm:flex-row flex-col items-center  gap-16 '>
+    <div className='sm:px-16 px-2 bg-[#FEF0E1] py-12 flex sm:flex-row flex-col items-center justify-center  gap-16 '>
       
       <div className='flex flex-col sm:flex-row  sm:gap-4 gap-2'>
         <img className=' sm:w-[280px] w-[330px] sm:h-[350px] h-[300px] rounded-xl shadow-lg object-cover' src={assets.B12} alt='Skincare Image 1' />

@@ -60,7 +60,8 @@ import TOPBANNER5  from './TOPBANNER5.jpg'
 import TOPBANNER7  from './TOPBANNER7.jpg'
 import Contact  from './Contact.jpg'
 import information1  from './information1.jpg'
-
+import combos  from './combos.jpeg'
+import hair  from './hair.jpg'
 
 import slider1 from '../assets/sliderImg/slider01.jpg'
 import slider2 from '../assets/sliderImg/slider02.jpg'
@@ -72,7 +73,8 @@ import slider4 from '../assets/sliderImg/slider04.jpg'
 
 export const assets={
      p1,p2,p3,p4,p5,p6,p7,p8,p9,s1,s2,s3,s4,s5,p10,razorpay_logo,stripe_logo,S,S1,BN,A1,A2,A3,A5,A6,A7,A8,video, video1,video2,video3,video4,video5,
-     B2,B3,B4,B5,B10,B11,B12,B13,B14,B15,B16,B17,footer,TOPBANNER,TOPBANNER2,TOPBANNER3,TOPBANNER4,Login1,SignUp1,TOPBANNER5,TOPBANNER7,Contact,information1,slider1,slider2,slider3,slider4,S2,faq
+     B2,B3,B4,B5,B10,B11,B12,B13,B14,B15,B16,B17,footer,TOPBANNER,TOPBANNER2,TOPBANNER3,TOPBANNER4,Login1,SignUp1,TOPBANNER5,TOPBANNER7,Contact,information1,slider1,slider2,slider3,slider4,S2,faq,
+     combos,hair
 }
 
 
