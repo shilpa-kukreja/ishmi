@@ -99,7 +99,7 @@ const Newcollection = () => {
 
                 {/* Product Details */}
                 <div className="p-3 pt-2 flex flex-col items-center justify-center">
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-gray-900 text-center truncate max-w-full">
                     {product.name}
                   </h3>
                   <p className="text-gray-600 text-sm">

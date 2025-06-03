@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from "cloudinary";
+
 import productModel from "../models/productModel.js";
 import mongoose from "mongoose";
 
@@ -14,6 +14,7 @@ import { unlinkSync } from "fs";
       name,
       description,
       Shortdescription,
+      AdditionalInformation,
       mainCategory,
       subCategory,
       sizes,
@@ -32,11 +33,13 @@ import { unlinkSync } from "fs";
         });
       }
     }
+    console.log(imageUrls)
 
     const productData = {
       name,
       description,
       Shortdescription,
+      AdditionalInformation,
       category: {
         mainCategory: Array.isArray(mainCategory)
           ? mainCategory[0]
@@ -109,71 +112,109 @@ const listProducts = async (req, res) => {
 
 
 const updateProduct = async (req, res) => {
+ 
   try {
     const { id } = req.params;
     const {
       name,
       description,
       Shortdescription,
+      AdditionalInformation,
       mainCategory,
       subCategory,
       sizes,
-      bestseller,
+      bestseller
     } = req.body;
 
-    const image1 = req.files.image1 && req.files.image1[0];
-    const image2 = req.files.image2 && req.files.image2[0];
-    const image3 = req.files.image3 && req.files.image3[0];
-    const image4 = req.files.image4 && req.files.image4[0];
+    // Validate product ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Invalid product ID." 
+      });
+    }
 
-    const images = [image1, image2, image3, image4].filter(Boolean);
 
-    const imageUrl = await Promise.all(
-      images.map(async (item) => {
-        let result = await cloudinary.uploader.upload(item.path, {
-          resource_type: "image",
-        });
-        return result.secure_url;
-      })
-    );
+ 
 
+    // Initialize product data with basic fields
     const productData = {
       name,
       description,
       Shortdescription,
+      AdditionalInformation,
       category: {
-        mainCategory: Array.isArray(mainCategory)
-          ? mainCategory[0]
-          : mainCategory || "",
-        subCategory: Array.isArray(subCategory)
-          ? subCategory[0]
-          : subCategory || "",
+        mainCategory: Array.isArray(mainCategory) ? mainCategory[0] : mainCategory,
+        subCategory: Array.isArray(subCategory) ? subCategory[0] : subCategory || '',
       },
-      bestseller: bestseller === "true",
-      sizes: JSON.parse(sizes),
-      image: imageUrl,
+      bestseller: bestseller === 'true',
+      
       date: Date.now(),
     };
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, message: "Invalid product ID." });
+    // Handle sizes safely
+    if (sizes) {
+      try {
+        productData.sizes = typeof sizes === 'string' ? JSON.parse(sizes) : sizes;
+        if (!Array.isArray(productData.sizes)) {
+          throw new Error("Sizes must be an array");
+        }
+      } catch (error) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Invalid sizes format. Must be a valid array." 
+        });
+      }
     }
 
-    const updatedProduct = await productModel.findByIdAndUpdate(  id, productData, {
-      new: true,
-      runValidators: true,
-    });
+    // Handle image uploads if files are present
+    if (req.files) {
+      const imageFields = ['image1', 'image2', 'image3', 'image4'];
+      productData.image = [];
+      
+      for (const field of imageFields) {
+        const file = req.files[field]?.[0];
+        if (file) {
+          productData.image.push({
+            url: `/uploads/${file.filename}`,
+            originalname: file.originalname
+          });
+        }
+      }
+      // If no new images were uploaded but files were sent, keep existing images
+      if (productData.image.length === 0) {
+        delete productData.image;
+      }
+    }
+
+    const updatedProduct = await productModel.findByIdAndUpdate(
+      id,
+      productData,
+      { new: true, runValidators: true }
+    );
 
     if (!updatedProduct) {
-      return res.status(404).json({ success: false, message: "Product not found." });
+      return res.status(404).json({ 
+        success: false, 
+        message: "Product not found." 
+      });
     }
 
-    res.json({ success: true, message: "Product updated successfully.", product: updatedProduct });
+    res.json({ 
+      success: true, 
+      message: "Product updated successfully.", 
+      product: updatedProduct 
+    });
   } catch (error) {
     console.error("Error updating product:", error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ 
+      success: false, 
+      message: "Internal server error while updating product.",
+      error: error.message 
+    });
   }
 };
+
 
 const updatelistproduct= async (req, res) => {
   try {

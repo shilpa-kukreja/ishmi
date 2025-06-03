@@ -12,6 +12,7 @@ const Add = ({ token }) => {
     name: "",
     description: "",
     Shortdescription: "",
+    AdditionalInformation:"",
     mainCategory: "",
     subCategory: "",
     bestseller: false,
@@ -30,13 +31,15 @@ const Add = ({ token }) => {
   const [loading, setLoading] = useState(false);
   const descriptionEditorRef = useRef(null);
   const shortDescriptionEditorRef = useRef(null);
+  const additionalInformationEditorRef = useRef(null);
 
   useEffect(() => {
     if (window.CKEDITOR) {
       descriptionEditorRef.current = window.CKEDITOR.replace("description-editor");
       shortDescriptionEditorRef.current = window.CKEDITOR.replace("short-description-editor");
+      additionalInformationEditorRef.current = window.CKEDITOR.replace("additional-information-editor");
 
-      
+
 
       descriptionEditorRef.current.on("change", () => {
         setFormData((prev) => ({
@@ -53,14 +56,22 @@ const Add = ({ token }) => {
       });
     }
 
+    additionalInformationEditorRef.current.on("change",()=>{
+      setFormData((prev) => ({
+        ...prev,
+        AdditionalInformation: additionalInformationEditorRef.current.getData(),
+        }));
+    });
+
     return () => {
       if (descriptionEditorRef.current) descriptionEditorRef.current.destroy();
       if (shortDescriptionEditorRef.current) shortDescriptionEditorRef.current.destroy();
+      if (additionalInformationEditorRef.current) additionalInformationEditorRef.current.destroy();
     };
   }, []);
 
 
-  
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
@@ -71,6 +82,7 @@ const Add = ({ token }) => {
             name: product.name || "",
             description: product.description || "",
             Shortdescription: product.Shortdescription || "",
+            AdditionalInformation: product.AdditionalInformation || "",
             mainCategory: product.category.mainCategory || "",
             subCategory: product.category.subCategory || "",
             bestseller: product.bestseller || false,
@@ -93,6 +105,9 @@ const Add = ({ token }) => {
             if (shortDescriptionEditorRef.current) {
               shortDescriptionEditorRef.current.setData(product.Shortdescription || "");
             }
+            if (additionalInformationEditorRef.current) {
+              additionalInformationEditorRef.current.setData(product.AdditionalInformation || "");
+              }
           }, 200);
         } else {
           toast.error("❌ Failed to load product.");
@@ -107,7 +122,7 @@ const Add = ({ token }) => {
       fetchProductDetails();
     }
   }, [id]);
-  
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -137,62 +152,93 @@ const Add = ({ token }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      const data = new FormData();
-     
-      Object.entries(formData).forEach(([key, value]) =>
-        data.append(key, value)
-      );
+  try {
+    const data = new FormData();
+
+    // Append all form data
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+    });
+
+    // Handle sizes
+    if (sizes && sizes.length > 0) {
       data.append("sizes", JSON.stringify(sizes));
-
-      Object.entries(images).forEach(([key, file]) => {
-        if (file) data.append(key, file);
-      });
-    
-      let response;
-      if (id) {
-      
-        response = await axios.post(`${backendUrl}/api/product/update/${id}`, data, {
-          headers: { token, "Content-Type": "multipart/form-data" },
-        });
-      } else {
-        // Add new product
-        response = await axios.post(`${backendUrl}/api/product/add`, data, {
-          headers: { token, "Content-Type": "multipart/form-data" },
-        });
-      }
-
-      if (response.data.success) {
-        toast.success(`✅ Product ${id ? "updated" : "added"} successfully`);
-        if (!id) {
-          setFormData({
-            name: "",
-            description: "",
-            Shortdescription: "",
-            mainCategory: "",
-            subCategory: "",
-            bestseller: false,
-          });
-          setSizes([]);
-          setImages({ image1: null, image2: null, image3: null, image4: null });
-        }
-      } else {
-        toast.error("❌ " + response.data.message);
-      }
-    } catch (error) {
-      console.error("Error submitting:", error);
-      toast.error("❌ Failed to submit product.");
-    } finally {
-      setLoading(false);
     }
-  };
+
+    // Handle images - we'll collect all images (both existing URLs and new files)
+    const imageArray = [];
+
+    
+    // Process each image field
+    for (const [key, file] of Object.entries(images)) {
+      if (file instanceof File) {
+        // It's a new file upload
+        data.append(key, file);
+      
+      } else if (file) {
+        // It's an existing URL (string)
+        imageArray.push(file);
+      }
+    }
+
+  
+    const config = {
+      headers: { 
+        token, 
+        "Content-Type": "multipart/form-data" 
+      },
+    };
+
+    const endpoint = id 
+      ? `${backendUrl}/api/product/update/${id}`
+      : `${backendUrl}/api/product/add`;
+
+    const response = await axios.post(endpoint, data, config);
+
+    if (response.data.success) {
+      toast.success(`✅ Product ${id ? "updated" : "added"} successfully`);
+      if (!id) {
+        // Reset form for new products
+        setFormData({
+          name: "",
+          description: "",
+          Shortdescription: "",
+           AdditionalInformation:"",
+          mainCategory: "",
+          subCategory: "",
+          bestseller: false,
+        });
+        setSizes([]);
+        setImages({ image1: null, image2: null, image3: null, image4: null });
+        
+        // Clear CKEditor content
+        if (descriptionEditorRef.current) {
+          descriptionEditorRef.current.setData("");
+        }
+        if (shortDescriptionEditorRef.current) {
+          shortDescriptionEditorRef.current.setData("");
+        }
+        if(additionalInformationEditorRef.current){
+          additionalInformationEditorRef.current.setData("");
+        }
+      }
+    } else {
+      toast.error("❌ " + (response.data.message || "Operation failed"));
+    }
+  } catch (error) {
+    console.error("Error submitting:", error);
+    toast.error(`❌ ${error.response?.data?.message || "Failed to submit product."}`);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
-    <div className=" mx-auto p-6 bg-white shadow rounded-lg ">
+    <div className="mx-auto p-6 bg-white shadow rounded-lg ">
       <h2 className="text-xl font-bold mb-4">{id ? "Edit" : "Add"} Product</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <input
@@ -204,9 +250,9 @@ const Add = ({ token }) => {
           className="w-full p-2 border text-sm border-gray-300 rounded"
           required
         />
-            <p
-  className="text-base sm:text-lg text-gray-700 leading-relaxed font-medium bg-gray-50 p-4 rounded-lg shadow-inner border border-gray-200"
-  >Description</p>
+        <p
+          className="text-base sm:text-lg text-gray-700 leading-relaxed font-medium bg-gray-50 p-4 rounded-lg shadow-inner border border-gray-200"
+        >Description</p>
         <textarea
           id="description-editor"
           name="description"
@@ -214,14 +260,26 @@ const Add = ({ token }) => {
           onChange={handleChange}
           className="w-full hidden text-sm"
         />
-       <p
-  className="text-base sm:text-lg text-gray-700 leading-relaxed font-medium bg-gray-50 p-4 rounded-lg shadow-inner border border-gray-200"
-  >ShortDescription</p>
+        <p
+          className="text-base sm:text-lg text-gray-700 leading-relaxed font-medium bg-gray-50 p-4 rounded-lg shadow-inner border border-gray-200"
+        >ShortDescription</p>
 
         <textarea
           id="short-description-editor"
           name="Shortdescription"
           value={formData.Shortdescription}
+          onChange={handleChange}
+          className="w-full hidden text-sm"
+        />
+
+         <p
+          className="text-base sm:text-lg text-gray-700 leading-relaxed font-medium bg-gray-50 p-4 rounded-lg shadow-inner border border-gray-200"
+        >Additional Info</p>
+
+        <textarea
+          id="additional-information-editor"
+          name="AdditionalInformation"
+          value={formData.AdditionalInformation}
           onChange={handleChange}
           className="w-full hidden text-sm"
         />
@@ -234,7 +292,7 @@ const Add = ({ token }) => {
             value={formData.mainCategory}
             onChange={handleChange}
             className="p-2 border text-sm border-gray-300 rounded"
-            
+
           />
           <input
             type="text"
@@ -243,7 +301,7 @@ const Add = ({ token }) => {
             value={formData.subCategory}
             onChange={handleChange}
             className="p-2 text-sm border border-gray-300 rounded"
-            
+
           />
         </div>
 
@@ -283,27 +341,27 @@ const Add = ({ token }) => {
         </button>
 
         <div className="grid grid-cols-2 gap-4">
-        {["image1", "image2", "image3", "image4"].map((imgKey) => (
-  <div key={imgKey}>
-    <label className="block text-sm font-medium capitalize">{imgKey}</label>
+          {["image1", "image2", "image3", "image4"].map((imgKey) => (
+            <div key={imgKey}>
+              <label className="block text-sm font-medium capitalize">{imgKey}</label>
 
-    {/* Preview the image if it exists */}
-    {images[imgKey] && typeof images[imgKey] === "string" && (
-      <img
-        src={images[imgKey]}
-        alt="Preview"
-        className="w-24 h-24 object-cover text-sm mb-2 border"
-      />
-    )}
+              {/* Preview the image if it exists */}
+              {images[imgKey] && typeof images[imgKey] === "string" && (
+                <img
+                  src={images[imgKey]}
+                  alt="Preview"
+                  className="w-24 h-24 object-cover text-sm mb-2 border"
+                />
+              )}
 
-    <input
-      type="file"
-      name={imgKey}
-      onChange={handleFileChange}
-      className="mt-1"
-    />
-  </div>
-))}
+              <input
+                type="file"
+                name={imgKey}
+                onChange={handleFileChange}
+                className="mt-1"
+              />
+            </div>
+          ))}
         </div>
 
         <button

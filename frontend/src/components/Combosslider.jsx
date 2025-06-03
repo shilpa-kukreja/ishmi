@@ -88,7 +88,7 @@ const Combosslider = () => {
 
                                 {/* Combo Details */}
                                 <div className="p-3 flex flex-col items-center">
-                                    <h3 className="text-lg font-semibold text-gray-900 text-center">
+                                    <h3 className="text-xl font-semibold text-gray-900 text-center truncate max-w-full">
                                         {combo.name}
                                     </h3>
 

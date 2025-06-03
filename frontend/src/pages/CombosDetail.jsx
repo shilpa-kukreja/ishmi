@@ -579,11 +579,7 @@ const CombosDetail = () => {
                             </div>
 
 
-                            <ul className="list-disc pl-6 mt-3 space-y-2">
-                                <li>High-quality material for durability</li>
-                                <li>Designed for comfort and style</li>
-                                <li>Available in multiple sizes</li>
-                            </ul>
+                           
                         </div>
                     ) : activeTab === "additonalinfo" ? (
                         <div>
@@ -591,13 +587,9 @@ const CombosDetail = () => {
                                 Product Details
                             </h2>
                             <div className="description">
-                                <div dangerouslySetInnerHTML={{ __html: combosData.Shortdescription }} />
+                                <div dangerouslySetInnerHTML={{ __html: combosData.AdditionalInformation }} />
                             </div>
-                            <ul className="list-disc pl-6 mt-3 space-y-2">
-                                <li>High-quality material for durability</li>
-                                <li>Designed for comfort and style</li>
-                                <li>Available in multiple sizes</li>
-                            </ul>
+                           
                         </div>
                     ) : (
                         <div>

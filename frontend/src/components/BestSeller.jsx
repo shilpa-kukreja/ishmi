@@ -107,7 +107,7 @@ const BestSeller = () => {
                   </div> */}
 
                   {/* Product Name */}
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-gray-900 text-center truncate max-w-full">
                     {product.name}
                   </h3>
 

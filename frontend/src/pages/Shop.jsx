@@ -38,7 +38,7 @@ const Shop = () => {
       />
 
 
-      <div className="grid grid-cols-2 pt-10 sm:grid-cols-2 pb-10 px-5 sm:px-10 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 pt-10 sm:grid-cols-2 pb-10   sm:px-16 px-6 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         {sortedProducts.length > 0 ? (
           sortedProducts.map((product) => (
             <div
@@ -81,7 +81,7 @@ const Shop = () => {
                     alt=""
                   /> */}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-xl font-semibold text-gray-900 text-center truncate max-w-full">
                   {product.name}
                 </h3>
                 <div className="mt-1 flex items-center space-x-2">

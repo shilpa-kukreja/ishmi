@@ -16,7 +16,7 @@ const Bestseller = () => {
  },[products])
 
   return (
-    <div className="w-full  mx-auto bg-[#FEF0E1] ">
+    <div className="w-full   mx-auto bg-[#FEF0E1] ">
       <img className="w-full h-full" src={assets.TOPBANNER7} alt="" />
       {/* Title Section */}
       <div className="text-center pt-10 mb-10">
@@ -27,7 +27,7 @@ const Bestseller = () => {
       </div>
 
       {/* Grid Section */}
-      <div className="grid grid-cols-2 p-10 pt-3   px-5 sm:px-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 space-y-4 gap-4">
+      <div className="grid grid-cols-2 p-10 pt-3   px-5 sm:px-16 px-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 space-y-4 gap-4">
         {bestSeller.map((product) => (
           <div
             key={product._id}
@@ -76,7 +76,7 @@ const Bestseller = () => {
               </div> */}
 
               {/* Product Name & Description */}
-              <h3 className="text-xl font-semibold text-gray-900 text-center">
+              <h3 className="text-xl font-semibold text-gray-900 text-center truncate max-w-full">
                 {product.name}
               </h3>
               <p className="text-gray-600 text-sm text-center ">

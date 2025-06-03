@@ -538,11 +538,7 @@ const Product = () => {
               </div>
 
 
-              <ul className="list-disc pl-6 mt-3 space-y-2">
-                <li>High-quality material for durability</li>
-                <li>Designed for comfort and style</li>
-                <li>Available in multiple sizes</li>
-              </ul>
+              
             </div>
           ) : activeTab === "additonalinfo" ? (
             <div>
@@ -550,13 +546,9 @@ const Product = () => {
                 Product Details
               </h2>
               <div className="description text-justify">
-                <div dangerouslySetInnerHTML={{ __html: productData.Shortdescription }} />
+                <div dangerouslySetInnerHTML={{ __html: productData.AdditionalInformation }} />
               </div>
-              <ul className="list-disc pl-6 mt-3 space-y-2">
-                <li>High-quality material for durability</li>
-                <li>Designed for comfort and style</li>
-                <li>Available in multiple sizes</li>
-              </ul>
+              
             </div>
           ) : (
             <div>

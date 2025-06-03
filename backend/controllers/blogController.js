@@ -1,4 +1,3 @@
-import {v2 as cloudinary} from 'cloudinary'
 import blogModel from '../models/blogModel.js';
 import fs from 'fs';
 import path from 'path';

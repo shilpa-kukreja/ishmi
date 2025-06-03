@@ -25,7 +25,7 @@ const Combos = () => {
         alt="Banner"
       />
 
-      <div className="grid grid-cols-2 pt-10 sm:grid-cols-2 pb-10 px-5 sm:px-10 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 pt-10 sm:grid-cols-2 pb-10  sm:px-16 px-6 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {combos.length > 0 ? (
           combos.map((combo) => (
             <div
@@ -48,7 +48,7 @@ const Combos = () => {
               </Link>
 
               <div className="p-3 flex flex-col items-center justify-center">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-xl font-semibold text-gray-900 text-center truncate max-w-full">
                   {combo.name}
                 </h3>
                 <div className="mt-1 flex items-center space-x-2">
