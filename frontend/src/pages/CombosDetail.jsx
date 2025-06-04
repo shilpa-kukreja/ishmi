@@ -145,7 +145,7 @@ const CombosDetail = () => {
                             <img
                                 src={`${image}`} // Ensure full path is used
                                 alt={combosData.name}
-                                className="sm:w-[550px] sm:h-[550px] w-[450px] h-[450px] object-cover rounded-none sm:rounded-lg"
+                                className=" w-[100%] h-auto   object-cover rounded-none sm:rounded-lg"
                             />
                         </Zoom>
                     </div>
@@ -190,21 +190,6 @@ const CombosDetail = () => {
                         <p className="text-gray-500 ml-2">(5 reviews)</p>
                     </div>
 
-                    {/* <div className="flex items-center gap-4 my-4">
-            <p className="text-3xl font-semibold text-gray-900">
-              {currency}
-              {size ? size.actualprice : combosData.sizes[0].discountedprice}
-            </p>
-            <p className="text-xl text-gray-500 line-through">
-              {currency}
-              {size
-                ? size.discountedprice
-                : combosData.sizes[0].actualprice}
-            </p>
-            <p className="top-2 left-2 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full">
-              {size ? size.offer : combosData.sizes[0].offer}% OFF
-            </p>
-          </div> */}
 
                     <div className="text-gray-600 text-lg" dangerouslySetInnerHTML={{
                         __html: combosData.shortDescription
@@ -223,11 +208,11 @@ const CombosDetail = () => {
 
                                         return (
                                             <div key={productId} className="flex shadow-md  items-center gap-3 p-1 border rounded-lg">
-                                                <Link to={`/product/${product._id}`} className="flex items-center gap-2">
+                                                <Link to={`/product/${product._id}`} className="flex items-center  gap-2">
                                                     <img
                                                         src={`${import.meta.env.VITE_BACKEND_URL}${product.image?.[0]?.url || '/placeholder.jpg'}`}
                                                         alt={product.name}
-                                                        className="w-10 h-10 border border-black object-cover rounded-md"
+                                                        className="w-10 h-10  border border-black object-cover rounded-md"
                                                         onError={(e) => {
                                                             e.target.src = '/placeholder.jpg';
                                                         }}
@@ -244,6 +229,19 @@ const CombosDetail = () => {
                             <p>No products included in this combo</p>
                         )}
                     </div>
+
+                    
+             <div className="flex items-center gap-4 my-4">
+  <p className="text-3xl font-semibold text-gray-900">
+    {currency}
+    {(size ? size.actualprice : combosData.discountedprice).toFixed(2)}
+  </p>
+  <p className="text-xl text-gray-500 line-through">
+    {currency}
+    {(size ? size.discountedprice : combosData.actualprice).toFixed(2)}
+  </p>
+ 
+</div>
                     {/* 
           <div className="mt-6">
             <p className="text-lg font-medium">Select Size</p>
@@ -263,7 +261,7 @@ const CombosDetail = () => {
             </div>
           </div> */}
 
-                    <div className="mt-6 ">
+                    {/* <div className="mt-6 ">
                         <p className="text-lg font-medium">Quantity</p>
                         <div className="flex items-center gap-2 mt-2">
 
@@ -281,7 +279,7 @@ const CombosDetail = () => {
                                 +
                             </button>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="mt-6 w-[300px] flex gap-4">
                         <motion.button
@@ -328,7 +326,7 @@ const CombosDetail = () => {
                                             return (
                                                 <div
                                                     key={`${item._id}-${item.size || index}`}
-                                                    className="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 border rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-all"
+                                                    className="flex flex-col  sm:flex-row items-center sm:items-start gap-4 p-4 border rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-all"
                                                 >
                                                     <img
                                                         className="w-24 h-24 object-cover rounded-md border"
@@ -536,7 +534,7 @@ const CombosDetail = () => {
                 </div>
             </div>
 
-            <div className="mt-16">
+            <div className="mt-16 mb-5">
                 <div className="flex border-b">
                     <button
                         onClick={() => setActiveTab("description")}
@@ -584,7 +582,7 @@ const CombosDetail = () => {
                     ) : activeTab === "additonalinfo" ? (
                         <div>
                             <h2 className="text-xl font-semibold text-black mb-3">
-                                Product Details
+                                 Additional Details
                             </h2>
                             <div className="description">
                                 <div dangerouslySetInnerHTML={{ __html: combosData.AdditionalInformation }} />

@@ -139,7 +139,7 @@ const Navbar = () => {
                               handleCategoryClick(mainCategory, subCategory)
                             }
                           >
-                            {subCategory}
+                            {/* {subCategory} */}
                           </p>
                         ))}
                       </div>

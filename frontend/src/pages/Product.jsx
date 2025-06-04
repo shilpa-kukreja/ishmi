@@ -179,12 +179,12 @@ const Product = () => {
           <div className="flex items-center gap-4 my-4">
             <p className="text-3xl font-semibold text-gray-900">
               {currency}
-              {size ? size.actualprice : productData.sizes[0].discountedprice}
+              {size ? size.discountedprice : productData.sizes[0].discountedprice}
             </p>
             <p className="text-xl text-gray-500 line-through">
               {currency}
               {size
-                ? size.discountedprice
+                ? size.actualprice
                 : productData.sizes[0].actualprice}
             </p>
             <p className="top-2 left-2 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full">
@@ -214,7 +214,7 @@ const Product = () => {
             </div>
           </div>
 
-          <div className="mt-6 ">
+          {/* <div className="mt-6 ">
             <p className="text-lg font-medium">Quantity</p>
             <div className="flex items-center gap-2 mt-2">
 
@@ -232,7 +232,7 @@ const Product = () => {
                 +
               </button>
             </div>
-          </div>
+          </div> */}
 
           <div className="mt-6 w-[300px] flex gap-4">
             <motion.button
@@ -543,7 +543,7 @@ const Product = () => {
           ) : activeTab === "additonalinfo" ? (
             <div>
               <h2 className="text-xl font-semibold text-black mb-3">
-                Product Details
+                Additional Details
               </h2>
               <div className="description text-justify">
                 <div dangerouslySetInnerHTML={{ __html: productData.AdditionalInformation }} />

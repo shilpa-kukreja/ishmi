@@ -38,7 +38,7 @@ const Shop = () => {
       />
 
 
-      <div className="grid grid-cols-2 pt-10 sm:grid-cols-2 pb-10   sm:px-16 px-6 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 pt-10 sm:grid-cols-2 pb-10 max-w-7xl mx-auto   sm:px-16 px-6 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         {sortedProducts.length > 0 ? (
           sortedProducts.map((product) => (
             <div

@@ -25,7 +25,7 @@ const Combos = () => {
         alt="Banner"
       />
 
-      <div className="grid grid-cols-2 pt-10 sm:grid-cols-2 pb-10  sm:px-16 px-6 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 pt-10 max-w-7xl mx-auto sm:grid-cols-2 pb-10  sm:px-16 px-6 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {combos.length > 0 ? (
           combos.map((combo) => (
             <div

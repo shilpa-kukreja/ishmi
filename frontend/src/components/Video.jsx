@@ -45,7 +45,7 @@ const Video = () => {
       </div>
 
       {/* Desktop Grid Layout */}
-      <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+      <div className="hidden sm:grid max-w-7xl mx-auto sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
         {videoSources.map((src, index) => (
           <div
             key={index}

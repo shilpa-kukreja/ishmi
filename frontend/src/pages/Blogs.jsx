@@ -20,7 +20,7 @@ const Blogs = () => {
           Nourish your skin, body, and soul with time-tested wisdom and holistic care.
         </p>
       </div>
-      <div className="grid md:grid-cols-3 px-5 sm:px-10 pb-5 gap-5">
+      <div className="grid md:grid-cols-4 max-w-7xl mx-auto px-5 sm:px-16 pb-8 gap-5">
         {blogs.map((blog) => (
           <Link to={`/blog/${blog._id}`} key={blog._id} className="group">
             <div className="bg-white rounded-xl shadow-none sm:shadow-xl overflow-hidden  ">
@@ -32,7 +32,11 @@ const Blogs = () => {
 
               <div className="p-6">
                 <p className="text-sm font-semibold text-gray-500">11 March 2025</p>
-                <h3 className="text-2xl font-bold text-gray-800 mt-3 group-hover:text-[#D4A373] transition line-clamp-2">
+                <h3 className="text-2xl block sm:hidden font-bold text-gray-800 mt-3 group-hover:text-[#D4A373] transition line-clamp-2">
+                  {blog.name}
+                </h3>
+
+                <h3 className="text-2xl hidden sm:block font-bold text-gray-800 mt-3 group-hover:text-[#D4A373] transition whitespace-nowrap overflow-hidden text-ellipsis">
                   {blog.name}
                 </h3>
 

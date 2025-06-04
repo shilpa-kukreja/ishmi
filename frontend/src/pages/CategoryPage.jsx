@@ -127,7 +127,7 @@ const CategoryPage = () => {
       </div>
 
       {/* Subcategory Filter */}
-      {selectedCategory && subcategories.length > 0 && (
+      {/* {selectedCategory && subcategories.length > 0 && (
         <div className="flex flex-wrap gap-3 justify-center my-4">
           {subcategories.map((subcategory) => (
             <button
@@ -143,10 +143,10 @@ const CategoryPage = () => {
             </button>
           ))}
         </div>
-      )}
+      )} */}
 
       {/* Product Listing */}
-      <div className="grid grid-cols-2 px-5 sm:px-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8 mt-10">
+      <div className="grid grid-cols-2 max-w-7xl mx-auto px-5 sm:px-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8 mt-10">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <div

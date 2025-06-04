@@ -5,15 +5,15 @@ import { HeartOff, ShoppingCart, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 const Wishlist = () => {
-  const { 
-    currency, 
-    wishlist = [], 
-    removeFromWishlist, 
+  const {
+    currency,
+    wishlist = [],
+    removeFromWishlist,
     addToCart,
     products,
     combos
   } = useContext(ShopContext);
-  
+
   const [selectedSizes, setSelectedSizes] = useState({});
 
   const handleSizeSelection = (productId, sizeObj) => {
@@ -31,7 +31,7 @@ const Wishlist = () => {
       // toast.success("Combo added to cart successfully");
     } else {
       // Handle products with sizes
-     const selectedSize = item.sizes[0];
+      const selectedSize = item.sizes[0];
       if (!selectedSize) {
         toast.error("Please select a size before adding to cart.");
         return;
@@ -43,7 +43,7 @@ const Wishlist = () => {
   };
 
 
-const wishlistItems = wishlist;
+  const wishlistItems = wishlist;
 
   return (
     <div className="min-h-screen bg-gray-50 py-5 px-4 sm:px-6">
@@ -88,7 +88,7 @@ const wishlistItems = wishlist;
                     <Link to={`/${item.type === "combo" ? "combos" : "product"}/${item._id}`}>
                       <img
                         src={
-                          item.type === "combo" 
+                          item.type === "combo"
                             ? `${import.meta.env.VITE_BACKEND_URL}/uploads/thumbImg/${item.thumbImg}`
                             : `${import.meta.env.VITE_BACKEND_URL}${item.image?.[0]?.url || "/placeholder.jpg"}`
                         }
@@ -122,34 +122,19 @@ const wishlistItems = wishlist;
                   {/* Size Dropdown (only for products) */}
                   <div className="w-full sm:w-auto">
                     {item.type === "product" ? (
-                      <select
-                        className="border border-gray-300 rounded-md p-2 text-gray-700 w-full sm:w-auto"
-                        value={selectedSizes[item._id]?.size || ""}
-                        onChange={(e) =>
-                          handleSizeSelection(
-                            item._id,
-                            item.sizes.find(
-                              (size) => size.size === e.target.value
-                            )
-                          )
-                        }
-                      >
-                        <option value="">Select Size</option>
-                        {item.sizes?.map((size) => (
-                          <option key={size.size} value={size.size}>
-                            {size.size}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="border border-gray-300 rounded-md px-3 py-2 text-gray-700 bg-gray-50 min-w-[100px]">
+                        {selectedSizes[item._id]?.size || item.sizes?.[0]?.size || "No Size Selected"}
+                      </div>
                     ) : (
                       <span className="text-gray-500">-</span>
                     )}
                   </div>
 
+
                   {/* Add to Cart Button */}
                   <button
                     onClick={() => handleAddToCart(item)}
-                    className="bg-black text-white py-[6px] px-4 rounded-md font-medium transition hover:bg-gray-900 w-full sm:w-auto"
+                    className="bg-black text-white py-[6px] mx-4 px-4 rounded-md font-medium transition hover:bg-gray-900 w-full sm:w-auto"
                   >
                     Add to Cart
                   </button>
@@ -157,7 +142,7 @@ const wishlistItems = wishlist;
                   {/* Remove from Wishlist */}
                   <button
                     onClick={() => removeFromWishlist(item._id)}
-                    className="bg-red-600 text-white p-2 rounded-md hover:bg-red-700 transition flex items-center justify-center w-full sm:w-auto"
+                    className="bg-red-600 text-white mx-4 p-2 rounded-md hover:bg-red-700 transition flex items-center justify-center w-full sm:w-auto"
                     title="Remove from Wishlist"
                   >
                     <Trash2 className="w-5 h-5" />

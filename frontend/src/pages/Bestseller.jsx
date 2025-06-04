@@ -27,7 +27,7 @@ const Bestseller = () => {
       </div>
 
       {/* Grid Section */}
-      <div className="grid grid-cols-2 p-10 pt-3   px-5 sm:px-16 px-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 space-y-4 gap-4">
+      <div className="grid grid-cols-2 p-10 pt-3 max-w-7xl mx-auto   px-5 sm:px-16 px-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 space-y-4 gap-4">
         {bestSeller.map((product) => (
           <div
             key={product._id}

@@ -71,7 +71,7 @@ const Contact = () => {
         <div className="sm:mt-10 mt-10 px-5 grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-10">
           {[
             {
-              icon: <Mail className="sm:w-12 sm:h-12 w-8 h-8 text-[#c2905c]" />, title: "Email", info: "support@ecommerce.com",
+              icon: <Mail className="sm:w-12 sm:h-12 w-8 h-8 text-[#c2905c]" />, title: "Email", info: "vikasanand13innovative@gmail.com",
             },
             {
               icon: <Phone className="sm:w-12 sm:h-12 w-8 h-8 text-[#c2905c]" />, title: "Phone", info: "+91  6261775040",
