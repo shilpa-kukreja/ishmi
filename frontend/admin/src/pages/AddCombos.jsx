@@ -11,6 +11,7 @@ const AddCombo = () => {
     name: "",
     shortDescription: "",
     description: "",
+    AdditionalInformation:"",
     products: [],
     slug: "",
     sku: "",
@@ -30,6 +31,7 @@ const AddCombo = () => {
 
   const descriptionEditorRef = useRef(null);
   const shortDescriptionEditorRef = useRef(null);
+  const additionalInformationEditorRef = useRef(null);
 
   useEffect(() => {
     fetchProducts();
@@ -43,6 +45,7 @@ const AddCombo = () => {
         if (window.CKEDITOR) {
             descriptionEditorRef.current = window.CKEDITOR.replace("description-editor");
             shortDescriptionEditorRef.current = window.CKEDITOR.replace("short-description-editor");
+            additionalInformationEditorRef.current = window.CKEDITOR.replace("additional-information-editor");
 
             descriptionEditorRef.current.on("change", () => {
                 setFormData((prev) => ({
@@ -57,11 +60,21 @@ const AddCombo = () => {
                     shortDescription: shortDescriptionEditorRef.current.getData(),
                 }));
             });
+
+             additionalInformationEditorRef.current.on("change",()=>{
+          setFormData((prev) => ({
+            ...prev,
+            additionalInformation: additionalInformationEditorRef.current.getData(),
+            }));
+        })
         }
+
+       
 
         return () => {
             if (descriptionEditorRef.current) descriptionEditorRef.current.destroy();
             if (shortDescriptionEditorRef.current) shortDescriptionEditorRef.current.destroy();
+            if (additionalInformationEditorRef.current) additionalInformationEditorRef.current.destroy();
         };
     }, [isEditMode]);
 
@@ -77,6 +90,7 @@ const AddCombo = () => {
           slug: combo.slug || "",
           shortDescription: combo.shortDescription || "",
           description: combo.description || "",
+          additionalInformation: combo.additionalInformation || "",
           products: combo.products || [],
           sku: combo.sku || "",
           stock: combo.stock || "",
@@ -102,6 +116,9 @@ const AddCombo = () => {
           }
           if (shortDescriptionEditorRef.current && combo.shortDescription) {
             shortDescriptionEditorRef.current.setData(combo.shortDescription);
+          }
+          if (additionalInformationEditorRef.current && combo.additionalInformation) {
+            additionalInformationEditorRef.current.setData(combo.additionalInformation);
           }
         }, 1000);
       } else {
@@ -333,6 +350,16 @@ const AddCombo = () => {
               <textarea
                 id="description-editor"
                 name="description"
+                rows="5"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Additional Description</label>
+              <textarea
+                id="additional-information-editor"
+                name="additionalInformation"
                 rows="5"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
