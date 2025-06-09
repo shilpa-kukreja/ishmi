@@ -585,7 +585,7 @@ const CombosDetail = () => {
                                  Additional Details
                             </h2>
                             <div className="description">
-                                <div dangerouslySetInnerHTML={{ __html: combosData.AdditionalInformation }} />
+                                <div dangerouslySetInnerHTML={{ __html: combosData.additionalInformation }} />
                             </div>
                            
                         </div>
