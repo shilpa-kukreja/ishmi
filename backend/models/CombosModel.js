@@ -6,7 +6,7 @@ const comboSchema = new mongoose.Schema({
     products: {type: Array, required: true},
     description: { type: String ,required: true},
     shortDescription: { type: String, required: true},
-    AdditionalInformation:{type:String},
+    additionalInformation:{type:String},
     actualprice: { type: Number },
     discountedprice: { type: Number },
     slug: { type: String, required: true },

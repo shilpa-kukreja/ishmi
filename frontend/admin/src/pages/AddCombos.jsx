@@ -11,7 +11,7 @@ const AddCombo = () => {
     name: "",
     shortDescription: "",
     description: "",
-    AdditionalInformation:"",
+    additionalInformation:"",
     products: [],
     slug: "",
     sku: "",
