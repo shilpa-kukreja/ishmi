@@ -73,7 +73,7 @@ const About = () => {
             Have any questions? We'd love to hear from you. Reach out to us anytime!
           </p>
           <Link
-            to="/contact us"
+            to="/contact-us"
             className="mt-6 mb-6  inline-block bg-[#D4A373] text-white px-6 py-3 rounded-md text-lg font-medium  transition"
           >
             Contact Us

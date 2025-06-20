@@ -20,7 +20,7 @@ const Footer = () => {
     { name: 'My Account', path: '/loginsignup' },
     { name: 'Our Products', path: '/shop' },
     { name: 'My Cart', path: '/cart' },
-    { name: 'My Wishlist', path: '/wishlist' },
+    { name: 'My Wishlist', path: '/whichlist' },
   ];
 
   return (
@@ -199,7 +199,7 @@ const Footer = () => {
       <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-50">
         {/* Call Button */}
         <a 
-          href="tel:0000000" 
+          href="tel:+916261775040" 
           className="btn-pulse bg-[#8f6943] hover:bg-[#5c442c] w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 transform hover:scale-110"
           aria-label="Call Now"
         >
@@ -211,7 +211,7 @@ const Footer = () => {
         </a>
 
        {/* WhatsApp Button */}
-<a href="//wa.me/0000000" className="btn-pulse btn-whatsapp" aria-label="Chat on WhatsApp">
+<a href="//wa.me/+916261775040" className="btn-pulse btn-whatsapp" aria-label="Chat on WhatsApp">
   <img
     src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp--v1.png"
     alt="WhatsApp Icon"

@@ -91,7 +91,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`w-full bg-[#fff8ee] shadow-md  z-50 ${isHome ? "absolute top-0 bg-transparent shadow-none" : ""}`}>
+    <nav className={`w-full bg-[#fff8ee] shadow-md  z-50 ${isHome ? "sm:absolute sticky   top-0 sm:bg-transparent bg-white shadow-none" : ""}`}>
       <div className="flex items-center justify-between px-6 md:px-12 sm:py-1 py-2 ">
         {/* Logo */}
         <NavLink to="/">
@@ -120,7 +120,7 @@ const Navbar = () => {
             </button>
 
             {showDropdown && (
-              <div className="absolute  top-10 left-0 w-48 bg-white shadow-lg rounded-md p-2 z-50 border border-gray-300">
+              <div className="absolute   top-10 left-0 w-48 bg-white shadow-lg rounded-md p-2 z-50 border border-gray-300">
                 {Object.entries(groupedCategories).length > 0 ? (
                   Object.entries(groupedCategories).map(
                     ([mainCategory, subCategories]) => (

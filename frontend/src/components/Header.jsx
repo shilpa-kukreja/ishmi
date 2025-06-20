@@ -5,9 +5,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 // Desktop banners
-import banner1 from "../assets/banner/1.jpg";
-import banner2 from "../assets/banner/2.jpg";
-import banner3 from "../assets/banner/3.jpg";
+import banner1 from "../assets/banner/BAA1.webp";
+import banner2 from "../assets/banner/BAA2.webp";
+import banner3 from "../assets/banner/BAA3.webp";
 
 // Mobile banners
 import pbanner4 from "../assets/banner/4.webp";

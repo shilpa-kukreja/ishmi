@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { Link } from "react-router-dom";
-import { assets } from "../assets/assets";
+
 import { toast } from "react-toastify";
+import BA5 from "../assets/banner/BAA5.webp";
 
 const Bestseller = () => {
   const { products, addToCart } = useContext(ShopContext);
@@ -17,7 +18,7 @@ const Bestseller = () => {
 
   return (
     <div className="w-full   mx-auto bg-[#FEF0E1] ">
-      <img className="w-full h-full" src={assets.TOPBANNER7} alt="" />
+      <img className="w-full h-full" src={BA5} alt="" />
       {/* Title Section */}
       <div className="text-center pt-10 mb-10">
         <h2 className="text-4xl font-extrabold text-gray-800">Best Sellers</h2>
@@ -27,7 +28,7 @@ const Bestseller = () => {
       </div>
 
       {/* Grid Section */}
-      <div className="grid grid-cols-2 p-10 pt-3 max-w-7xl mx-auto   px-5 sm:px-16 px-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 space-y-4 gap-4">
+      <div className="grid grid-cols-2 p-10 pt-3 max-w-7xl mx-auto   sm:px-16 px-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 space-y-4 gap-4">
         {bestSeller.map((product) => (
           <div
             key={product._id}

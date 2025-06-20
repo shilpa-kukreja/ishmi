@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
-import { assets } from "../assets/assets";
+
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import BA4 from "../assets/banner/BAA4.webp";
 
 const Shop = () => {
   const { products, addToCart } = useContext(ShopContext);
@@ -33,7 +34,7 @@ const Shop = () => {
     <div className="w-full mx-auto bg-[#FEF0E1] ">
       <img
         className="w-full h-full object-cover  shadow-lg"
-        src={assets.TOPBANNER5}
+        src={BA4}
         alt=""
       />
 

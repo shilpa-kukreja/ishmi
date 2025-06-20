@@ -54,19 +54,26 @@ import TOPBANNER3  from './TOPBANNER3.jpg'
 import TOPBANNER4  from './TOPBANNER4.jpg'
 import faq from './FAQ.jpg'
 import Login  from './Login.jpg'
-import SignUp1  from './SignUp1.jpg'
-import Login1  from './Login1.jpg'
+import SignUp1  from './SignUp1.webp'
+import Login1  from './Login1.webp'
 import TOPBANNER5  from './TOPBANNER5.jpg'
 import TOPBANNER7  from './TOPBANNER7.jpg'
 import Contact  from './Contact.jpg'
 import information1  from './information1.jpg'
 import combos  from './combos.jpeg'
 import hair  from './hair.jpg'
+import BA1  from './BA1.jpg'
+import BA2  from './BA2.jpg'
+import BA3  from './BA3.jpg'
 
 import slider1 from '../assets/sliderImg/slider01.jpg'
 import slider2 from '../assets/sliderImg/slider02.jpg'
 import slider3 from '../assets/sliderImg/slider03.jpg'
 import slider4 from '../assets/sliderImg/slider04.jpg'
+import bottom1 from "../assets/banner/bottom1.webp";
+import bottom2 from "../assets/banner/bottom2.webp";
+import bottom3 from "../assets/banner/bottom3.webp";
+import bottom4 from "../assets/banner/bottom4.webp";
 
 
 
@@ -74,7 +81,7 @@ import slider4 from '../assets/sliderImg/slider04.jpg'
 export const assets={
      p1,p2,p3,p4,p5,p6,p7,p8,p9,s1,s2,s3,s4,s5,p10,razorpay_logo,stripe_logo,S,S1,BN,A1,A2,A3,A5,A6,A7,A8,video, video1,video2,video3,video4,video5,
      B2,B3,B4,B5,B10,B11,B12,B13,B14,B15,B16,B17,footer,TOPBANNER,TOPBANNER2,TOPBANNER3,TOPBANNER4,Login1,SignUp1,TOPBANNER5,TOPBANNER7,Contact,information1,slider1,slider2,slider3,slider4,S2,faq,
-     combos,hair
+     combos,hair,BA1,BA2,BA3,bottom1,bottom2,bottom3,bottom4
 }
 
 

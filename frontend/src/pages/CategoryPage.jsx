@@ -8,6 +8,7 @@ import {
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import { toast } from "react-toastify";
+import AC4 from "../assets/banner/AC4.webp";
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
@@ -24,9 +25,9 @@ const CategoryPage = () => {
    
   // const mainCategory = products.category.mainCategory;
   const categoryBanners = {
-    bodycare: assets.TOPBANNER4,       
-    haircare: assets.hair,
-    chocolate: assets.TOPBANNER2,       
+    bodyluxe: assets.TOPBANNER4,       
+    hairluxe: AC4,
+    Wellnesschocolates: assets.TOPBANNER2,       
   
     default: assets.TOPBANNER2, 
 

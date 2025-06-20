@@ -2,11 +2,11 @@ import React from "react";
 
 const Headers = () => {
   return (
-    <div className="flex bg-[#FEF0E1] flex-col items-center    text-center space-y-6 px-6 py-12 ">
+    <div className="flex  bg-[#FEF0E1] flex-col items-center    text-center space-y-6 px-6 py-12 ">
       {/* Main Heading */}
-      <h1 className="text-3xl md:text-5xl font-bold text-gray-800">
+      <h1 className="text-3xl maintext md:text-5xl font-bold text-gray-800">
       Welcome To{" "}
-        <span className="bg-[#8f6943]  text-transparent bg-clip-text">
+        <span className="bg-[#8f6943] maintext  text-transparent bg-clip-text">
           ISHMI – Beauty That Heals
         </span>
       </h1>

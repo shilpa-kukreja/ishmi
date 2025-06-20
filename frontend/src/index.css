@@ -15,13 +15,22 @@
     font-family:'futura';
     src: url(./assets/fonts/Futura\ Font\ Family/);
   }
+
+
+    @font-face {
+    font-family:'begonia';
+    src: url(./assets/fonts/begonia-sans-font/begonia.otf);
+  }
   
  
   body{
-    font-family:'futura';
+    font-family:'futura',;
+  }
+  .maintext{
+    font-family: 'begonia';
   }
   
-  #root{ overflow-x: hidden;}
+  #root{ overflow-x: clip;}
   .animate-marquee {
     display: flex;
     animation: marquee 25s linear infinite;

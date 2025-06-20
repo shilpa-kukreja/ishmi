@@ -2,6 +2,7 @@ import Razorpay from "razorpay";
 import orderModel from "../models/orderModel.js";
 import User from "../models/User.js";
 import nodemailer from 'nodemailer';
+import crypto from "crypto";
 
 //global variables
 const currency = "inr";
@@ -39,8 +40,12 @@ const placeOrder = async (req, res) => {
       });
     }
 
+      // Generate unique order ID
+  const uniqueOrderId = `COD-${Date.now()}-${crypto.randomBytes(3).toString("hex")}`;
+
     console.log("Items to Save:", items);
     const orderData = {
+     orderid: uniqueOrderId,
       userId,
       items,
       amount,
@@ -237,7 +242,7 @@ const placeOrder = async (req, res) => {
       transporter.sendMail(adminMailOptions)
     ]);
 
-    res.json({ success: true, message: "Order Placed" });
+    res.json({ success: true, message: "Order Placed" ,orderid: uniqueOrderId,});
   } catch (error) {
     console.log(error);
     

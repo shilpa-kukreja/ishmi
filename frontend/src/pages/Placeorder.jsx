@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import CouponDropdown from "../components/CouponDropdown";
 
+
 const Placeorder = () => {
   const [method, setMethod] = useState("razorpay");
   const [loading, setLoading] = useState(false);
@@ -89,7 +90,92 @@ const Placeorder = () => {
             { ...response, orderData: prepareOrderData() },
             { headers: { token } }
           );
-          if (data.success) {
+           if (data.success) {
+            // 1. Get Shiprocket Auth Token
+            const authRes = await axios.post(
+              'https://apiv2.shiprocket.in/v1/external/auth/login',
+              {
+                email: "niranjan13ishnavi@gmail.com",
+                password: "7@@k6tkixb0Edr^c"
+              },
+              {
+                headers: { 'Content-Type': 'application/json' }
+              }
+            );
+
+            const shiprokettoken = authRes.data.token;
+            
+
+            // console.log(shiprokettoken);
+
+            // 2. Prepare shipping order payload
+
+            const formatDate = (timestamp) => {
+              const date = new Date(timestamp);
+              const yyyy = date.getFullYear();
+              const mm = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+              const dd = String(date.getDate()).padStart(2, '0');
+              const hh = String(date.getHours()).padStart(2, '0');
+              const min = String(date.getMinutes()).padStart(2, '0');
+              return `${yyyy}-${mm}-${dd} ${hh}:${min}`;
+            };
+
+            const currentDate = Date.now();
+            var currentDatetime = formatDate(currentDate)
+            // Get the current timestamp
+
+            console.log("orderData:",order)
+
+            const orderPayload = {
+              order_id: order.id, // Order ID   
+              order_date: currentDatetime, // Current datetime in "yyyy-mm-dd hh:mm" format
+              pickup_location: "home-2", // Static pickup location
+              comment: "",
+              billing_customer_name: order.orderData.address.firstName, // Billing first name from order data
+              billing_last_name: order.orderData.address.lastName, // Billing last name from order data
+              billing_address: order.orderData.address.street, // Billing address from order data
+              billing_address_2: "Near Hokage House", // Static second billing address
+              billing_city: order.orderData.address.city, // Billing city from order data
+              billing_pincode:order.orderData.address.zipcode, // Billing pincode from order data
+              billing_state: order.orderData.address.state, // Billing state from order data
+              billing_country: order.orderData.address.country, // Billing country from order data
+              billing_email: order.orderData.address.email, // Billing email from order data
+              billing_phone: order.orderData.address.phone, // Billing phone from order data
+              shipping_is_billing: true, // Assuming shipping is the same as billing
+              order_items: order.orderData.items.map(item => ({
+                name: item.name, // Item name from order data
+                sku: item._id, // SKU from order data
+                units: item.quantity, // Item quantity from order data
+                selling_price: item.discountedprice, // Discounted price from order data
+                hsn: 441122 // Static HSN code (could be dynamic based on your needs)
+              })),
+              payment_method: 'prepaid', // Payment method from order data
+              shipping_charges: 0, // Assuming no shipping charges
+              giftwrap_charges: 0, // Assuming no giftwrap charges
+              transaction_charges: 0, // Assuming no transaction charges
+              total_discount: 0, // Assuming no discount
+              sub_total: order.orderData.amount, // Subtotal from order data
+              length: 8, // Static length (you can update based on actual data)
+              breadth: 8, // Static breadth (you can update based on actual data)
+              height: 3.5, // Static height (you can update based on actual data)
+              weight: 0.2 // Static weight (you can update based on actual data)
+            };
+            console.log(orderPayload)
+
+            // 3. Create Shiprocket Order
+            const shipRes = await axios.post(
+              'https://apiv2.shiprocket.in/v1/external/orders/create/adhoc',
+              orderPayload,
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${shiprokettoken}`
+                }
+              }
+            );
+
+            console.log("Shiprocket Response:", shipRes.data);
+
             setCartItems({});
             toast.success("Payment Verified");
             setTimeout(() => {
@@ -193,6 +279,92 @@ const Placeorder = () => {
             { headers: { token } }
           );
           if (data.success) {
+            // 1. Get Shiprocket Auth Token
+            const orderid = data.orderid;
+            console.log("orderid:",orderid)
+            const authRes = await axios.post(
+              'https://apiv2.shiprocket.in/v1/external/auth/login',
+              {
+                email: "niranjan13ishnavi@gmail.com",
+                password: "7@@k6tkixb0Edr^c"
+              },
+              {
+                headers: { 'Content-Type': 'application/json' }
+              }
+            );
+
+            const shiprokettoken = authRes.data.token;
+            
+
+            // console.log(shiprokettoken);
+
+            // 2. Prepare shipping order payload
+
+            const formatDate = (timestamp) => {
+              const date = new Date(timestamp);
+              const yyyy = date.getFullYear();
+              const mm = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+              const dd = String(date.getDate()).padStart(2, '0');
+              const hh = String(date.getHours()).padStart(2, '0');
+              const min = String(date.getMinutes()).padStart(2, '0');
+              return `${yyyy}-${mm}-${dd} ${hh}:${min}`;
+            };
+
+            const currentDate = Date.now();
+            var currentDatetime = formatDate(currentDate)
+            // Get the current timestamp
+
+           
+
+            const orderPayload = {
+              order_id: orderid, // Order ID   
+              order_date: currentDatetime, // Current datetime in "yyyy-mm-dd hh:mm" format
+              pickup_location: "home-2", // Static pickup location
+              comment: "",
+              billing_customer_name: orderData.address.firstName, // Billing first name from order data
+              billing_last_name: orderData.address.lastName, // Billing last name from order data
+              billing_address: orderData.address.street, // Billing address from order data
+              billing_address_2: "Near Hokage House", // Static second billing address
+              billing_city: orderData.address.city, // Billing city from order data
+              billing_pincode:orderData.address.zipcode, // Billing pincode from order data
+              billing_state: orderData.address.state, // Billing state from order data
+              billing_country: orderData.address.country, // Billing country from order data
+              billing_email: orderData.address.email, // Billing email from order data
+              billing_phone: orderData.address.phone, // Billing phone from order data
+              shipping_is_billing: true, // Assuming shipping is the same as billing
+              order_items: orderData.items.map(item => ({
+                name: item.name, // Item name from order data
+                sku: item._id, // SKU from order data
+                units: item.quantity, // Item quantity from order data
+                selling_price: item.discountedprice, // Discounted price from order data
+                hsn: 441122 // Static HSN code (could be dynamic based on your needs)
+              })),
+              payment_method: 'postpaid', // Payment method from order data
+              shipping_charges: 0, // Assuming no shipping charges
+              giftwrap_charges: 0, // Assuming no giftwrap charges
+              transaction_charges: 0, // Assuming no transaction charges
+              total_discount: 0, // Assuming no discount
+              sub_total: orderData.amount, // Subtotal from order data
+              length: 8, // Static length (you can update based on actual data)
+              breadth: 8, // Static breadth (you can update based on actual data)
+              height: 3.5, // Static height (you can update based on actual data)
+              weight: 0.2 // Static weight (you can update based on actual data)
+            };
+            console.log(orderPayload)
+
+            // 3. Create Shiprocket Order
+            const shipRes = await axios.post(
+              'https://apiv2.shiprocket.in/v1/external/orders/create/adhoc',
+              orderPayload,
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${shiprokettoken}`
+                }
+              }
+            );
+
+            console.log("Shiprocket Response:", shipRes.data);
             setCartItems({});
             navigate("/orders");
             toast.success("Order placed successfully!");
@@ -205,8 +377,8 @@ const Placeorder = () => {
             orderData,
             { headers: { token } }
           );
-          if (response.data.success) {
-            initPay(response.data.order);
+         if (response.data.success) {
+            initPay({...response.data.order,orderData});
           }
           break;
 
