@@ -139,7 +139,7 @@ const Product = () => {
               <img
                 src={`${import.meta.env.VITE_BACKEND_URL}${image}`} // Ensure full path is used
                 alt={productData.name}
-                className="sm:w-[550px] sm:h-[550px] w-[450px] h-[450px]   object-cover rounded-none sm:rounded-lg"
+                className="sm:w-[550px]  w-[450px]     rounded-none sm:rounded-lg"
               />
             </Zoom>
           </div>
@@ -490,7 +490,7 @@ const Product = () => {
           <ul className="mt-6 text-gray-600 text-sm space-y-2">
             <li>✔ 100% Original Product</li>
             <li>✔ Cash on delivery available</li>
-            <li>✔ 7-day easy return & exchange policy</li>
+            
           </ul>
         </div>
       </div>

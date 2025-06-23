@@ -529,7 +529,7 @@ const CombosDetail = () => {
                     <ul className="mt-6 text-gray-600 text-sm space-y-2">
                         <li>✔ 100% Original Product</li>
                         <li>✔ Cash on delivery available</li>
-                        <li>✔ 7-day easy return & exchange policy</li>
+                        
                     </ul>
                 </div>
             </div>
