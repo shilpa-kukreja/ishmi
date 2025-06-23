@@ -9,6 +9,9 @@ import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import { toast } from "react-toastify";
 import AC4 from "../assets/banner/AC4.webp";
+import LipLuxe from "../assets/banner/LipLuxe.jpg";
+import FaceLuxe from "../assets/banner/FaceLuxe.jpg";
+import dailywellness from "../assets/banner/dailywellness.jpg";
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
@@ -27,8 +30,10 @@ const CategoryPage = () => {
   const categoryBanners = {
     bodyluxe: assets.TOPBANNER4,       
     hairluxe: AC4,
-    Wellnesschocolates: assets.TOPBANNER2,       
-  
+    Wellnesschocolates: assets.TOPBANNER2,  
+    lipluxe: LipLuxe,   
+    faceluxe:FaceLuxe,
+    dailywellness:dailywellness,
     default: assets.TOPBANNER2, 
 
   };
