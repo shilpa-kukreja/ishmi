@@ -10,11 +10,12 @@ const RelatedProducts = ({ category }) => {
   useEffect(() => {
     if (products.length > 0) {
       const filteredProducts = products
-        .filter((item) => item.category === category)
-        .slice(0, 5);
+        .filter((item) => item.category.mainCategory === category.mainCategory)
+        .slice(0, 4);
       setRelated(filteredProducts);
     }
   }, [products, category]);
+  console.log("products:",products)
 
   return (
     <div className="my-16">
@@ -26,7 +27,7 @@ const RelatedProducts = ({ category }) => {
 
 
       <motion.div
-        className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3  gap-4 mt-8"
+        className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4  gap-4 mt-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
