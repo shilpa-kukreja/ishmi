@@ -126,7 +126,7 @@ const Combosslider = () => {
             {/* View All Combos Button */}
             {combos.length > 5 && (
                 <div className="flex justify-center pt-5">
-                    <Link to="/combos">
+                    <Link to="/gift">
                         <button className="px-8 py-2.5 font-medium text-white bg-[#8f6943] hover:bg-[#a78767] rounded-lg transition-colors">
                             VIEW ALL COMBOS
                         </button>
