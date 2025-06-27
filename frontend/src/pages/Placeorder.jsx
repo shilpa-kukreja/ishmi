@@ -604,7 +604,7 @@ const Placeorder = () => {
             <div className="space-y-4 text-gray-600 text-sm">
               <div className="flex justify-between items-center">
                 <p>Subtotal</p>
-                <p className="font-medium text-gray-800">₹{getCartAmount()}</p>
+                <p className="font-medium text-gray-800">₹{getCartAmount().toFixed(2)}</p>
               </div>
               <div className="flex justify-between items-center">
                 <p>Delivery Fee</p>
