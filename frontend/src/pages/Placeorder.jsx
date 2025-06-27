@@ -85,20 +85,22 @@ const Placeorder = () => {
       receipt: order.receipt,
       handler: async (response) => {
         setLoading(true); // Show loader
+         const orderData = prepareOrderData();
         try {
           const { data } = await axios.post(
             "https://ishmiherbal.com/api/order/verifyRazorpay",
-            { ...response, orderData: prepareOrderData() },
+            { ...response, orderData },
             { headers: { token } }
           );
           if (data.success) {
 
            
             const shipRes = await axios.post(
-              "https://ishmiherbal.com/api/order/ship",
+              "http://localhost:5000/api/order/ship",
               { orderData, orderid : order.id },
               { headers: { token } }
             );
+            
             if (shipRes.data.success) {
               setCartItems({});
             toast.success("Payment Verified");

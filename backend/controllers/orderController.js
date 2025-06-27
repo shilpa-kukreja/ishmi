@@ -672,7 +672,7 @@ const ShipOrders = async (req,res)=>{
                 selling_price: item.discountedprice, // Discounted price from order data
                 hsn: 441122 // Static HSN code (could be dynamic based on your needs)
               })),
-              payment_method: orderData.paymentMethod, // Payment method from order data
+             payment_method: orderData.paymentMethod === "razorpay" ? "prepaid" : "postpaid",  // Payment method from order data
               shipping_charges: 0, // Assuming no shipping charges
               giftwrap_charges: 0, // Assuming no giftwrap charges
               transaction_charges: 0, // Assuming no transaction charges
