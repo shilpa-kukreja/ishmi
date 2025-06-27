@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const AdminAddCoupon = ({token}) => {
+const AdminAddCoupon = ({atoken}) => {
   const [formData, setFormData] = useState({
     code: '',
     discount: '',
@@ -31,7 +31,7 @@ const AdminAddCoupon = ({token}) => {
       
 
       const { data } = await axios.post('https://ishmiherbal.com/api/coupon/add', formData, 
-        {headers:{token}}
+        {headers:{atoken}}
       );
 
       setMessage(data.message);

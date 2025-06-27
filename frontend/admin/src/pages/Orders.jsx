@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const Orders = ({ token }) => {
+const Orders = ({ atoken }) => {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 10;
 
   const fetchAllOrders = async () => {
-    if (!token) return;
+    if (!atoken) return;
 
     try {
       const response = await axios.post(
         'https://ishmiherbal.com/api/order/list',
         {},
-        { headers: { token } }
+        { headers: { atoken } }
       );
       if (response.data.success) {
         setOrders(response.data.orders.reverse());
@@ -31,7 +31,7 @@ const Orders = ({ token }) => {
       const response = await axios.post(
         'https://ishmiherbal.com/api/order/status',
         { orderId, status: event.target.value },
-        { headers: { token } }
+        { headers: { atoken } }
       );
       if (response.data.success) {
         toast.success("Order status updated.");
@@ -46,7 +46,7 @@ const Orders = ({ token }) => {
 
   useEffect(() => {
     fetchAllOrders();
-  }, [token]);
+  }, [atoken]);
 
   // Pagination logic
   const indexOfLastOrder = currentPage * ordersPerPage;

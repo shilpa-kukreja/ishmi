@@ -26,39 +26,39 @@ import ListCombos from './pages/ListCombos';
 export const backendUrl=import.meta.env.VITE_BACKEND_URL
 
 const App = () => {
-  const [token,setToken]=useState(localStorage.getItem('token')?localStorage.getItem('token'):'')
+  const [atoken,setAToken]=useState(localStorage.getItem('atoken')?localStorage.getItem('atoken'):'')
 useEffect(()=>{
-localStorage.setItem('token',token)
-},[token])
+localStorage.setItem('atoken',atoken)
+},[atoken])
   return (
 
     <div className='bg-gray-50 min-h-screen'>
         <ToastContainer/>
-        {token===""?
-      <Login setToken={setToken}/>:
+        {atoken===""?
+      <Login setToken={setAToken}/>:
       <>
-      <Navbar setToken={setToken}/>
+      <Navbar setToken={setAToken}/>
       <hr />
       <div className='flex w-full'>
         <Sidebar/>
         <div className='w-[90%] mx-auto ml-[max(5vw,20px)] my-8 text-gray-600 text-base'>
           <Routes>
-            <Route path='/' element={<Home token={token}/>}/>
-            <Route path='/add' element={<Add token={token}/>}/>
-            <Route path="/add/:id" element={<Add token={token}/>}/>
-            <Route path='/list' element={<List token={token}/>}/>
-            <Route path='/orders' element={<Orders token={token}/>}/>
-            <Route path='/users' element={<Users token={token}/>}/>
-            <Route path='/contacts' element={<Contact token={token}/>}/>
-            <Route path='/subscriptions' element={<Subscription token={token}/>}/>
-            <Route path='/dashboard' element={<Dashboard token={token}/>}/>
-            <Route path='/addblog' element={<Addblog token={token}/>}/>
-            <Route path='/listblog' element={<Listblog token={token}/>}/>
-            <Route path='/addcoupan' element={<AdminAddCoupon token={token}/>}/>
-            <Route path='/listcoupan' element={<AdminCouponList token={token}/>}/>
-            <Route path='/addcombos' element={<AddCombo token={token}/>}/>
-            <Route path='/addcombos/:id' element={<AddCombo token={token}/>}/>
-            <Route path='/listcombos' element={<ListCombos token={token}/>}/>
+            <Route path='/' element={<Home token={atoken}/>}/>
+            <Route path='/add' element={<Add token={atoken}/>}/>
+            <Route path="/add/:id" element={<Add token={atoken}/>}/>
+            <Route path='/list' element={<List token={atoken}/>}/>
+            <Route path='/orders' element={<Orders token={atoken}/>}/>
+            <Route path='/users' element={<Users token={atoken}/>}/>
+            <Route path='/contacts' element={<Contact token={atoken}/>}/>
+            <Route path='/subscriptions' element={<Subscription token={atoken}/>}/>
+            <Route path='/dashboard' element={<Dashboard token={atoken}/>}/>
+            <Route path='/addblog' element={<Addblog token={atoken}/>}/>
+            <Route path='/listblog' element={<Listblog token={atoken}/>}/>
+            <Route path='/addcoupan' element={<AdminAddCoupon token={atoken}/>}/>
+            <Route path='/listcoupan' element={<AdminCouponList token={atoken}/>}/>
+            <Route path='/addcombos' element={<AddCombo token={atoken}/>}/>
+            <Route path='/addcombos/:id' element={<AddCombo token={atoken}/>}/>
+            <Route path='/listcombos' element={<ListCombos token={atoken}/>}/>
           </Routes>
 
         </div>

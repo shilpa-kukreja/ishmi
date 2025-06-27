@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const AdminCouponList = ({ token }) => {
+const AdminCouponList = ({ atoken }) => {
   const [coupons, setCoupons] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchCoupons = async () => {
     try {
       const { data } = await axios.get("https://ishmiherbal.com/api/coupon/get", 
-        {headers:{token}}
+        {headers:{atoken}}
       );
       setCoupons(data.coupons);
     } catch (error) {
@@ -21,7 +21,7 @@ const AdminCouponList = ({ token }) => {
   const toggleStatus = async (id) => {
     try {
       const { data } = await axios.put(`https://ishmiherbal.com/api/coupon/${id}/toggle`, {}, 
-        {headers:{token}}
+        {headers:{atoken}}
       );
 
       setCoupons((prev) =>

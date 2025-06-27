@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { FiLock, FiMail } from "react-icons/fi";
 import { assets } from "../assets/assets";
 
-const Login = ({ setToken }) => {
+const Login = ({ setAToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ const Login = ({ setToken }) => {
     try {
       const response = await axios.post(`${backendUrl}/api/auth/admin`, { email, password });
       if (response.data.success) {
-        setToken(response.data.token);
+        setAToken(response.data.atoken);
         toast.success("Login successful!");
       } else {
         toast.error(response.data.message);
