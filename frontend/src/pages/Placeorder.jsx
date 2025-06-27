@@ -211,7 +211,7 @@ const Placeorder = () => {
             // 1. Get Shiprocket Auth Token
             const orderid = data.orderid;
             const shipRes = await axios.post(
-              "http://localhost:5000/api/order/ship",
+              "https://ishmiherbal.com/api/order/ship",
               { orderData, orderid },
               { headers: { token } }
             );
