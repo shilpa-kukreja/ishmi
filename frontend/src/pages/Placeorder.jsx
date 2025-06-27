@@ -73,8 +73,68 @@ const Placeorder = () => {
     }
   };
 
+  // const initPay = (order) => {
+  //   console.log(order);
+  //   const options = {
+  //     key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+  //     amount: order.amount.toFixed(2),
+  //     currency: order.currency,
+  //     name: "Order Payment",
+  //     description: "Order Payment",
+  //     order_id: order.id,
+  //     receipt: order.receipt,
+  //     handler: async (response) => {
+  //       setLoading(true); // Show loader
+  //        const orderData = prepareOrderData();
+  //       try {
+  //         const { data } = await axios.post(
+  //           "https://ishmiherbal.com/api/order/verifyRazorpay",
+  //           { ...response, orderData },
+  //           { headers: { token } }
+  //         );
+  //         if (data.success) {
+
+
+  //           const shipRes = await axios.post(
+  //             "https://ishmiherbal.com/api/order/ship",
+  //             { orderData, orderid : order.id },
+  //             { headers: { token } }
+  //           );
+
+  //           if (shipRes.data.success) {
+  //             setCartItems({});
+  //           toast.success("Payment Verified");
+  //           setTimeout(() => {
+  //             navigate("/orders"); // Navigate after short delay
+  //           }, 500); // optional delay for UX
+  //         }
+
+  //           }
+
+  //       } catch (error) {
+  //         console.error(error);
+  //         toast.error(error.response?.data?.message || "Payment verification failed");
+  //       } finally {
+  //         setLoading(false); // Hide loader
+  //       }
+  //     },
+
+  //     prefill: {
+  //       name: `${formData.firstName} ${formData.lastName}`,
+  //       email: formData.email,
+  //       contact: formData.phone,
+  //     },
+  //     theme: {
+  //       color: "#3399cc",
+  //     },
+  //   };
+  //   const rzp = new window.Razorpay(options);
+  //   rzp.open();
+  // };
+
+
+
   const initPay = (order) => {
-    console.log(order);
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
       amount: order.amount.toFixed(2),
@@ -84,41 +144,46 @@ const Placeorder = () => {
       order_id: order.id,
       receipt: order.receipt,
       handler: async (response) => {
-        setLoading(true); // Show loader
-         const orderData = prepareOrderData();
+        setLoading(true);
+        const orderData = prepareOrderData(); // fresh instance
+
         try {
           const { data } = await axios.post(
             "https://ishmiherbal.com/api/order/verifyRazorpay",
             { ...response, orderData },
             { headers: { token } }
           );
-          if (data.success) {
 
-           
-            const shipRes = await axios.post(
-              "https://ishmiherbal.com/api/order/ship",
-              { orderData, orderid : order.id },
-              { headers: { token } }
-            );
-            
-            if (shipRes.data.success) {
-              setCartItems({});
-            toast.success("Payment Verified");
-            setTimeout(() => {
-              navigate("/orders"); // Navigate after short delay
-            }, 500); // optional delay for UX
-          }
-              
+          if (data.success) {
+            try {
+              const shipRes = await axios.post(
+                "https://ishmiherbal.com/api/order/ship",
+                { orderData, orderid: order.id },
+                { headers: { token } }
+              );
+
+              if (shipRes.data.success) {
+                setCartItems({});
+                toast.success("Payment verified and order placed!");
+                navigate("/orders");
+              } else {
+                toast.error("Shipping failed after payment.");
+              }
+            } catch (shipErr) {
+              console.error(shipErr);
+              toast.error("Shipping error after payment.");
             }
-            
-        } catch (error) {
-          console.error(error);
-          toast.error(error.response?.data?.message || "Payment verification failed");
+          } else {
+            toast.error(data.message || "Payment verification failed.");
+          }
+        } catch (err) {
+          console.error(err);
+          toast.error(err.response?.data?.message || "Payment verification failed.");
         } finally {
-          setLoading(false); // Hide loader
+          setLoading(false);
+          setIsProcessing(false);
         }
       },
-
       prefill: {
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
@@ -128,9 +193,19 @@ const Placeorder = () => {
         color: "#3399cc",
       },
     };
+
     const rzp = new window.Razorpay(options);
+
+    rzp.on("payment.failed", function (response) {
+      toast.error("Payment failed or cancelled.");
+      console.error("Razorpay Payment Failed", response);
+      setLoading(false);
+      setIsProcessing(false);
+    });
+
     rzp.open();
   };
+
 
   const prepareOrderData = () => {
     let orderItems = [];
@@ -228,19 +303,34 @@ const Placeorder = () => {
           }
           break;
 
+        // case "razorpay":
+        //   const response = await axios.post(
+        //     "https://ishmiherbal.com/api/order/razorpay",
+        //     orderData,
+        //     { headers: { token } }
+        //   );
+        //   if (response.data.success) {
+        //     initPay({ ...response.data.order, orderData });
+        //   }
+        //   break;
+
+        // default:
+        //   break;
+
         case "razorpay":
           const response = await axios.post(
             "https://ishmiherbal.com/api/order/razorpay",
             orderData,
             { headers: { token } }
           );
-          if (response.data.success) {
-            initPay({ ...response.data.order, orderData });
+          if (response.data.success && response.data.order) {
+            initPay(response.data.order);
+          } else {
+            toast.error("Unable to initiate Razorpay");
+            setIsProcessing(false);
           }
           break;
 
-        default:
-          break;
       }
     } catch (error) {
       console.error(error);
