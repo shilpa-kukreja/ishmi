@@ -112,7 +112,7 @@ const Orders = ({ atoken }) => {
             </div>
 
             <p className="text-sm sm:text-[15px] font-semibold text-black">
-              ₹{order.amount}
+              ₹{order.amount.toFixed(2)}
             </p>
 
             <select

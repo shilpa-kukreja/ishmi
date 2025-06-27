@@ -144,7 +144,7 @@ const placeOrder = async (req, res) => {
           </div>
           
           <div class="thank-you">Thank you for your order, ${newOrder.address.firstName}!</div>
-          <p>Your order has been confirmed and will be processed shortly. Please pay <strong>₹${newOrder.amount}</strong> when your order is delivered.</p>
+          <p>Your order has been confirmed and will be processed shortly. Please pay <strong>₹${newOrder.amount.toFixed(2)}</strong> when your order is delivered.</p>
           
           <div class="section-title">Order Summary</div>
           <table class="info-table">
@@ -154,7 +154,7 @@ const placeOrder = async (req, res) => {
               </tr>
               <tr>
                   <td>Amount to Pay:</td>
-                  <td>₹${newOrder.amount}</td>
+                  <td>₹${newOrder.amount.toFixed(2)}</td>
               </tr>
               <tr>
                   <td>Payment Method:</td>
@@ -171,7 +171,7 @@ const placeOrder = async (req, res) => {
               ${totalSavings > 0 ? `
               <tr>
                   <td>Total Savings:</td>
-                  <td style="color: #2e7d32;">₹${totalSavings}</td>
+                  <td style="color: #2e7d32;">₹${totalSavings.toFixed(2)}</td>
               </tr>` : ''}
           </table>
           
@@ -201,7 +201,7 @@ const placeOrder = async (req, res) => {
                   ${itemsHTML}
                   <tr class="total-row">
                       <td colspan="2" style="padding-top: 15px; text-align: right;">Total:</td>
-                      <td style="padding-top: 15px; text-align: right;">₹${newOrder.amount}</td>
+                      <td style="padding-top: 15px; text-align: right;">₹${newOrder.amount.toFixed(2)}</td>
                   </tr>
               </tbody>
           </table>
@@ -221,13 +221,13 @@ const placeOrder = async (req, res) => {
     const adminMailOptions = {
       from: process.env.EMAIL_FROM,
       to: process.env.ADMIN_EMAIL,
-      subject: `New COD Order #${newOrder._id.toString().slice(-8)} - ₹${newOrder.amount}`,
+      subject: `New COD Order #${newOrder._id.toString().slice(-8)} - ₹${newOrder.amount.toFixed(2)}`,
       html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #2e7d32;">New COD Order Received</h2>
           <p><strong>Order ID:</strong> ${newOrder._id}</p>
           <p><strong>Customer:</strong> ${newOrder.address.firstName} ${newOrder.address.lastName} (${user.email})</p>
-          <p><strong>Amount:</strong> ₹${newOrder.amount}</p>
+          <p><strong>Amount:</strong> ₹${newOrder.amount.toFixed(2)}</p>
           <p><strong>Payment Method:</strong> Cash on Delivery</p>
           <p><strong>Items:</strong> ${newOrder.items.length} items</p>
           <p><strong>Shipping to:</strong> ${newOrder.address.street}, ${newOrder.address.city}, ${newOrder.address.state} - ${newOrder.address.zipcode}</p>
@@ -414,7 +414,7 @@ const verifyRazorpay = async (req, res) => {
                 </tr>
                 <tr>
                     <td>Amount Paid:</td>
-                    <td>₹${order.amount}</td>
+                    <td>₹${order.amount.toFixed(2)}</td>
                 </tr>
                 <tr>
                     <td>Payment Method:</td>
@@ -431,7 +431,7 @@ const verifyRazorpay = async (req, res) => {
                 ${totalSavings > 0 ? `
                 <tr>
                     <td>Total Savings:</td>
-                    <td style="color: #2e7d32;">₹${totalSavings}</td>
+                    <td style="color: #2e7d32;">₹${totalSavings.toFixed(2)}</td>
                 </tr>` : ''}
             </table>
             
@@ -461,7 +461,7 @@ const verifyRazorpay = async (req, res) => {
                     ${itemsHTML}
                     <tr class="total-row">
                         <td colspan="2" style="padding-top: 15px; text-align: right;">Total:</td>
-                        <td style="padding-top: 15px; text-align: right;">₹${order.amount}</td>
+                        <td style="padding-top: 15px; text-align: right;">₹${order.amount.toFixed(2)}</td>
                     </tr>
                 </tbody>
             </table>
@@ -481,13 +481,13 @@ const verifyRazorpay = async (req, res) => {
       const adminMailOptions = {
         from: process.env.EMAIL_FROM,
         to: process.env.ADMIN_EMAIL,
-        subject: `New Order #${order._id.toString().slice(-8)} - ₹${order.amount}`,
+        subject: `New Order #${order._id.toString().slice(-8)} - ₹${order.amount.toFixed(2)}`,
         html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #2e7d32;">New Order Received</h2>
             <p><strong>Order ID:</strong> ${order._id}</p>
             <p><strong>Customer:</strong> ${order.address.firstName} ${order.address.lastName} (${order.address.email})</p>
-            <p><strong>Amount:</strong> ₹${order.amount}</p>
+            <p><strong>Amount:</strong> ₹${order.amount.toFixed(2)}</p>
             <p><strong>Items:</strong> ${order.items.length} items</p>
             <p><strong>Shipping to:</strong> ${order.address.street}, ${order.address.city}, ${order.address.state} - ${order.address.zipcode}</p>
             <p><strong>Contact:</strong> ${order.address.phone}</p>
