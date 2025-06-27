@@ -74,9 +74,10 @@ const Placeorder = () => {
   };
 
   const initPay = (order) => {
+    console.log(order);
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: order.amount.toString(),
+      amount: order.amount.toFixed(2),
       currency: order.currency,
       name: "Order Payment",
       description: "Order Payment",
@@ -154,7 +155,7 @@ const Placeorder = () => {
               giftwrap_charges: 0, // Assuming no giftwrap charges
               transaction_charges: 0, // Assuming no transaction charges
               total_discount: 0, // Assuming no discount
-              sub_total: order.orderData.amount, // Subtotal from order data
+              sub_total: order.orderData.amount.toFixed(2), // Subtotal from order data
               length: 8, // Static length (you can update based on actual data)
               breadth: 8, // Static breadth (you can update based on actual data)
               height: 3.5, // Static height (you can update based on actual data)
@@ -344,7 +345,7 @@ const Placeorder = () => {
               giftwrap_charges: 0, // Assuming no giftwrap charges
               transaction_charges: 0, // Assuming no transaction charges
               total_discount: 0, // Assuming no discount
-              sub_total: orderData.amount, // Subtotal from order data
+              sub_total: orderData.amount.toFixed(2), // Subtotal from order data
               length: 8, // Static length (you can update based on actual data)
               breadth: 8, // Static breadth (you can update based on actual data)
               height: 3.5, // Static height (you can update based on actual data)
@@ -353,8 +354,7 @@ const Placeorder = () => {
             console.log(orderPayload)
 
             // 3. Create Shiprocket Order
-            const shipRes = await axios.post(
-              'https://apiv2.shiprocket.in/v1/external/orders/create/adhoc',
+            const shipRes = await axios.post('https://apiv2.shiprocket.in/v1/external/orders/create/adhoc',
               orderPayload,
               {
                 headers: {
