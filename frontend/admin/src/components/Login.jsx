@@ -16,6 +16,7 @@ const Login = ({ setAToken }) => {
 
     try {
       const response = await axios.post(`${backendUrl}/api/auth/admin`, { email, password });
+      console.log(response)
       if (response.data.success) {
         setAToken(response.data.atoken);
         toast.success("Login successful!");
