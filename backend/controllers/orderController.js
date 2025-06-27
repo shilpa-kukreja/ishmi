@@ -702,7 +702,7 @@ const ShipOrders = async (req,res)=>{
 
   } catch (error) {
     console.log(error);
-     res.json({ success: false, message: error });
+     res.json({ success: false, message: error.message });
   }
 }
 
