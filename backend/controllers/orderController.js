@@ -607,7 +607,7 @@ const trackOrders = async (req, res) => {
 
 
 
-const ShipOrders=async(req,res)=>{
+const ShipOrders = async (req,res)=>{
   try {
        const { orderData } = req.body;
 
@@ -694,7 +694,7 @@ const ShipOrders=async(req,res)=>{
               }
             );
 
-            console.log("Shiprocket Response:", shipRes.data);
+            console.log("Shiprocket Response:", shipRes.data.orderData);
 
 
             res.json({success:true,message:"Order Ship Successfully"});
@@ -702,7 +702,7 @@ const ShipOrders=async(req,res)=>{
 
   } catch (error) {
     console.log(error);
-     res.json({ success: false, message: "Error shipping data" });
+     res.json({ success: false, message: error });
   }
 }
 
