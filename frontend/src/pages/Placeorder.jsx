@@ -76,7 +76,7 @@ const Placeorder = () => {
   const initPay = (order) => {
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: order.amount,
+      amount: order.amount.toFixed(2),
       currency: order.currency,
       name: "Order Payment",
       description: "Order Payment",
@@ -218,8 +218,8 @@ const Placeorder = () => {
               image: itemDetails.image,
               size,
               quantity: sizeDetails.quantity,
-              discountedprice: sizeDetails.discountedprice,
-              actualprice: sizeDetails.actualprice,
+              discountedprice: sizeDetails.discountedprice.toFixed(2),
+              actualprice: sizeDetails.actualprice.toFixed(2),
             });
           }
         });
@@ -234,8 +234,8 @@ const Placeorder = () => {
             name: itemDetails.name || comboData?.name,
             image: itemDetails.image || comboData?.thumbImg,
             quantity: itemDetails.quantity,
-            discountedprice: itemDetails.discountedprice,
-            actualprice: itemDetails.actualprice,
+            discountedprice: itemDetails.discountedprice.toFixed(2),
+            actualprice: itemDetails.actualprice.toFixed(2),
           });
         }
       }
