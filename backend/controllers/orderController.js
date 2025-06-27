@@ -609,10 +609,10 @@ const trackOrders = async (req, res) => {
 
 const ShipOrders = async (req,res)=>{
   try {
-       const { orderData } = req.body;
+       const { orderData,orderid } = req.body;
 
-            const orderid = data.orderid;
-            console.log("orderid:",orderid)
+            
+            
             const authRes = await axios.post(
               'https://apiv2.shiprocket.in/v1/external/auth/login',
               {

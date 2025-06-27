@@ -91,7 +91,7 @@ const Placeorder = () => {
             { ...response, orderData: prepareOrderData() },
             { headers: { token } }
           );
-           if (data.success) {
+          if (data.success) {
             // 1. Get Shiprocket Auth Token
             const authRes = await axios.post(
               'https://apiv2.shiprocket.in/v1/external/auth/login',
@@ -105,7 +105,7 @@ const Placeorder = () => {
             );
 
             const shiprokettoken = authRes.data.token;
-            
+
 
             // console.log(shiprokettoken);
 
@@ -125,7 +125,7 @@ const Placeorder = () => {
             var currentDatetime = formatDate(currentDate)
             // Get the current timestamp
 
-            console.log("orderData:",order)
+            console.log("orderData:", order)
 
             const orderPayload = {
               order_id: order.id, // Order ID   
@@ -137,7 +137,7 @@ const Placeorder = () => {
               billing_address: order.orderData.address.street, // Billing address from order data
               billing_address_2: "Near Hokage House", // Static second billing address
               billing_city: order.orderData.address.city, // Billing city from order data
-              billing_pincode:order.orderData.address.zipcode, // Billing pincode from order data
+              billing_pincode: order.orderData.address.zipcode, // Billing pincode from order data
               billing_state: order.orderData.address.state, // Billing state from order data
               billing_country: order.orderData.address.country, // Billing country from order data
               billing_email: order.orderData.address.email, // Billing email from order data
@@ -281,18 +281,22 @@ const Placeorder = () => {
           );
           if (data.success) {
             // 1. Get Shiprocket Auth Token
+            const orderid = data.orderid;
+            const shipRes = await axios.post(
+              "https://ishmiherbal.com/api/order/ship",
+              orderData, orderid,
+              { headers: { token } }
+            );
 
-            const { shipdata } = await axios.post(
-            "https://ishmiherbal.com/api/order/ship",
-            orderData,
-            { headers: { token } }
-          );
-            
+            console.log("Ship response:", shipRes.data);
 
-          
-            setCartItems({});
-            navigate("/orders");
-            toast.success("Order placed successfully!");
+            if (shipRes.data.success) {
+              setCartItems({});
+              navigate("/orders");
+              toast.success("Order placed successfully!");
+            }
+
+
           }
           break;
 
@@ -302,8 +306,8 @@ const Placeorder = () => {
             orderData,
             { headers: { token } }
           );
-         if (response.data.success) {
-            initPay({...response.data.order,orderData});
+          if (response.data.success) {
+            initPay({ ...response.data.order, orderData });
           }
           break;
 
