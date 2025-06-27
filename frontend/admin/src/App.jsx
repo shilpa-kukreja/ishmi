@@ -35,30 +35,30 @@ localStorage.setItem('atoken',atoken)
     <div className='bg-gray-50 min-h-screen'>
         <ToastContainer/>
         {atoken===""?
-      <Login setToken={setAToken}/>:
+      <Login setAToken={setAToken}/>:
       <>
-      <Navbar setToken={setAToken}/>
+      <Navbar setAToken={setAToken}/>
       <hr />
       <div className='flex w-full'>
         <Sidebar/>
         <div className='w-[90%] mx-auto ml-[max(5vw,20px)] my-8 text-gray-600 text-base'>
           <Routes>
-            <Route path='/' element={<Home token={atoken}/>}/>
-            <Route path='/add' element={<Add token={atoken}/>}/>
-            <Route path="/add/:id" element={<Add token={atoken}/>}/>
-            <Route path='/list' element={<List token={atoken}/>}/>
-            <Route path='/orders' element={<Orders token={atoken}/>}/>
-            <Route path='/users' element={<Users token={atoken}/>}/>
-            <Route path='/contacts' element={<Contact token={atoken}/>}/>
-            <Route path='/subscriptions' element={<Subscription token={atoken}/>}/>
-            <Route path='/dashboard' element={<Dashboard token={atoken}/>}/>
-            <Route path='/addblog' element={<Addblog token={atoken}/>}/>
-            <Route path='/listblog' element={<Listblog token={atoken}/>}/>
-            <Route path='/addcoupan' element={<AdminAddCoupon token={atoken}/>}/>
-            <Route path='/listcoupan' element={<AdminCouponList token={atoken}/>}/>
-            <Route path='/addcombos' element={<AddCombo token={atoken}/>}/>
-            <Route path='/addcombos/:id' element={<AddCombo token={atoken}/>}/>
-            <Route path='/listcombos' element={<ListCombos token={atoken}/>}/>
+            <Route path='/' element={<Home atoken={atoken}/>}/>
+            <Route path='/add' element={<Add atoken={atoken}/>}/>
+            <Route path="/add/:id" element={<Add atoken={atoken}/>}/>
+            <Route path='/list' element={<List atoken={atoken}/>}/>
+            <Route path='/orders' element={<Orders atoken={atoken}/>}/>
+            <Route path='/users' element={<Users atoken={atoken}/>}/>
+            <Route path='/contacts' element={<Contact atoken={atoken}/>}/>
+            <Route path='/subscriptions' element={<Subscription atoken={atoken}/>}/>
+            <Route path='/dashboard' element={<Dashboard atoken={atoken}/>}/>
+            <Route path='/addblog' element={<Addblog atoken={atoken}/>}/>
+            <Route path='/listblog' element={<Listblog atoken={atoken}/>}/>
+            <Route path='/addcoupan' element={<AdminAddCoupon atoken={atoken}/>}/>
+            <Route path='/listcoupan' element={<AdminCouponList atoken={atoken}/>}/>
+            <Route path='/addcombos' element={<AddCombo atoken={atoken}/>}/>
+            <Route path='/addcombos/:id' element={<AddCombo atoken={atoken}/>}/>
+            <Route path='/listcombos' element={<ListCombos atoken={atoken}/>}/>
           </Routes>
 
         </div>
