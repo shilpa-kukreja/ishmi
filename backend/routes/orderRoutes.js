@@ -20,6 +20,6 @@ orderRouter.post('/userorders',authUser,userOrders)
 
 //Verfiy Router
 orderRouter.post('/verifyRazorpay',authUser,verifyRazorpay)
-orderRouter.post('/ship',authUser,ShipOrders)
+orderRouter.post('/ship',ShipOrders)
 
 export default orderRouter

@@ -3,6 +3,7 @@ import orderModel from "../models/orderModel.js";
 import User from "../models/User.js";
 import nodemailer from 'nodemailer';
 import crypto from "crypto";
+import axios from 'axios';
 
 //global variables
 const currency = "inr";
@@ -609,7 +610,8 @@ const trackOrders = async (req, res) => {
 
 const ShipOrders = async (req,res)=>{
   try {
-       const { orderData,orderid } = req.body;
+       const { orderData,orderid } = req.body
+       ;
 
             
             
@@ -626,8 +628,8 @@ const ShipOrders = async (req,res)=>{
 
             const shiprokettoken = authRes.data.token;
             
-
-            // console.log(shiprokettoken);
+ 
+            console.log(shiprokettoken);
 
             // 2. Prepare shipping order payload
 
@@ -645,7 +647,7 @@ const ShipOrders = async (req,res)=>{
             var currentDatetime = formatDate(currentDate)
             // Get the current timestamp
 
-           
+            console.log(orderData)
 
             const orderPayload = {
               order_id: orderid, // Order ID   
@@ -670,7 +672,7 @@ const ShipOrders = async (req,res)=>{
                 selling_price: item.discountedprice, // Discounted price from order data
                 hsn: 441122 // Static HSN code (could be dynamic based on your needs)
               })),
-              payment_method: 'postpaid', // Payment method from order data
+              payment_method: orderData.paymentMethod, // Payment method from order data
               shipping_charges: 0, // Assuming no shipping charges
               giftwrap_charges: 0, // Assuming no giftwrap charges
               transaction_charges: 0, // Assuming no transaction charges
