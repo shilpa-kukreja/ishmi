@@ -6,7 +6,7 @@ import { FaUpload, FaSpinner } from "react-icons/fa";
 
 const backendUrl = "https://ishmiherbal.com";
 
-const Add = ({ token }) => {
+const Add = ({ atoken }) => {
   const { id } = useParams();
   const [formData, setFormData] = useState({
     name: "",
@@ -188,7 +188,7 @@ const handleSubmit = async (e) => {
   
     const config = {
       headers: { 
-        token, 
+        atoken, 
         "Content-Type": "multipart/form-data" 
       },
     };
