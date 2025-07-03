@@ -3,10 +3,11 @@ import React, { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 
 const CartTotal = () => {
-  const { currency, delivery_fee, getCartAmount } = useContext(ShopContext);
-
+  const { currency, delivery_fee, getCartAmount,getDeliveryFee } = useContext(ShopContext);
+ 
+ 
   const subtotal = getCartAmount();
-  const shippingFee = subtotal > 0 ? delivery_fee : 0;
+  const shippingFee = getDeliveryFee();
   const total = subtotal + shippingFee;
 
   return (

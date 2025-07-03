@@ -20,11 +20,12 @@ const Placeorder = () => {
     cartItems,
     setCartItems,
     getCartAmount,
-    delivery_fee,
     products,
+    getDeliveryFee,
     combos,
   } = useContext(ShopContext);
-
+  
+  const delivery_fee=getDeliveryFee() ;
   const cartTotal = getCartAmount() + delivery_fee;
 
   const [formData, setFormData] = useState({
@@ -252,6 +253,7 @@ const Placeorder = () => {
       couponCode: couponCode.trim() || undefined,
       discount,
       paymentMethod: method,
+      Shipping: delivery_fee,
     };
   };
 

@@ -267,6 +267,11 @@ const ShopContextProvider = (props) => {
     return totalAmount;
   }, 0);
 };
+
+const getDeliveryFee = () => {
+  const cartSubtotal = getCartAmount(); 
+  return cartSubtotal < 499 ? 80 : 0;
+};
   const getUserCart = async (token) => {
     try {
       const response = await axios.post(
@@ -345,6 +350,7 @@ const ShopContextProvider = (props) => {
     blogs,
     addToCart,
     getCartAmount,
+    getDeliveryFee,
     updateQuantity,
     getCartCount,
     currency,

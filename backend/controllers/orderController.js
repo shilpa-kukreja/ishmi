@@ -33,7 +33,7 @@ const placeOrder = async (req, res) => {
   try {
     console.log("Received Data:", req.body);
 
-    const { userId, items, amount, address, couponCode, discount } = req.body;
+    const { userId, items, amount, address, couponCode, discount ,Shipping} = req.body;
     if (!items || items.length === 0) {
       return res.json({
         success: false,
@@ -56,6 +56,7 @@ const placeOrder = async (req, res) => {
       date: Date.now(),
       couponCode,
       discount,
+      Shipping,
     };
     const newOrder = new orderModel(orderData);
     await newOrder.save();
@@ -272,7 +273,7 @@ const placeOrder = async (req, res) => {
 
 const placeOrderRazorpay = async (req, res) => {
   try {
-    const { userId, items, amount, address, couponCode, discount } = req.body;
+    const { userId, items, amount, address, couponCode, discount ,Shipping} = req.body;
     const orderData = {
       userId,
       items,
@@ -283,6 +284,7 @@ const placeOrderRazorpay = async (req, res) => {
       date: Date.now(),
       couponCode,
       discount,
+      Shipping,
     };
     const newOrder = new orderModel(orderData);
     await newOrder.save();

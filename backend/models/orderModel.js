@@ -12,6 +12,7 @@ const orderSchema=new mongoose.Schema({
      date:{type:Number,required:true},
      couponCode: { type: String }, 
      discount: { type: Number },  
+     Shipping:{type:Number},
 })
 
 const orderModel=mongoose.models.order || mongoose.model('order',orderSchema)
