@@ -112,7 +112,7 @@ const Orders = ({ atoken }) => {
             </div>
             <div>
               <p className="text-sm sm:text-[15px] font-semibold text-black">
-                SubTotal : ₹{(order.amount - order.discount - order.Shipping).toFixed(2)}
+                SubTotal : ₹{(order.amount + order.discount - order.Shipping).toFixed(2)}
               </p>
 
               <p className="text-sm sm:text-[15px] font-semibold text-black">
