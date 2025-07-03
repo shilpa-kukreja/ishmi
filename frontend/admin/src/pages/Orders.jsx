@@ -110,10 +110,26 @@ const Orders = ({ atoken }) => {
                 })}
               </p>
             </div>
+            <div>
+              <p className="text-sm sm:text-[15px] font-semibold text-black">
+                SubTotal : ₹{(order.amount - order.discount - order.Shipping).toFixed(2)}
+              </p>
 
-            <p className="text-sm sm:text-[15px] font-semibold text-black">
-              ₹{order.amount.toFixed(2)}
-            </p>
+              <p className="text-sm sm:text-[15px] font-semibold text-black">
+                Shipping : ₹{order.Shipping.toFixed(2)}
+              </p>
+
+              <p className="text-sm sm:text-[15px] font-semibold text-black">
+                Discount : ₹{order.discount.toFixed(2)}
+              </p>
+
+              <p className="text-sm sm:text-[15px] font-semibold text-black">
+                Total : ₹{order.amount.toFixed(2)}
+              </p>
+            </div>
+
+
+
 
             <select
               onChange={(event) => statusHandler(event, order._id)}
@@ -136,11 +152,10 @@ const Orders = ({ atoken }) => {
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index}
-              className={`px-3 py-1 rounded ${
-                currentPage === index + 1
+              className={`px-3 py-1 rounded ${currentPage === index + 1
                   ? 'bg-black text-white'
                   : 'bg-gray-200'
-              }`}
+                }`}
               onClick={() => handlePageChange(index + 1)}
             >
               {index + 1}
