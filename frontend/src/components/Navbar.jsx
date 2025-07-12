@@ -332,7 +332,7 @@ const Navbar = () => {
                             setIsMobileMenuOpen(false);
                           }}
                         >
-                          {subCategory}
+                          {/* {subCategory} */}
                         </p>
                       ))}
                     </div>
