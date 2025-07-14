@@ -41,27 +41,6 @@ const Navbar = () => {
   
 
 
-//  useEffect(() => {
-//   const handleClickOutside = (event) => {
-//     // Delay the check to allow onClick handlers to run first
-//     setTimeout(() => {
-//       if (
-//         dropdownRef.current &&
-//         !dropdownRef.current.contains(event.target)
-//       ) {
-//         setShowDropdown(false);
-//       }
-//     }, 100);
-//   };
-
-//   document.addEventListener("mousedown", handleClickOutside);
-//   return () => {
-//     document.removeEventListener("mousedown", handleClickOutside);
-//   };
-// }, []);
-
-
-  
 
 
   useEffect(() => {
@@ -90,7 +69,11 @@ const Navbar = () => {
     setToken("");
   };
 
+  const handleClickMenu = () => {
+    setShowDropdown(false);
+  }
   return (
+    <>
     <nav className={`w-full bg-[#fff8ee] shadow-md  z-50 ${isHome ? "sm:absolute sticky   top-0 sm:bg-transparent bg-white shadow-none" : ""}`}>
       <div className="flex items-center justify-between px-6 md:px-12 sm:py-1 py-2 ">
         {/* Logo */}
@@ -105,7 +88,7 @@ const Navbar = () => {
           <NavLink to="/bestseller" className="hover:text-black transition">
             Best Sellers
           </NavLink>
-
+           
          <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setShowDropdown(!showDropdown)}
@@ -120,35 +103,38 @@ const Navbar = () => {
             </button>
 
             {showDropdown && (
-              <div className="absolute   top-10 left-0 w-48 bg-white shadow-lg rounded-md p-2 z-50 border border-gray-300">
-                {Object.entries(groupedCategories).length > 0 ? (
-                  Object.entries(groupedCategories).map(
-                    ([mainCategory, subCategories]) => (
-                      <div key={mainCategory}>
-                        <p
-                          className="px-4 py-2 font-semibold cursor-pointer hover:bg-gray-100"
-                          onClick={() => handleCategoryClick(mainCategory)}
-                        >
-                          {mainCategory}
-                        </p>
-                        {subCategories.map((subCategory, index) => (
+              <>
+                
+                <div className="absolute   top-10 left-0 w-48 bg-white shadow-lg rounded-md p-2 z-50 border border-gray-300">
+                  {Object.entries(groupedCategories).length > 0 ? (
+                    Object.entries(groupedCategories).map(
+                      ([mainCategory, subCategories]) => (
+                        <div key={mainCategory}>
                           <p
-                            key={index}
-                            className="pl-6 py-1 text-sm text-gray-500 cursor-pointer hover:bg-gray-100"
-                            onClick={() =>
-                              handleCategoryClick(mainCategory, subCategory)
-                            }
+                            className="px-4 py-2 font-semibold cursor-pointer hover:bg-gray-100"
+                            onClick={() => handleCategoryClick(mainCategory)}
                           >
-                            {/* {subCategory} */}
+                            {mainCategory}
                           </p>
-                        ))}
-                      </div>
+                          {subCategories.map((subCategory, index) => (
+                            <p
+                              key={index}
+                              className="pl-6 py-1 text-sm text-gray-500 cursor-pointer hover:bg-gray-100"
+                              onClick={() =>
+                                handleCategoryClick(mainCategory, subCategory)
+                              }
+                            >
+                              {/* {subCategory} */}
+                            </p>
+                          ))}
+                        </div>
+                      )
                     )
-                  )
-                ) : (
-                  <p className="px-4 py-2 text-gray-500">No Categories</p>
-                )}
-              </div>
+                  ) : (
+                    <p className="px-4 py-2 text-gray-500">No Categories</p>
+                  )}
+                </div>
+               </>
             )}
           </div>
           <NavLink to="/gift" className="hover:text-black transition">
@@ -163,6 +149,8 @@ const Navbar = () => {
           </NavLink>
 
         </div>
+
+        
 
 
 
@@ -343,7 +331,16 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      
     </nav>
+
+{showDropdown && (
+        <div onclick={handleClickMenu} className="absolute top-0 left-0 w-full h-full bg-transparent z-40" onClick={() => setShowDropdown(false)}>
+
+                </div>
+                  )}
+    </>
+    
   );
 };
 
