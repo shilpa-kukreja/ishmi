@@ -607,7 +607,7 @@ const AddReviews = () => {
   const fetchProducts = async () => {
     setProductLoading(true);
     try {
-      const response = await axios.get(`http://localhost:5000/api/product/list`);
+      const response = await axios.get(`https://ishmiherbal.com/api/product/list`);
       if (response.data.success) {
         setProducts(response.data.products);
       } else {
@@ -624,7 +624,7 @@ const AddReviews = () => {
   // Fetch all combos
   const fetchCombos = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/combos/list`);
+      const res = await axios.get(`https://ishmiherbal.com/api/combos/list`);
       setCombos(res.data || []);
       console.log(res.data);
     } catch (err) {
@@ -638,7 +638,7 @@ const AddReviews = () => {
     if (!form.productId) return;
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/api/reviews/product/${form.productId}`);
+      const res = await fetch(`https://ishmiherbal.com/api/reviews/product/${form.productId}`);
       const data = await res.json();
       if (data.success) setReviews(data.reviews);
     } catch (err) {
@@ -695,8 +695,8 @@ const AddReviews = () => {
 
     try {
       const url = editingId
-        ? `http://localhost:5000/api/reviews/${editingId}`
-        : "http://localhost:5000/api/reviews/add";
+        ? `https://ishmiherbal.com/api/reviews/${editingId}`
+        : "https://ishmiherbal.com/api/reviews/add";
 
       const method = editingId ? "PUT" : "POST";
 
@@ -740,7 +740,7 @@ const AddReviews = () => {
     if (!window.confirm("Are you sure you want to delete this review?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/reviews/${id}`, { method: "DELETE" });
+      const res = await fetch(`https://ishmiherbal.com/api/reviews/${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         setMsg({ text: "Review deleted successfully", type: "success" });

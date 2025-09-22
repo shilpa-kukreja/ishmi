@@ -18,7 +18,7 @@ const ListReviews = () => {
     const fetchReviews = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("http://localhost:5000/api/reviews/get");
+            const response = await axios.get("https://ishmiherbal.com/api/reviews/get");
             if (response.data.success) {
                 setReviews(response.data.reviews);
                 setFilteredReviews(response.data.reviews);
@@ -91,7 +91,7 @@ const ListReviews = () => {
         if (!window.confirm("Are you sure you want to delete this review?")) return;
 
         try {
-            const response = await axios.delete(`http://localhost:5000/api/reviews/${id}`);
+            const response = await axios.delete(`https://ishmiherbal.com/api/reviews/${id}`);
             if (response.data.success) {
                 setMessage({ text: "Review deleted successfully", type: "success" });
                 fetchReviews(); // Refresh the list
