@@ -19,6 +19,8 @@ import AdminAddCoupon from './pages/AdminAddCoupon';
 import AdminCouponList from './pages/AdminCouponList';
 import AddCombo from './pages/AddCombos';
 import ListCombos from './pages/ListCombos';
+import AddReviews from './pages/AddReviews';
+import ListReviews from './pages/ListReviews';
 
 
 
@@ -59,6 +61,8 @@ localStorage.setItem('atoken',atoken)
             <Route path='/addcombos' element={<AddCombo atoken={atoken}/>}/>
             <Route path='/addcombos/:id' element={<AddCombo atoken={atoken}/>}/>
             <Route path='/listcombos' element={<ListCombos atoken={atoken}/>}/>
+            <Route path='/reviews' element={<AddReviews atoken={atoken}/>}/>
+            <Route path='/listreviews' element={<ListReviews atoken={atoken}/>}/>
           </Routes>
 
         </div>

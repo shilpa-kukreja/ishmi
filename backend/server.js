@@ -17,6 +17,7 @@ import couponRouter from './routes/couponRoutes.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import combosRouter from './routes/combosRoutes.js';
+import reviewsRouter from './routes/reviewsRoutes.js';
 
 
 
@@ -49,6 +50,7 @@ app.use('/api/contact',contactRouter)
 app.use('/api',router)
 app.use('/api/coupon',couponRouter)
 app.use('/api/combos', combosRouter);
+app.use('/api/reviews',  reviewsRouter);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -9,6 +9,7 @@ import {
   FaBoxOpen,
   FaShoppingBag,
   FaHeadset,
+  FaStar
 } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -109,6 +110,18 @@ const Sidebar = () => {
         <NavLink to="/subscriptions" className={menuItemClasses}>
           <img className="w-6 h-6" src={assets.subsription} alt="Subscriptions" />
           <span className="hidden md:block">Subscriptions</span>
+        </NavLink>
+
+        {/* Reviews */}
+        <NavLink to="/reviews" className={menuItemClasses}>
+          <FaStar className="text-lg" />
+          <span className="hidden md:block">Add Reviews</span>
+        </NavLink>
+
+        {/* Settings */}
+        <NavLink to="/listreviews" className={menuItemClasses}>
+          <FaStar className="text-lg" />
+          <span className="hidden md:block">List Reviews</span>
         </NavLink>
       </nav>
     </div>

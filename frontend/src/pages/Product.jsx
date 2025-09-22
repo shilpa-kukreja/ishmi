@@ -11,10 +11,184 @@ import { Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
+// ReviewsSection Component
+const ReviewsSection = ({ productId, setReviewCount }) => {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [averageRating, setAverageRating] = useState(0);
+  const [ratingDistribution, setRatingDistribution] = useState({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
+  const { currency } = useContext(ShopContext);
+
+
+
+  // In ReviewsSection component
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch((`http://localhost:5000/api/reviews/product/${productId}`));
+        const data = await response.json();
+
+        if (data.success) {
+          setReviews(data.reviews);
+          // Always set the review count, even if it's 0
+          setReviewCount(data.reviews.length);
+
+          // Calculate average rating
+          if (data.reviews.length > 0) {
+            const total = data.reviews.reduce((sum, review) => sum + review.rating, 0);
+            setAverageRating(total / data.reviews.length);
+
+            // Calculate rating distribution
+            const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+            data.reviews.forEach(review => {
+              if (review.rating >= 1 && review.rating <= 5) {
+                distribution[Math.floor(review.rating)]++;
+              }
+            });
+            setRatingDistribution(distribution);
+          } else {
+            // Reset values when there are no reviews
+            setAverageRating(0);
+            setRatingDistribution({ 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 });
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (productId) {
+      fetchReviews();
+    }
+  }, [productId]);
+
+  const RatingStars = ({ rating, size = "w-5 h-5" }) => {
+    return (
+      <div className="flex items-center">
+        {[...Array(5)].map((_, i) => (
+          <svg
+            key={i}
+            className={`${size} ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        ))}
+      </div>
+    );
+  };
+
+  const RatingBar = ({ stars, count, total }) => {
+    const percentage = total > 0 ? (count / total) * 100 : 0;
+
+    return (
+      <div className="flex items-center gap-3">
+        <span className="text-sm font-medium text-gray-600 w-4">{stars}</span>
+        <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-yellow-400"
+            style={{ width: `${percentage}%` }}
+          ></div>
+        </div>
+        <span className="text-sm text-gray-500 w-12">{count} review{count !== 1 ? 's' : ''}</span>
+      </div>
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-8">
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">Customer Reviews</h2>
+
+      {reviews.length === 0 ? (
+        <div className="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+          <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10极速加速器 h.01M16 10h.01M9 16H5a2 2 0 01-2-2极速加速器 V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+          </svg>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No reviews yet</h3>
+          <p className="text-gray-500">Be the first to review this product!</p>
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* Rating Summary */}
+          <div className="md:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <div className="text-center mb-6">
+              <div className="text-5xl font-bold text-gray-900 mb-2">{averageRating.toFixed(1)}</div>
+              <RatingStars rating={averageRating} size="w-6 h-6" />
+              <p className="text-sm text-gray-600 mt-2">Based on {reviews.length} review{reviews.length !== 1 ? 's' : ''}</p>
+            </div>
+
+            <div className="space-y-3">
+              {[5, 4, 3, 2, 1].map((stars) => (
+                <RatingBar
+                  key={stars}
+                  stars={stars}
+                  count={ratingDistribution[stars]}
+                  total={reviews.length}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Reviews List */}
+          <div className="md:col-span-2">
+            <div className="space-y-6">
+              {reviews.map((review) => (
+                <div key={review._id} className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-indigo-100 text-indigo-800 rounded-full w-10 h-10 flex items-center justify-center font-semibold">
+                        {review.name ? review.name.charAt(0).toUpperCase() : 'U'}
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900">{review.name || 'Anonymous'}</h4>
+                        {/* <p className="text-sm text-gray-500">
+                          {new Date(review.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </p> */}
+                      </div>
+                    </div>
+                    <RatingStars rating={review.rating} />
+                  </div>
+
+                  <p className="text-gray-700 mb-4">{review.comment}</p>
+
+                  {review.verified && (
+                    <div className="flex items-center text-sm text-green-600">
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                      </svg>
+                      Verified Purchase
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Product = () => {
   const { productId } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const [reviewCount, setReviewCount] = useState(0);
   const [productData, setProductData] = useState(null);
   const {
     products,
@@ -168,8 +342,9 @@ const Product = () => {
             {[...Array(5)].map((_, index) => (
               <span key={index}>★</span>
             ))}
-            <p className="text-gray-500 ml-2">(5 reviews)</p>
+ 
           </div>
+
           <div className="text-gray-600 text-lg text-justify" dangerouslySetInnerHTML={{
             __html: productData.Shortdescription
           }}>
@@ -214,38 +389,13 @@ const Product = () => {
             </div>
           </div>
 
-          {/* <div className="mt-6 ">
-            <p className="text-lg font-medium">Quantity</p>
-            <div className="flex items-center gap-2 mt-2">
-
-              <button
-                onClick={() => handleUpdateQuantity("decrease")}
-                className="border py-2 px-4 rounded-md bg-gray-100 hover:bg-gray-200"
-              >
-                -
-              </button>
-              <span className="text-lg">{quantity}</span>
-              <button
-                onClick={() => handleUpdateQuantity("increase")}
-                className="border py-2 px-4 rounded-md bg-gray-100 hover:bg-gray-200"
-              >
-                +
-              </button>
-            </div>
-          </div> */}
-
           <div className="mt-6 w-[300px] flex gap-4">
             <motion.button
               onClick={() => {
-                // console.log("Selected Size:", size);
                 addToCart(productData, "product");
-
-                // console.log("Updated cartItems:", cartItems);
                 if (size == "") {
                   setMenuOpen(true);
                 }
-                //  toast.success(`${productData.name} added to cart!`);
-
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -434,10 +584,7 @@ const Product = () => {
               whileTap={{ scale: 0.95 }}
               className="w-full bg-blue-600 text-white py-3 text-lg font-medium rounded-lg hover:bg-blue-700 transition-all"
               onClick={() => {
-                // console.log("Selected Size:", size);
                 addToCart(productData, size);
-
-                // console.log("Updated cartItems:", cartItems);
                 if (size !== "") {
                   setMenuOpen(true);
                 }
@@ -490,7 +637,7 @@ const Product = () => {
           <ul className="mt-6 text-gray-600 text-sm space-y-2">
             <li>✔ 100% Original Product</li>
             <li>✔ Cash on delivery available</li>
-            
+
           </ul>
         </div>
       </div>
@@ -523,8 +670,9 @@ const Product = () => {
               : "text-gray-500"
               }`}
           >
-            Reviews (5)
+            Reviews 
           </button>
+
         </div>
 
         <div className="p-6 text-gray-700 text-lg border border-gray-200 rounded-lg mt-4">
@@ -536,9 +684,6 @@ const Product = () => {
               <div className="description text-justify">
                 <div dangerouslySetInnerHTML={{ __html: productData.description }} />
               </div>
-
-
-              
             </div>
           ) : activeTab === "additonalinfo" ? (
             <div>
@@ -548,36 +693,9 @@ const Product = () => {
               <div className="description text-justify">
                 <div dangerouslySetInnerHTML={{ __html: productData.AdditionalInformation }} />
               </div>
-              
             </div>
           ) : (
-            <div>
-              <h2 className="text-xl font-semibold text-black mb-3">
-                Customer Reviews
-              </h2>
-              <div className="space-y-4">
-                <div className="border-b pb-3">
-                  <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Priya</p>
-                  <p> "I've been using Ishmi's products for a few weeks now, and my skin has never looked better! The natural ingredients really make a difference."</p>
-                </div>
-                <div className="border-b pb-3">
-                  <p className="font-medium">⭐️⭐️⭐️⭐️ Amit</p>
-                  <p> "The quality of the beauty foods is amazing. My hair feels so soft and healthy, and the best part is that it's all natural!"</p>
-                </div>
-                <div className="border-b pb-3">
-                  <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Anita</p>
-                  <p>"I've been looking for a natural solution to my skincare concerns, and I finally found it with Ishmi. Their products are a game-changer!"</p>
-                </div>
-                <div className="border-b pb-3">
-                  <p className="font-medium">⭐️⭐️⭐️⭐️ Suresh </p>
-                  <p>"I’ve tried many beauty food brands, but none compare to Ishmi. The results are visible in just a few days!"</p>
-                </div>
-                <div >
-                  <p className="font-medium">⭐️⭐️⭐️⭐️⭐️ Neha</p>
-                  <p>"Ishmi Beauty Foods have become a staple in my daily routine. My skin feels nourished and glowing every day!"</p>
-                </div>
-              </div>
-            </div>
+            <ReviewsSection productId={productId} setReviewCount={setReviewCount} />
           )}
         </div>
       </div>
