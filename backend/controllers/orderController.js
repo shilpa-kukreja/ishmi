@@ -612,8 +612,7 @@ const trackOrders = async (req, res) => {
 
 const ShipOrders = async (req,res)=>{
   try {
-       const { orderData,orderid } = req.body
-       ;
+       const { orderData,orderid } = req.body;
 
             
             
@@ -621,7 +620,7 @@ const ShipOrders = async (req,res)=>{
               'https://apiv2.shiprocket.in/v1/external/auth/login',
               {
                 email: "niranjan13ishnavi@gmail.com",
-                password: "7@@k6tkixb0Edr^c"
+                password: "d!MAD!7gGn0x*BL9"
               },
               {
                 headers: { 'Content-Type': 'application/json' }
