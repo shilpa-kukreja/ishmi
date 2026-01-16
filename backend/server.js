@@ -18,6 +18,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import combosRouter from './routes/combosRoutes.js';
 import reviewsRouter from './routes/reviewsRoutes.js';
+import analyticsRoute from './routes/analyticsRoute.js';
 
 
 
@@ -51,6 +52,7 @@ app.use('/api',router)
 app.use('/api/coupon',couponRouter)
 app.use('/api/combos', combosRouter);
 app.use('/api/reviews',  reviewsRouter);
+app.use("/api/analytics", analyticsRoute);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
