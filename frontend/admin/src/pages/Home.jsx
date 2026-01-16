@@ -2,6 +2,7 @@
 import React from 'react'
 import AdminAnalytics from '../components/AdminAnalytics'
 
+
 const Home = ({ atoken }) => {
   return (
     <div>
