@@ -1,4 +1,530 @@
-import React, { useContext, useState } from "react";
+// import React, { useContext, useState } from "react";
+// import { assets } from "../assets/assets";
+// import { ShopContext } from "../context/ShopContext";
+// import CartTotal from "../components/CartTotal ";
+// import axios from "axios";
+// import { toast } from "react-toastify";
+// import CouponDropdown from "../components/CouponDropdown";
+
+
+// const Placeorder = () => {
+//   const [method, setMethod] = useState("razorpay");
+//   const [loading, setLoading] = useState(false);
+//   const [couponCode, setCouponCode] = useState("");
+//   const [discount, setDiscount] = useState(0);
+//   const [totalAfterDiscount, setTotalAfterDiscount] = useState(null);
+//   const [isProcessing, setIsProcessing] = useState(false);
+//   const {
+//     navigate,
+//     token,
+//     cartItems,
+//     setCartItems,
+//     getCartAmount,
+//     products,
+//     getDeliveryFee,
+//     combos,
+//   } = useContext(ShopContext);
+
+//   const delivery_fee=getDeliveryFee() ;
+//   const cartTotal = getCartAmount() + delivery_fee;
+
+//   const [formData, setFormData] = useState({
+//     firstName: "",
+//     lastName: "",
+//     email: "",
+//     street: "",
+//     city: "",
+//     state: "",
+//     zipcode: "",
+//     country: "",
+//     phone: "",
+//   });
+
+//   const onChangeHandler = (event) => {
+//     const { name, value } = event.target;
+//     setFormData((data) => ({ ...data, [name]: value }));
+//   };
+
+
+
+//   const applyCoupon = async () => {
+//     if (!couponCode.trim()) {
+//       toast.error("Please enter a coupon code");
+//       return;
+//     }
+
+//     try {
+//       const totalAmount = cartTotal;
+//       const { data } = await axios.post(
+//         "https://ishmiherbal.com/api/coupon/apply",
+//         { code: couponCode, totalAmount },
+//         { headers: { token } }
+//       );
+
+//       if (data.success) {
+//         setDiscount(data.discount);
+//         setTotalAfterDiscount(data.newTotalAmount);
+//         toast.success(`Coupon applied! You saved ₹${data.discount}`);
+//       } else {
+//         toast.error(data.message);
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       toast.error(error.response?.data?.message || "Failed to apply coupon");
+//     }
+//   };
+
+
+
+//   const initPay = (order) => {
+//     const options = {
+//       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+//       amount: order.amount.toFixed(2),
+//       currency: order.currency,
+//       name: "Order Payment",
+//       description: "Order Payment",
+//       order_id: order.id,
+//       receipt: order.receipt,
+//       handler: async (response) => {
+//         setLoading(true);
+//         const orderData = prepareOrderData(); // fresh instance
+
+//         try {
+//           const { data } = await axios.post(
+//             "https://ishmiherbal.com/api/order/verifyRazorpay",
+//             { ...response, orderData },
+//             { headers: { token } }
+//           );
+
+//           if (data.success) {
+//             try {
+//               const shipRes = await axios.post(
+//                 "https://ishmiherbal.com/api/order/ship",
+//                 { orderData, orderid: order.id },
+//                 { headers: { token } }
+//               );
+
+//               if (shipRes.data.success) {
+//                 setCartItems({});
+//                 toast.success("Payment verified and order placed!");
+//                 navigate("/orders");
+//               } else {
+//                 toast.error("Shipping failed after payment.");
+//               }
+//             } catch (shipErr) {
+//               console.error(shipErr);
+//               toast.error("Shipping error after payment.");
+//             }
+//           } else {
+//             toast.error(data.message || "Payment verification failed.");
+//           }
+//         } catch (err) {
+//           console.error(err);
+//           toast.error(err.response?.data?.message || "Payment verification failed.");
+//         } finally {
+//           setLoading(false);
+//           setIsProcessing(false);
+//         }
+//       },
+//       prefill: {
+//         name: `${formData.firstName} ${formData.lastName}`,
+//         email: formData.email,
+//         contact: formData.phone,
+//       },
+//       theme: {
+//         color: "#3399cc",
+//       },
+//     };
+
+//     const rzp = new window.Razorpay(options);
+
+//     rzp.on("payment.failed", function (response) {
+//       toast.error("Payment failed or cancelled.");
+//       console.error("Razorpay Payment Failed", response);
+//       setLoading(false);
+//       setIsProcessing(false);
+//     });
+
+//     rzp.open();
+//   };
+
+
+//   const prepareOrderData = () => {
+//     let orderItems = [];
+
+//     Object.entries(cartItems).forEach(([itemId, itemDetails]) => {
+//       // Handle products with sizes
+//       if (itemDetails.sizes) {
+//         Object.entries(itemDetails.sizes).forEach(([size, sizeDetails]) => {
+//           if (Number(sizeDetails.quantity)) {
+//             orderItems.push({
+//               _id: itemId,
+//               type: "product",
+//               name: itemDetails.name,
+//               image: itemDetails.image,
+//               size,
+//               quantity: sizeDetails.quantity,
+//               discountedprice: sizeDetails.discountedprice.toFixed(2),
+//               actualprice: sizeDetails.actualprice.toFixed(2),
+//             });
+//           }
+//         });
+//       }
+//       // Handle combos
+//       else if (itemDetails.type === "combo") {
+//         if (Number(itemDetails.quantity)) {
+//           const comboData = combos.find(c => c._id === itemId);
+//           orderItems.push({
+//             _id: itemId,
+//             type: "combo",
+//             name: itemDetails.name || comboData?.name,
+//             image: itemDetails.image || comboData?.thumbImg,
+//             quantity: itemDetails.quantity,
+//             discountedprice: itemDetails.discountedprice.toFixed(2),
+//             actualprice: itemDetails.actualprice.toFixed(2),
+//           });
+//         }
+//       }
+//     });
+
+//     return {
+//       address: formData,
+//       items: orderItems,
+//       amount: totalAfterDiscount !== null ? totalAfterDiscount : cartTotal,
+//       couponCode: couponCode.trim() || undefined,
+//       discount,
+//       paymentMethod: method,
+//       Shipping: delivery_fee,
+//     };
+//   };
+
+//   const onSubmitHandler = async (event) => {
+//     event.preventDefault();
+//     setIsProcessing(true);
+
+//     // Validate form
+//     if (!formData.firstName || !formData.phone || !formData.street) {
+//       toast.error("Please fill all required fields");
+//       setIsProcessing(false);
+//       return;
+//     }
+
+//     try {
+//       const orderData = prepareOrderData();
+
+//       if (orderData.items.length === 0) {
+//         toast.error("Your cart is empty");
+//         setIsProcessing(false);
+//         return;
+//       }
+
+//       switch (method) {
+//         case "cod":
+//           const { data } = await axios.post(
+//             "https://ishmiherbal.com/api/order/place",
+//             orderData,
+//             { headers: { token } }
+//           );
+//           if (data.success) {
+//             // 1. Get Shiprocket Auth Token
+//             const orderid = data.orderid;
+//             const shipRes = await axios.post(
+//               "https://ishmiherbal.com/api/order/ship",
+//               { orderData, orderid },
+//               { headers: { token } }
+//             );
+
+//             console.log("Ship response:", shipRes.data);
+
+//             if (shipRes.data.success) {
+//               setCartItems({});
+//               navigate("/orders");
+//               toast.success("Order placed successfully!");
+//             }
+
+
+//           }
+//           break;
+
+//         case "razorpay":
+//           const response = await axios.post(
+//             "https://ishmiherbal.com/api/order/razorpay",
+//             orderData,
+//             { headers: { token } }
+//           );
+//           if (response.data.success && response.data.order) {
+//             initPay(response.data.order);
+//           } else {
+//             toast.error("Unable to initiate Razorpay");
+//             setIsProcessing(false);
+//           }
+//           break;
+
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       toast.error(error.response?.data?.message || "Failed to place order");
+//     } finally {
+//       setIsProcessing(false);
+//     }
+//   };
+
+
+
+//   return (
+//     <>
+//       {loading && (
+//         <div className="fixed inset-0  bg-opacity-50 z-50 flex items-center justify-center">
+//           <div className="bg-white p-6 rounded-xl shadow-xl flex items-center gap-3">
+//             <svg
+//               className="animate-spin h-6 w-6 text-blue-500"
+//               xmlns="http://www.w3.org/2000/svg"
+//               fill="none"
+//               viewBox="0 0 24 24"
+//             >
+//               <circle
+//                 className="opacity-25"
+//                 cx="12"
+//                 cy="12"
+//                 r="10"
+//                 stroke="currentColor"
+//                 strokeWidth="4"
+//               ></circle>
+//               <path
+//                 className="opacity-75"
+//                 fill="currentColor"
+//                 d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+//               ></path>
+//             </svg>
+//             <p className="text-gray-800 font-medium">Verifying payment...</p>
+//           </div>
+//         </div>
+//       )}
+
+//       <form
+//         onSubmit={onSubmitHandler}
+//         className="flex flex-col pb-10 sm:flex-row justify-between gap-8 pt-4 sm:pt-8 min-h-[80vh] border-t border-gray-200 px-4 sm:px-20 lg:px-16 bg-gradient-to-br from-gray-50 to-gray-100"
+//       >
+//         <div className="flex flex-col gap-6 w-full  sm:mt-10 bg-white p-8 rounded-xl shadow-lg">
+//           <h2 className="text-xl sm:text-2xl font-bold mb-4">Billing Address</h2>
+//           <div className="flex gap-4">
+//             <input
+//               required
+//               onChange={onChangeHandler}
+//               name="firstName"
+//               value={formData.firstName}
+//               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//               type="text"
+//               placeholder="First Name"
+//             />
+//             <input
+//               required
+//               onChange={onChangeHandler}
+//               name="lastName"
+//               value={formData.lastName}
+//               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//               type="text"
+//               placeholder="Last Name"
+//             />
+//           </div>
+//           <input
+//             required
+//             onChange={onChangeHandler}
+//             name="email"
+//             value={formData.email}
+//             className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//             type="email"
+//             placeholder="Email Address"
+//           />
+//           <div className="flex gap-4">
+//             <input
+//               required
+//               onChange={onChangeHandler}
+//               name="zipcode"
+//               value={formData.zipcode}
+//               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//               type="text"
+//               placeholder="Pin Code"
+//             />
+//             <input
+//               required
+//               onChange={onChangeHandler}
+//               name="phone"
+//               value={formData.phone}
+//               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//               type="number"
+//               placeholder="Mobile"
+//             />
+//           </div>
+//           <input
+//             required
+//             onChange={onChangeHandler}
+//             name="street"
+//             value={formData.street}
+//             className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//             type="text"
+//             placeholder="Address"
+//           />
+//           <div className="flex gap-4">
+//             <input
+//               required
+//               onChange={onChangeHandler}
+//               name="city"
+//               value={formData.city}
+//               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//               type="text"
+//               placeholder="City"
+//             />
+//             <input
+//               required
+//               onChange={onChangeHandler}
+//               name="state"
+//               value={formData.state}
+//               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//               type="text"
+//               placeholder="State"
+//             />
+//           </div>
+//           <div className="flex gap-4">
+//             <input
+//               required
+//               onChange={onChangeHandler}
+//               name="country"
+//               value={formData.country}
+//               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//               type="text"
+//               placeholder="Country"
+//             />
+//             <input
+//               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//               type="number"
+//               placeholder="Alt Mobile"
+//             />
+//           </div>
+//         </div>
+
+//         <div className="mt-8 w-full sm:max-w-[450px]">
+//           <div className="bg-white p-6 rounded-xl shadow-lg">
+//             <h2 className="text-xl font-bold mb-4">Payment and Shipping</h2>
+//             <div className="flex flex-col gap-4">
+//               <div
+//                 onClick={() => setMethod("razorpay")}
+//                 className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer transition-all ${method === "razorpay"
+//                   ? "border-black shadow-md bg-gradient-to-r from-gray-50 to-gray-100"
+//                   : "border-gray-200 hover:border-black hover:bg-gray-50"
+//                   }`}
+//               >
+//                 <div
+//                   className={`w-4 h-4 border rounded-full flex items-center justify-center ${method === "razorpay"
+//                     ? "bg-black border-black"
+//                     : "border-gray-300"
+//                     }`}
+//                 >
+//                   {method === "razorpay" && (
+//                     <div className="w-2 h-2 bg-white rounded-full"></div>
+//                   )}
+//                 </div>
+//                 <img className="h-6" src={assets.razorpay_logo} alt="Razorpay" />
+//               </div>
+//               <div
+//                 onClick={() => setMethod("cod")}
+//                 className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer transition-all ${method === "cod"
+//                   ? "border-black shadow-md bg-gradient-to-r from-gray-50 to-gray-100"
+//                   : "border-gray-200 hover:border-black hover:bg-gray-50"
+//                   }`}
+//               >
+//                 <div
+//                   className={`w-4 h-4 border rounded-full flex items-center justify-center ${method === "cod" ? "bg-black border-black" : "border-gray-300"
+//                     }`}
+//                 >
+//                   {method === "cod" && (
+//                     <div className="w-2 h-2 bg-white rounded-full"></div>
+//                   )}
+//                 </div>
+//                 <p className="text-gray-700 text-sm font-medium">
+//                   CASH ON DELIVERY
+//                 </p>
+//               </div>
+//             </div>
+//             <CouponDropdown />
+
+//             <div className="mt-6">
+//               <h3 className="text-lg font-semibold mb-2">Apply Coupon</h3>
+//               <div className="flex gap-2">
+//                 <input
+//                   className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
+//                   type="text"
+//                   placeholder="Enter Coupon Code"
+//                   value={couponCode}
+//                   onChange={(e) => setCouponCode(e.target.value)}
+//                 />
+//                 <button
+//                   type="button"
+//                   onClick={applyCoupon}
+//                   disabled={!couponCode.trim()}
+//                   className="bg-black text-white px-4 py-2.5 rounded-lg hover:bg-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+//                 >
+//                   Apply
+//                 </button>
+//               </div>
+//               {discount > 0 && (
+//                 <p className="mt-2 text-green-600">
+//                   Discount Applied: ₹{discount}
+//                 </p>
+//               )}
+//             </div>
+//           </div>
+
+//           <div className="mt-6 bg-white p-6 rounded-xl shadow-lg">
+//             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+//             <div className="space-y-4 text-gray-600 text-sm">
+//               <div className="flex justify-between items-center">
+//                 <p>Subtotal</p>
+//                 <p className="font-medium text-gray-800">₹{getCartAmount().toFixed(2)}</p>
+//               </div>
+//               <div className="flex justify-between items-center">
+//                 <p>Delivery Fee</p>
+//                 <p className="font-medium text-gray-800">₹{delivery_fee}</p>
+//               </div>
+
+//               {discount > 0 && (
+//                 <div className="flex justify-between items-center text-green-600">
+//                   <p>Discount</p>
+//                   <p className="font-medium">-₹{discount}</p>
+//                 </div>
+//               )}
+
+//               <div className="border-t border-gray-200 my-2"></div>
+
+//               <div className="flex justify-between items-center font-semibold text-lg text-gray-800">
+//                 <p>Total</p>
+//                 <p>
+//                   ₹{(totalAfterDiscount !== null ? totalAfterDiscount : cartTotal).toFixed(2)}
+//                 </p>
+//               </div>
+//             </div>
+//             <button
+//               type="submit"
+//               disabled={isProcessing}
+//               className={`w-full bg-black text-white px-16 py-3 text-sm rounded-lg mt-6 ${isProcessing ? "opacity-70 cursor-not-allowed" : "hover:bg-gray-800"
+//                 }`}
+//             >
+//               {isProcessing ? "Processing..." : "PLACE ORDER"}
+//             </button>
+//           </div>
+//         </div>
+//       </form>
+//     </>
+//   );
+// };
+
+
+
+// export default Placeorder;
+
+
+
+import React, { useContext, useState, useEffect } from "react";
 import { assets } from "../assets/assets";
 import { ShopContext } from "../context/ShopContext";
 import CartTotal from "../components/CartTotal ";
@@ -6,9 +532,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import CouponDropdown from "../components/CouponDropdown";
 
-
 const Placeorder = () => {
-  const [method, setMethod] = useState("razorpay");
+  const [method, setMethod] = useState("payu"); // Changed default to payu
   const [loading, setLoading] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
@@ -24,8 +549,8 @@ const Placeorder = () => {
     getDeliveryFee,
     combos,
   } = useContext(ShopContext);
-  
-  const delivery_fee=getDeliveryFee() ;
+
+  const delivery_fee = getDeliveryFee();
   const cartTotal = getCartAmount() + delivery_fee;
 
   const [formData, setFormData] = useState({
@@ -36,17 +561,24 @@ const Placeorder = () => {
     city: "",
     state: "",
     zipcode: "",
-    country: "",
+    country: "India",
     phone: "",
   });
+
+  // Update formData with country as India by default
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      country: "India"
+    }));
+  }, []);
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     setFormData((data) => ({ ...data, [name]: value }));
   };
 
-
-
+  // Apply Coupon (same as before)
   const applyCoupon = async () => {
     if (!couponCode.trim()) {
       toast.error("Please enter a coupon code");
@@ -74,145 +606,11 @@ const Placeorder = () => {
     }
   };
 
-  // const initPay = (order) => {
-  //   console.log(order);
-  //   const options = {
-  //     key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-  //     amount: order.amount.toFixed(2),
-  //     currency: order.currency,
-  //     name: "Order Payment",
-  //     description: "Order Payment",
-  //     order_id: order.id,
-  //     receipt: order.receipt,
-  //     handler: async (response) => {
-  //       setLoading(true); // Show loader
-  //        const orderData = prepareOrderData();
-  //       try {
-  //         const { data } = await axios.post(
-  //           "https://ishmiherbal.com/api/order/verifyRazorpay",
-  //           { ...response, orderData },
-  //           { headers: { token } }
-  //         );
-  //         if (data.success) {
-
-
-  //           const shipRes = await axios.post(
-  //             "https://ishmiherbal.com/api/order/ship",
-  //             { orderData, orderid : order.id },
-  //             { headers: { token } }
-  //           );
-
-  //           if (shipRes.data.success) {
-  //             setCartItems({});
-  //           toast.success("Payment Verified");
-  //           setTimeout(() => {
-  //             navigate("/orders"); // Navigate after short delay
-  //           }, 500); // optional delay for UX
-  //         }
-
-  //           }
-
-  //       } catch (error) {
-  //         console.error(error);
-  //         toast.error(error.response?.data?.message || "Payment verification failed");
-  //       } finally {
-  //         setLoading(false); // Hide loader
-  //       }
-  //     },
-
-  //     prefill: {
-  //       name: `${formData.firstName} ${formData.lastName}`,
-  //       email: formData.email,
-  //       contact: formData.phone,
-  //     },
-  //     theme: {
-  //       color: "#3399cc",
-  //     },
-  //   };
-  //   const rzp = new window.Razorpay(options);
-  //   rzp.open();
-  // };
-
-
-
-  const initPay = (order) => {
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: order.amount.toFixed(2),
-      currency: order.currency,
-      name: "Order Payment",
-      description: "Order Payment",
-      order_id: order.id,
-      receipt: order.receipt,
-      handler: async (response) => {
-        setLoading(true);
-        const orderData = prepareOrderData(); // fresh instance
-
-        try {
-          const { data } = await axios.post(
-            "https://ishmiherbal.com/api/order/verifyRazorpay",
-            { ...response, orderData },
-            { headers: { token } }
-          );
-
-          if (data.success) {
-            try {
-              const shipRes = await axios.post(
-                "https://ishmiherbal.com/api/order/ship",
-                { orderData, orderid: order.id },
-                { headers: { token } }
-              );
-
-              if (shipRes.data.success) {
-                setCartItems({});
-                toast.success("Payment verified and order placed!");
-                navigate("/orders");
-              } else {
-                toast.error("Shipping failed after payment.");
-              }
-            } catch (shipErr) {
-              console.error(shipErr);
-              toast.error("Shipping error after payment.");
-            }
-          } else {
-            toast.error(data.message || "Payment verification failed.");
-          }
-        } catch (err) {
-          console.error(err);
-          toast.error(err.response?.data?.message || "Payment verification failed.");
-        } finally {
-          setLoading(false);
-          setIsProcessing(false);
-        }
-      },
-      prefill: {
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        contact: formData.phone,
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-
-    const rzp = new window.Razorpay(options);
-
-    rzp.on("payment.failed", function (response) {
-      toast.error("Payment failed or cancelled.");
-      console.error("Razorpay Payment Failed", response);
-      setLoading(false);
-      setIsProcessing(false);
-    });
-
-    rzp.open();
-  };
-
-
+  // Prepare Order Data (same as before)
   const prepareOrderData = () => {
     let orderItems = [];
 
     Object.entries(cartItems).forEach(([itemId, itemDetails]) => {
-      // Handle products with sizes
       if (itemDetails.sizes) {
         Object.entries(itemDetails.sizes).forEach(([size, sizeDetails]) => {
           if (Number(sizeDetails.quantity)) {
@@ -225,11 +623,11 @@ const Placeorder = () => {
               quantity: sizeDetails.quantity,
               discountedprice: sizeDetails.discountedprice.toFixed(2),
               actualprice: sizeDetails.actualprice.toFixed(2),
+
             });
           }
         });
       }
-      // Handle combos
       else if (itemDetails.type === "combo") {
         if (Number(itemDetails.quantity)) {
           const comboData = combos.find(c => c._id === itemId);
@@ -254,9 +652,13 @@ const Placeorder = () => {
       discount,
       paymentMethod: method,
       Shipping: delivery_fee,
+      cartAmount: getCartAmount(),
+      deliveryFee: delivery_fee,
+      totalAmount: cartTotal
     };
   };
 
+  // Submit Handler - Updated for PayU
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     setIsProcessing(true);
@@ -285,7 +687,6 @@ const Placeorder = () => {
             { headers: { token } }
           );
           if (data.success) {
-            // 1. Get Shiprocket Auth Token
             const orderid = data.orderid;
             const shipRes = await axios.post(
               "https://ishmiherbal.com/api/order/ship",
@@ -293,33 +694,52 @@ const Placeorder = () => {
               { headers: { token } }
             );
 
-            console.log("Ship response:", shipRes.data);
-
             if (shipRes.data.success) {
               setCartItems({});
               navigate("/orders");
               toast.success("Order placed successfully!");
             }
-
-
           }
           break;
 
-        // case "razorpay":
-        //   const response = await axios.post(
-        //     "https://ishmiherbal.com/api/order/razorpay",
-        //     orderData,
-        //     { headers: { token } }
-        //   );
-        //   if (response.data.success) {
-        //     initPay({ ...response.data.order, orderData });
-        //   }
-        //   break;
+        // In the onSubmitHandler for payu case:
+        case "payu":
+          try {
+            const payuResponse = await axios.post(
+              "https://ishmiherbal.com/api/order/payu/initiate",
+              orderData,
+              {
+                headers: {
+                  token,
+                  'Content-Type': 'application/json'
+                }
+              }
+            );
 
-        // default:
-        //   break;
+            console.log("PayU Response:", payuResponse.data);
+
+            if (payuResponse.data.success && payuResponse.data.paymentData) {
+              // Verify hash is a string before submission
+              if (typeof payuResponse.data.paymentData.hash === 'string') {
+                submitToPayU(payuResponse.data.paymentData);
+              } else {
+                console.error("Hash is not a string:", payuResponse.data.paymentData.hash);
+                toast.error("Payment initialization failed. Please try again.");
+                setIsProcessing(false);
+              }
+            } else {
+              toast.error(payuResponse.data.message || "Unable to initiate PayU payment");
+              setIsProcessing(false);
+            }
+          } catch (error) {
+            console.error("PayU initiation error:", error.response?.data || error.message);
+            toast.error(error.response?.data?.message || "Failed to initialize payment");
+            setIsProcessing(false);
+          }
+          break;
 
         case "razorpay":
+          // Keep Razorpay as fallback if needed
           const response = await axios.post(
             "https://ishmiherbal.com/api/order/razorpay",
             orderData,
@@ -332,22 +752,138 @@ const Placeorder = () => {
             setIsProcessing(false);
           }
           break;
-
       }
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.message || "Failed to place order");
-    } finally {
       setIsProcessing(false);
     }
   };
 
+  // Submit form to PayU
+  // In Placeorder.jsx - Update the submitToPayU function
 
+  // const submitToPayU = (paymentData) => {
+  //   console.log("Payment Data received:", paymentData);
+
+  //   // Create form
+  //   const form = document.createElement('form');
+  //   form.method = paymentData.method;
+  //   form.action = paymentData.action;
+  //   form.style.display = 'none';
+
+  //   // Add all payment data as hidden inputs
+  //   const formFields = [
+  //     'key', 'txnid', 'amount', 'productinfo', 'firstname', 'email',
+  //     'phone', 'surl', 'furl', 'curl', 'address1', 'address2',
+  //     'city', 'state', 'country', 'zipcode', 'udf1', 'udf2',
+  //     'udf3', 'udf4', 'udf5', 'hash'
+  //   ];
+
+  //   formFields.forEach(field => {
+  //     if (paymentData[field] !== undefined && paymentData[field] !== null) {
+  //       const input = document.createElement('input');
+  //       input.type = 'hidden';
+  //       input.name = field;
+
+  //       // Ensure value is string (not object)
+  //       const value = typeof paymentData[field] === 'object'
+  //         ? JSON.stringify(paymentData[field])
+  //         : String(paymentData[field]);
+
+  //       input.value = value;
+  //       console.log(`${field}:`, input.value);
+  //       form.appendChild(input);
+  //     }
+  //   });
+
+  //   document.body.appendChild(form);
+
+  //   // Log form data before submission
+  //   console.log("Form HTML:", form.innerHTML);
+
+  //   // Submit form
+  //   setIsProcessing(false); // Reset processing state
+  //   form.submit();
+  // };
+  const submitToPayU = (paymentData) => {
+    console.log("Payment Data received:", paymentData);
+
+    // Create form
+    const form = document.createElement('form');
+    form.method = paymentData.method;
+    form.action = paymentData.action;
+    form.style.display = 'none';
+
+    // Add all payment data as hidden inputs
+    const formFields = [
+      'key', 'txnid', 'amount', 'productinfo', 'firstname', 'email',
+      'phone', 'surl', 'furl', 'curl', 'address1', 'address2',
+      'city', 'state', 'country', 'zipcode', 'udf1', 'udf2',
+      'udf3', 'udf4', 'udf5', 'hash'
+    ];
+
+    formFields.forEach(field => {
+      if (paymentData[field] !== undefined && paymentData[field] !== null) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = field;
+
+        // Ensure value is string (not object)
+        const value = typeof paymentData[field] === 'object'
+          ? JSON.stringify(paymentData[field])
+          : String(paymentData[field]);
+
+        input.value = value;
+        console.log(`${field}:`, input.value);
+        form.appendChild(input);
+      }
+    });
+
+    // PayU form submit होने से पहले cart clear करें
+    // Save cart clearing state in localStorage
+    localStorage.setItem('shouldClearCart', 'true');
+
+    // Also update context immediately if possible
+    if (setCartItems) {
+      setCartItems({});
+    }
+
+    document.body.appendChild(form);
+
+    // Log form data before submission
+    console.log("Form HTML:", form.innerHTML);
+
+    // Submit form
+    setIsProcessing(false); // Reset processing state
+    form.submit();
+  };
+
+
+  // PayU Success Page Component
+  const PayUSuccessPage = () => {
+    // This would be a separate component/page
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+          <div className="text-green-500 text-6xl mb-4">✓</div>
+          <h1 className="text-2xl font-bold mb-4">Payment Successful!</h1>
+          <p className="text-gray-600 mb-6">Thank you for your order. Your payment was successful.</p>
+          <button
+            onClick={() => navigate("/orders")}
+            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800"
+          >
+            View Orders
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
       {loading && (
-        <div className="fixed inset-0  bg-opacity-50 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-opacity-50 z-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-xl shadow-xl flex items-center gap-3">
             <svg
               className="animate-spin h-6 w-6 text-blue-500"
@@ -369,7 +905,7 @@ const Placeorder = () => {
                 d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
               ></path>
             </svg>
-            <p className="text-gray-800 font-medium">Verifying payment...</p>
+            <p className="text-gray-800 font-medium">Processing payment...</p>
           </div>
         </div>
       )}
@@ -378,7 +914,8 @@ const Placeorder = () => {
         onSubmit={onSubmitHandler}
         className="flex flex-col pb-10 sm:flex-row justify-between gap-8 pt-4 sm:pt-8 min-h-[80vh] border-t border-gray-200 px-4 sm:px-20 lg:px-16 bg-gradient-to-br from-gray-50 to-gray-100"
       >
-        <div className="flex flex-col gap-6 w-full  sm:mt-10 bg-white p-8 rounded-xl shadow-lg">
+        {/* Billing Address Section (same as before) */}
+        <div className="flex flex-col gap-6 w-full sm:mt-10 bg-white p-8 rounded-xl shadow-lg">
           <h2 className="text-xl sm:text-2xl font-bold mb-4">Billing Address</h2>
           <div className="flex gap-4">
             <input
@@ -467,38 +1004,42 @@ const Placeorder = () => {
               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
               type="text"
               placeholder="Country"
+              readOnly
             />
             <input
               className="border border-gray-200 rounded-lg py-2.5 px-4 w-full focus:outline-none focus:ring-2 focus:ring-black transition-all hover:border-gray-300 placeholder-gray-400"
               type="number"
-              placeholder="Alt Mobile"
+              placeholder="Alt Mobile (Optional)"
             />
           </div>
         </div>
 
+        {/* Payment and Shipping Section */}
         <div className="mt-8 w-full sm:max-w-[450px]">
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <h2 className="text-xl font-bold mb-4">Payment and Shipping</h2>
             <div className="flex flex-col gap-4">
+              {/* PayU Option */}
               <div
-                onClick={() => setMethod("razorpay")}
-                className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer transition-all ${method === "razorpay"
+                onClick={() => setMethod("payu")}
+                className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer transition-all ${method === "payu"
                   ? "border-black shadow-md bg-gradient-to-r from-gray-50 to-gray-100"
                   : "border-gray-200 hover:border-black hover:bg-gray-50"
                   }`}
               >
                 <div
-                  className={`w-4 h-4 border rounded-full flex items-center justify-center ${method === "razorpay"
-                    ? "bg-black border-black"
-                    : "border-gray-300"
+                  className={`w-4 h-4 border rounded-full flex items-center justify-center ${method === "payu" ? "bg-black border-black" : "border-gray-300"
                     }`}
                 >
-                  {method === "razorpay" && (
+                  {method === "payu" && (
                     <div className="w-2 h-2 bg-white rounded-full"></div>
                   )}
                 </div>
-                <img className="h-6" src={assets.razorpay_logo} alt="Razorpay" />
+                <img className="h-6" src={assets.payu_logo} alt="PayU Money" />
+                <span className="text-sm font-medium">Credit/Debit Card, UPI, NetBanking</span>
               </div>
+
+              {/* COD Option */}
               <div
                 onClick={() => setMethod("cod")}
                 className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer transition-all ${method === "cod"
@@ -518,7 +1059,30 @@ const Placeorder = () => {
                   CASH ON DELIVERY
                 </p>
               </div>
+
+              {/* Razorpay Option (optional) */}
+              <div
+                onClick={() => setMethod("razorpay")}
+                className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer transition-all ${method === "razorpay"
+                  ? "border-black shadow-md bg-gradient-to-r from-gray-50 to-gray-100"
+                  : "border-gray-200 hover:border-black hover:bg-gray-50"
+                  }`}
+              >
+                <div
+                  className={`w-4 h-4 border rounded-full flex items-center justify-center ${method === "razorpay"
+                    ? "bg-black border-black"
+                    : "border-gray-300"
+                    }`}
+                >
+                  {method === "razorpay" && (
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                  )}
+                </div>
+                <img className="h-6" src={assets.razorpay_logo} alt="Razorpay" />
+              </div>
             </div>
+
+            {/* Coupon Section (same as before) */}
             <CouponDropdown />
 
             <div className="mt-6">
@@ -548,6 +1112,7 @@ const Placeorder = () => {
             </div>
           </div>
 
+          {/* Order Summary (same as before) */}
           <div className="mt-6 bg-white p-6 rounded-xl shadow-lg">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
             <div className="space-y-4 text-gray-600 text-sm">
@@ -582,7 +1147,7 @@ const Placeorder = () => {
               className={`w-full bg-black text-white px-16 py-3 text-sm rounded-lg mt-6 ${isProcessing ? "opacity-70 cursor-not-allowed" : "hover:bg-gray-800"
                 }`}
             >
-              {isProcessing ? "Processing..." : "PLACE ORDER"}
+              {isProcessing ? "Processing..." : "PROCEED TO PAYMENT"}
             </button>
           </div>
         </div>
@@ -590,8 +1155,6 @@ const Placeorder = () => {
     </>
   );
 };
-
-
 
 export default Placeorder;
 

@@ -35,6 +35,8 @@ const __dirname = path.dirname(__filename);
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.text()); // Optional: for raw text if needed
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 

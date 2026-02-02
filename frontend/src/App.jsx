@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes,  } from 'react-router-dom'
+import { Route, Routes, } from 'react-router-dom'
 import Home from './pages/Home'
 import Navbar from './components/Navbar'
 import Benners from './components/Benners'
@@ -17,7 +17,7 @@ import Placeorder from './pages/Placeorder'
 import Orders from './pages/Orders'
 import BlogDetails from './pages/BlogDetails'
 import Wishlist from './pages/Wishlist'
-import { ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import FAQs from './pages/FAQs'
@@ -31,6 +31,8 @@ import CouponPopup from './pages/CouponPopup'
 import Combos from './pages/Combos'
 import CombosDetail from './pages/CombosDetail'
 import ScrollToTop from './components/ScrollToTop'
+import PaymentFailed from './pages/PaymentFailed'
+import PaymentSuccess from './pages/PaymentSuccess'
 
 
 
@@ -38,39 +40,45 @@ import ScrollToTop from './components/ScrollToTop'
 const App = () => {
   return (
     <div>
-      <ScrollToTop/>
-      <ToastContainer/>
-      
-      <Navbar/>
+      <ScrollToTop />
+      <ToastContainer />
+
+      <Navbar />
       {/* <CouponPopup/> */}
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/shop' element={<Shop/>}/>
-        <Route path='/bestseller' element={<Bestseller/>}/>
-        <Route path='/blogs' element={<Blogs/>}/>
-        <Route path='/contact-us' element={<Contact/>}/>
-        <Route path='/about-us' element={<About/>} />
-        <Route path='/faqs' element={<FAQs/>} />
-        <Route path='/cart' element={<Cart/>} />
-        <Route path='/product/:productId' element={<Product/>}/>
+        <Route path='/' element={<Home />} />
+        <Route path='/shop' element={<Shop />} />
+        <Route path='/bestseller' element={<Bestseller />} />
+        <Route path='/blogs' element={<Blogs />} />
+        <Route path='/contact-us' element={<Contact />} />
+        <Route path='/about-us' element={<About />} />
+        <Route path='/faqs' element={<FAQs />} />
+        <Route path='/cart' element={<Cart />} />
+        <Route path='/product/:productId' element={<Product />} />
         <Route path="/category/:categoryName" element={<CategoryPage />} />
-        <Route path='/loginsignup' element={<Login/>}/>
-        <Route path='/place-order' element={<Placeorder/>}/>
-        <Route path='/orders' element={<Orders/>}/>
-        <Route path="/reset-password/:token" element={<ResetPassword/>} />
-        <Route path="/blog/:id" element={<BlogDetails/>} />
-        <Route path='/whichlist' element={<Wishlist/>}/>
-        <Route path='/terms-&-conditions' element={<Terms/>}/>
-        <Route path='/privacy-policy' element={<Privacy/>}/>
-        <Route path='/return-&-refund-policy' element={<Return/>}/>
-        <Route path='/shipping-policy' element={<Shipping/>}/>
-        <Route path='/gift' element={<Combos/>}/>
-        <Route path='/combos/:combosId' element={<CombosDetail/>}/>
-        
+        <Route path='/loginsignup' element={<Login />} />
+        <Route path='/place-order' element={<Placeorder />} />
+        <Route path='/orders' element={<Orders />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/blog/:id" element={<BlogDetails />} />
+        <Route path='/whichlist' element={<Wishlist />} />
+        <Route path='/terms-&-conditions' element={<Terms />} />
+        <Route path='/privacy-policy' element={<Privacy />} />
+        <Route path='/return-&-refund-policy' element={<Return />} />
+        <Route path='/shipping-policy' element={<Shipping />} />
+        <Route path='/gift' element={<Combos />} />
+        <Route path='/combos/:combosId' element={<CombosDetail />} />
+
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/failure" element={<PaymentFailed/>} />
+        <Route path="/payment/cancel" element={<PaymentFailed />} />
+        <Route path="/order-success" element={<PaymentSuccess />} />
+        <Route path="/order-failed" element={<PaymentFailed />} />
+
       </Routes>
-     
-       <Footer/> 
-       {/* <WhatsAppChatButton/> */}
+
+      <Footer />
+      {/* <WhatsAppChatButton/> */}
 
     </div>
   )

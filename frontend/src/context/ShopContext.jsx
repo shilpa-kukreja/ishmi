@@ -270,7 +270,7 @@ const ShopContextProvider = (props) => {
 
 const getDeliveryFee = () => {
   const cartSubtotal = getCartAmount(); 
-  return cartSubtotal < 499 ? 80 : 0;
+  return cartSubtotal < 500 ? 80 : 0;
 };
   const getUserCart = async (token) => {
     try {
