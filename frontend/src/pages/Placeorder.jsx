@@ -1035,7 +1035,7 @@ const Placeorder = () => {
                     <div className="w-2 h-2 bg-white rounded-full"></div>
                   )}
                 </div>
-                <img className="h-6" src={assets.payu_logo} alt="PayU Money" />
+                <img className="h-6" src={assets.paylogo} alt="PayU Money" />
                 <span className="text-sm font-medium">Credit/Debit Card, UPI, NetBanking</span>
               </div>
 
@@ -1061,7 +1061,7 @@ const Placeorder = () => {
               </div>
 
               {/* Razorpay Option (optional) */}
-              <div
+              {/* <div
                 onClick={() => setMethod("razorpay")}
                 className={`flex items-center gap-3 border p-3 rounded-lg cursor-pointer transition-all ${method === "razorpay"
                   ? "border-black shadow-md bg-gradient-to-r from-gray-50 to-gray-100"
@@ -1079,7 +1079,7 @@ const Placeorder = () => {
                   )}
                 </div>
                 <img className="h-6" src={assets.razorpay_logo} alt="Razorpay" />
-              </div>
+              </div> */}
             </div>
 
             {/* Coupon Section (same as before) */}
