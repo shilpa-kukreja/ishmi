@@ -69,7 +69,7 @@ const AdminAnalytics = ({ atoken }) => {
       setLoading(true);
       setError(null);
       const response = await axios.get(
-        `http://localhost:5000/api/analytics?period=${period}`,
+        `https://ishmiherbal.com/api/analytics?period=${period}`,
         { headers: { atoken } }
       );
 
