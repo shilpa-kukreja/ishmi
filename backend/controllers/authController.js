@@ -104,7 +104,7 @@ export const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetUrl = `https://ishmiherbal.com/reset-password/${resetToken}`;
     const message = `You are receiving this email because you (or someone else) has requested a password reset. Please click the link to reset your password: \n\n ${resetUrl}`;
 
     await sendEmail({
